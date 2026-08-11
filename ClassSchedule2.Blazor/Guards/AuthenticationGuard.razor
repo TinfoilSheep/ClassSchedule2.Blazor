@@ -1,0 +1,46 @@
+﻿@using ClassSchedule2.Blazor.Components.Pages.Errors
+@using ClassSchedule2.Blazor.Providers
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthStateProvider
+@inject SchoolAuthenticationStateProvider SchoolAuthenticationProvider
+@inject NavigationManager Navigation
+
+@if (_loading)
+{
+    <p>Indlæser...</p>
+}
+else if (!_isAuthenticated)
+{
+    <p>Du skal være logget ind.</p>
+    @* <Denied /> *@
+}
+else
+{
+    @ChildContent
+}
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private bool _loading = true;
+    private bool _isAuthenticated;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+            return;
+
+        await SchoolAuthenticationProvider.InitializeAsync();
+
+        var authState =
+            await AuthStateProvider.GetAuthenticationStateAsync();
+
+        _isAuthenticated =
+            authState.User.Identity?.IsAuthenticated == true;
+
+        _loading = false;
+
+        StateHasChanged();
+    }
+}

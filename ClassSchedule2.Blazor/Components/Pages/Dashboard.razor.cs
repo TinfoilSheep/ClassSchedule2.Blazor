@@ -18,24 +18,17 @@ namespace ClassSchedule2.Blazor.Components.Pages
         [Inject]
         private SchoolAuthenticationStateProvider SchoolAuthenticationProvider { get; set; } = default!;
 
-        protected override async Task OnAfterRenderAsync(bool firstRender)
-        {
-            if (!firstRender)
-                return;
+        //protected override async Task OnAfterRenderAsync(bool firstRender)
+        //{
+        //    if (!firstRender)
+        //        return;
 
-            await SchoolAuthenticationProvider.InitializeAsync();
+        //    await SchoolAuthenticationProvider.InitializeAsync();
 
-            var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        //    var authState = await AuthStateProvider.GetAuthenticationStateAsync();
 
-            var provider1 = SchoolAuthenticationProvider;
-            var provider2 = AuthStateProvider;
-
-            bool test = ReferenceEquals(provider1, provider2);
-
-            var user = authState.User;
-
-            string? role = user.FindFirst(ClaimTypes.Role)?.Value;
-        }
+        //    var user = authState.User;
+        //}
 
         //protected override async Task OnInitializedAsync()
         //{

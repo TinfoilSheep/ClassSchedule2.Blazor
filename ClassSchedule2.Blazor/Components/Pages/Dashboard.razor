@@ -1,9 +1,16 @@
 ﻿@page "/dashboard"
 @rendermode InteractiveServer
 
-<PageTitle>Dashboard - Skoleportalen</PageTitle>
+<AuthenticationGuard>
+    <PageTitle>Dashboard - Skoleportalen</PageTitle>
 
-<div class="space-y-6">
+    <h1>Dashboard</h1>
+
+    <p>Du er logget ind.</p>
+
+</AuthenticationGuard>
+
+@* <div class="space-y-6">
     <!-- Overskrift -->
     <div>
         <h1 class="text-2xl font-bold tracking-tight text-white">Dashboard</h1>
@@ -26,4 +33,4 @@
             <p class="text-xs text-slate-500">Kl. 10:15 - Lokale 12</p>
         </div>
     </div>
-</div>
+</div> *@
