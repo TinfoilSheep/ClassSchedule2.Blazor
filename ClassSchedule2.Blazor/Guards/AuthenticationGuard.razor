@@ -11,8 +11,7 @@
 }
 else if (!_isAuthenticated)
 {
-    <p>Du skal være logget ind.</p>
-    @* <Denied /> *@
+    Navigation.NavigateTo("/login");
 }
 else
 {

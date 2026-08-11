@@ -40,6 +40,7 @@ namespace ClassSchedule2.Blazor.Components.Pages
                     return;
                 }
 
+                // TODO Tjek efter brugeren rolle da det er nok kun administrator der har et Dashboard.
                 Navigation.NavigateTo("/dashboard");
             }
             catch (Exception ex)
