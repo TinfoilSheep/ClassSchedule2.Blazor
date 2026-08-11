@@ -1,0 +1,112 @@
+﻿@page "/login"
+@layout EmptyLayout
+@rendermode InteractiveServer
+
+<div class="flex min-h-screen flex-col bg-slate-100 text-slate-800 transition-colors duration-200 dark:bg-slate-950 dark:text-slate-100">
+
+    <!-- Topbar i toppen af skærmen (helt uafhængig af login-feltet) -->
+    <header class="flex w-full items-center justify-between px-6 py-6 sm:px-8">
+        <!-- Tilbage-knap til venstre -->
+        <button @onclick="NavigateToHome"
+                type="button"
+                class="flex cursor-pointer items-center gap-2 rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-600 shadow-sm transition-all hover:bg-slate-50 hover:text-slate-900 focus:outline-none dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-4 w-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+            </svg>
+            <span>Tilbage</span>
+        </button>
+
+        <!-- Tema-knap til højre -->
+        <ThemeToggle />
+    </header>
+
+    <main class="flex flex-1 flex-col justify-center px-4 py-8 sm:px-6 lg:px-8">
+        <div class="sm:mx-auto sm:w-full sm:max-w-md">
+
+            <!-- Logo & Overskrift -->
+            <div class="text-center">
+                <div class="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-amber-500/20 bg-amber-400 text-slate-900 shadow-md dark:border-slate-800 dark:bg-slate-900 dark:text-amber-400 dark:shadow-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-7 w-7">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147L12 14.6l7.74-4.453M12 4.5l8.25 4.75v6.5L12 20.5l-8.25-4.75v-6.5L12 4.5z" />
+                    </svg>
+                </div>
+                <h1 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+                    School Schedule
+                </h1>
+                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                    Log ind som lærer eller elev
+                </p>
+            </div>
+
+            <!-- Formular Boks -->
+            <div class="mt-8 rounded-2xl border border-slate-200/80 bg-white px-6 py-8 shadow-xl shadow-slate-200/50 transition-colors duration-200 sm:px-8 dark:border-slate-800 dark:bg-slate-900 dark:shadow-none">
+
+                @if (!string.IsNullOrEmpty(ErrorMessage))
+                {
+                    <div class="mb-6 rounded-xl border border-red-500/20 bg-red-500/10 p-3 text-center text-xs font-semibold text-red-600 dark:text-red-400">
+                        @ErrorMessage
+                    </div>
+                }
+
+                <EditForm Model="LoginModel" OnValidSubmit="HandleLoginAsync" FormName="LoginForm">
+                    <DataAnnotationsValidator />
+
+                    <!-- Brugernavn -->
+                    <div class="space-y-1.5">
+                        <label for="username" class="block text-xs font-semibold tracking-wider text-slate-600 uppercase dark:text-slate-400">
+                            Brugernavn / E-mail
+                        </label>
+                        <div>
+                            <InputText id="username"
+                                       @bind-Value="LoginModel.Username"
+                                       class="block w-full rounded-xl border border-slate-300 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 transition-all duration-150 focus:border-amber-500 focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:outline-none dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100 dark:placeholder-slate-600 dark:focus:bg-slate-950"
+                                       placeholder="bruger@mail.com" />
+                        </div>
+                        <ValidationMessage For="() => LoginModel.Username" class="mt-1 text-xs font-medium text-red-500" />
+                    </div>
+
+                    <!-- Adgangskode -->
+                    <div class="mt-5 space-y-1.5">
+                        <label for="password" class="block text-xs font-semibold tracking-wider text-slate-600 uppercase dark:text-slate-400">
+                            Adgangskode
+                        </label>
+                        <div>
+                            <InputText id="password"
+                                       type="password"
+                                       @bind-Value="LoginModel.Password"
+                                       class="block w-full rounded-xl border border-slate-300 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 transition-all duration-150 focus:border-amber-500 focus:bg-white focus:ring-2 focus:ring-amber-500/20 focus:outline-none dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100 dark:placeholder-slate-600 dark:focus:bg-slate-950"
+                                       placeholder="••••••••" />
+                        </div>
+                        <ValidationMessage For="() => LoginModel.Password" class="mt-1 text-xs font-medium text-red-500" />
+                    </div>
+
+                    <!-- Glemt adgangskode -->
+                    <div class="mt-6 flex items-center justify-end text-sm">
+                        <a href="#" class="font-medium text-amber-600 hover:underline dark:text-amber-400">
+                            Glemt adgangskode?
+                        </a>
+                    </div>
+
+                    <!-- Log ind Knap -->
+                    <div class="mt-8">
+                        <button type="submit"
+                                disabled="@IsSubmitting"
+                                class="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-amber-400 px-4 py-3 text-sm font-semibold text-slate-950 shadow-md shadow-amber-500/10 transition-all hover:bg-amber-300 focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:outline-none active:bg-amber-500 disabled:opacity-50 dark:focus:ring-offset-slate-900">
+                            @if (IsSubmitting)
+                            {
+                                <span>Logger ind...</span>
+                            }
+                            else
+                            {
+                                <span>Log ind</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-4 w-4">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                                </svg>
+                            }
+                        </button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </main>
+</div>

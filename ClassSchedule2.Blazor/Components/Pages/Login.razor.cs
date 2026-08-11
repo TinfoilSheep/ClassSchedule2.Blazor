@@ -1,0 +1,55 @@
+﻿using ClassSchedule2.Blazor.Models.DTOs.Request;
+using ClassSchedule2.Blazor.Services.Data;
+using Microsoft.AspNetCore.Components;
+
+namespace ClassSchedule2.Blazor.Components.Pages
+{
+    public partial class Login
+    {
+
+        [Inject]
+        private NavigationManager Navigation { get; set; } = default!;
+        [Inject]
+        private BrowserAuthService BrowserAuthService { get; set; } = default!;
+        protected LoginRequestDTO LoginModel { get; set; } = new();
+        protected bool IsSubmitting { get; set; } = false;
+        protected string? ErrorMessage { get; set; }
+
+        protected void NavigateToHome()
+        {
+            Navigation.NavigateTo("/");
+        }
+
+        protected async Task HandleLoginAsync()
+        {
+            IsSubmitting = true;
+            ErrorMessage = null;
+
+            try
+            {
+                var result = await BrowserAuthService.LoginAsync(LoginModel);
+
+                if (!result.Success)
+                {
+                    ErrorMessage = result.Status switch
+                    {
+                        403 => "Ugyldigt brugernavn eller adgangskode.",
+                        _ => result.ResponseText ?? "Login mislykkedes."
+                    };
+
+                    return;
+                }
+
+                Navigation.NavigateTo("/dashboard");
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Fejl under login: {ex.Message}";
+            }
+            finally
+            {
+                IsSubmitting = false;
+            }
+        }
+    }
+}
