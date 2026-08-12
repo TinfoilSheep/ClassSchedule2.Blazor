@@ -31,7 +31,7 @@
         <button @onclick="NavigateBack"
                 type="button"
                 class="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:bg-slate-50 focus:ring-2 focus:ring-slate-400 focus:outline-none sm:w-auto dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800">
-            <span>Tilbage til overblik</span>
+            <span>Tilbage</span>
         </button>
     </div>
 </div>
@@ -39,6 +39,6 @@
 @code {
     private async Task NavigateBack()
     {
-        await JS.InvokeVoidAsync("history.back");
+        await JS.InvokeVoidAsync("eval", "history.length > 2 ? history.go(-2) : window.location.href = '/'");
     }
 }

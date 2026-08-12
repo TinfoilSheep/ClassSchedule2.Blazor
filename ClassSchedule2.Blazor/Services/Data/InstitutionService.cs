@@ -1,32 +1,56 @@
 ﻿using ClassSchedule2.Blazor.Interfaces;
-using ClassSchedule2.Blazor.Models.DTOs.Request;
-using ClassSchedule2.Blazor.Models.DTOs.Response;
+using Newtonsoft.Json;
+using static ClassSchedule2.Blazor.Models.DTOs.InstitutionLibrary;
 
 namespace ClassSchedule2.Blazor.Services.Data
 {
     public class InstitutionService : IInstitutionService
     {
-        public Task CreateInstitution(string name)
+        private readonly HttpClient _httpClient;
+        private readonly IConfiguration _configuration;
+        private readonly string _InstitutionBaseUrl = "api/Institution/";
+
+        public InstitutionService(HttpClient httpClient, IConfiguration configuration)
+        {
+            _httpClient = httpClient;
+            _configuration = configuration;
+        }
+        public Task CreateInstitution(CreateInstitutionDTO dto)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> DeleteInstitution(Guid id)
+        public Task<bool> DeleteInstitution(DeleteInstitutionRequestDTO dto)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<InstituionResponseDTO>> GetAllInstitutions()
+        public async Task<List<GetInstitutionListResponseDTO>> GetAllInstitutions()
+        {
+            var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
+            var getAllInstitutionsUrl = new Uri(new Uri(apiBase), _InstitutionBaseUrl + "get-all-institution").ToString();
+
+            try
+            {
+                var jsonResponse = await _httpClient.GetStringAsync(getAllInstitutionsUrl);
+
+                var result = JsonConvert.DeserializeObject<List<GetInstitutionListResponseDTO>>(jsonResponse);
+
+                return result ?? [];
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Fejl ved hentning af institutioner: {ex.Message}");
+                return [];
+            }
+        }
+
+        public Task<GetInstitutionListResponseDTO> GetInstitutionById(GetInstitutionByIdRequestDTO dto)
         {
             throw new NotImplementedException();
         }
 
-        public Task<InstituionResponseDTO> GetInstitutionById(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<InstituionResponseDTO> UpdateInstitution(InstitutionRequestDTO dto)
+        public Task<GetInstitutionListResponseDTO> UpdateInstitution(UpdateInstitutionRequestDTO dto)
         {
             throw new NotImplementedException();
         }

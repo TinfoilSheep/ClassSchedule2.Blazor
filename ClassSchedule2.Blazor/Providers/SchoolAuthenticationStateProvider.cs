@@ -1,8 +1,8 @@
-﻿using ClassSchedule2.Blazor.Models.DTOs.Response;
-using ClassSchedule2.Blazor.Services.Data;
+﻿using ClassSchedule2.Blazor.Services.Data;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.JSInterop;
 using System.Security.Claims;
+using static ClassSchedule2.Blazor.Models.DTOs.UserLibrary;
 
 namespace ClassSchedule2.Blazor.Providers
 {
@@ -38,7 +38,7 @@ namespace ClassSchedule2.Blazor.Providers
                 return;
             }
 
-            var user = await _browserAuthService.GetUserAsync(userId);
+            LoginResponseDTO? user = await _browserAuthService.GetUserAsync(userId);
 
             if (user is null)
             {
@@ -68,7 +68,7 @@ namespace ClassSchedule2.Blazor.Providers
             {
                 new(ClaimTypes.NameIdentifier, user.Id.ToString()),
 
-                new(ClaimTypes.Name, user.Username),
+                new(ClaimTypes.Name, user.Username ?? string.Empty),
 
                 new(ClaimTypes.Role, user.Role.ToString()),
 

@@ -1,8 +1,7 @@
-﻿using ClassSchedule2.Blazor.Models.DTOs.Request;
-using ClassSchedule2.Blazor.Models.DTOs.Response;
-using ClassSchedule2.Blazor.Models.Models;
+﻿using ClassSchedule2.Blazor.Models.Models;
 using Microsoft.JSInterop;
 using System.Text.Json;
+using static ClassSchedule2.Blazor.Models.DTOs.UserLibrary;
 
 namespace ClassSchedule2.Blazor.Services.Data
 {
@@ -11,9 +10,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         private readonly IJSRuntime _js;
         private readonly IConfiguration _configuration;
 
-        public BrowserAuthService(
-            IJSRuntime js,
-            IConfiguration configuration)
+        public BrowserAuthService(IJSRuntime js, IConfiguration configuration)
         {
             _js = js;
             _configuration = configuration;
@@ -21,39 +18,23 @@ namespace ClassSchedule2.Blazor.Services.Data
 
         public async Task<BrowserLoginResult> LoginAsync(LoginRequestDTO login)
         {
-            var apiBase =
-                _configuration["ApiBaseUrl"]
-                ?? "https://localhost:7053/";
+            var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var loginUrl =
-                new Uri(new Uri(apiBase), "api/User/Login")
-                    .ToString();
+            var loginUrl = new Uri(new Uri(apiBase), "api/User/Login").ToString();
 
-            var result =
-                await _js.InvokeAsync<JsonElement>(
-                    "authLogin",
-                    loginUrl,
-                    login);
+            var result = await _js.InvokeAsync<JsonElement>("authLogin", loginUrl, login);
 
-            var success = result
-                .GetProperty("ok")
-                .GetBoolean();
+            var success = result.GetProperty("ok").GetBoolean();
 
-            var status = result
-                .GetProperty("status")
-                .GetInt32();
+            var status = result.GetProperty("status").GetInt32();
 
-            var responseText = result
-                .GetProperty("text")
-                .GetString();
+            var responseText = result.GetProperty("text").GetString();
 
             LoginResponseDTO? user = null;
 
             if (success && !string.IsNullOrWhiteSpace(responseText))
             {
-                user = JsonSerializer.Deserialize<LoginResponseDTO>(
-                    responseText,
-                    new JsonSerializerOptions
+                user = JsonSerializer.Deserialize<LoginResponseDTO>(responseText, new JsonSerializerOptions
                     {
                         PropertyNameCaseInsensitive = true
                     });
@@ -61,10 +42,7 @@ namespace ClassSchedule2.Blazor.Services.Data
 
             if (user != null)
             {
-                await _js.InvokeVoidAsync(
-                    "localStorage.setItem",
-                    "SchoolUserId",
-                    user.Id.ToString());
+                await _js.InvokeVoidAsync("localStorage.setItem", "SchoolUserId", user.Id.ToString());
             }
 
             return new BrowserLoginResult
@@ -78,37 +56,27 @@ namespace ClassSchedule2.Blazor.Services.Data
 
         public async Task<LoginResponseDTO?> GetUserAsync(Guid userId)
         {
-            var apiBase =
-                _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
+            var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var userUrl =
-                new Uri(
-                    new Uri(apiBase),
-                    $"api/User/Get-User-Information?id={userId}"
-                ).ToString();
+            var userUrl = new Uri(new Uri(apiBase), $"api/User/Get-User-Information?id={userId}").ToString();
 
-            var result =
-                await _js.InvokeAsync<JsonElement>(
-                    "authGet",
-                    userUrl);
+            var result = await _js.InvokeAsync<JsonElement>("authGet", userUrl);
 
-            var success = result
-                .GetProperty("ok")
-                .GetBoolean();
+            var success = result.GetProperty("ok").GetBoolean();
 
             if (!success)
+            {
                 return null;
+            }
 
-            var responseText = result
-                .GetProperty("text")
-                .GetString();
+            var responseText = result.GetProperty("text").GetString();
 
             if (string.IsNullOrWhiteSpace(responseText))
+            {
                 return null;
+            }
 
-            return JsonSerializer.Deserialize<LoginResponseDTO>(
-                responseText,
-                new JsonSerializerOptions
+            return JsonSerializer.Deserialize<LoginResponseDTO>(responseText, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 });

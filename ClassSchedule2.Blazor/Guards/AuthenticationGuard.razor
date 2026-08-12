@@ -11,8 +11,11 @@
 }
 else if (!_isAuthenticated)
 {
-    Navigation.NavigateTo("/login");
-    @* <Denied></Denied> *@
+    <p>Du skal være logget ind.</p>
+}
+else if (!_isAuthorized)
+{
+    <p>Du har ikke adgang til denne side.</p>
 }
 else
 {
@@ -22,24 +25,43 @@ else
 @code {
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
+    [Parameter]
+    public string? RequiredRole { get; set; }
 
     private bool _loading = true;
     private bool _isAuthenticated;
+    private bool _isAuthorized;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (!firstRender)
+        {
             return;
+        }
 
         await SchoolAuthenticationProvider.InitializeAsync();
 
-        var authState =
-            await AuthStateProvider.GetAuthenticationStateAsync();
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
 
-        _isAuthenticated =
-            authState.User.Identity?.IsAuthenticated == true;
+        var user = authState.User;
+
+        _isAuthenticated = user.Identity?.IsAuthenticated == true;
+
+        _isAuthorized = _isAuthenticated && (string.IsNullOrEmpty(RequiredRole) || user.IsInRole(RequiredRole));
 
         _loading = false;
+
+        if (!_isAuthenticated)
+        {
+            Navigation.NavigateTo("/login");
+            return;
+        }
+
+        if (!_isAuthorized)
+        {
+            Navigation.NavigateTo("/denied");
+            return;
+        }
 
         StateHasChanged();
     }

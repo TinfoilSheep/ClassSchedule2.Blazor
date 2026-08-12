@@ -1,15 +1,13 @@
-﻿using ClassSchedule2.Blazor.Models.DTOs.Request;
-using ClassSchedule2.Blazor.Models.DTOs.Response;
-using System.Security.Cryptography.X509Certificates;
+﻿using static ClassSchedule2.Blazor.Models.DTOs.InstitutionLibrary;
 
 namespace ClassSchedule2.Blazor.Interfaces
 {
     public interface IInstitutionService
     {
-        public Task CreateInstitution(string name);
-        public Task<InstituionResponseDTO> UpdateInstitution(InstitutionRequestDTO dto);
-        public Task<List<InstituionResponseDTO>> GetAllInstitutions();
-        public Task<bool> DeleteInstitution(Guid id);
-        public Task<InstituionResponseDTO> GetInstitutionById(Guid id);
+        public Task CreateInstitution(CreateInstitutionDTO dto);
+        public Task<GetInstitutionListResponseDTO> UpdateInstitution(UpdateInstitutionRequestDTO dto);
+        public Task<List<GetInstitutionListResponseDTO>> GetAllInstitutions();
+        public Task<bool> DeleteInstitution(DeleteInstitutionRequestDTO dto);
+        public Task<GetInstitutionListResponseDTO> GetInstitutionById(GetInstitutionByIdRequestDTO dto);
     }
 }

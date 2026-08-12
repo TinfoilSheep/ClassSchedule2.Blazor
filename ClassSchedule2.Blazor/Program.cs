@@ -1,4 +1,5 @@
 using ClassSchedule2.Blazor.Components;
+using ClassSchedule2.Blazor.Interfaces;
 using ClassSchedule2.Blazor.Providers;
 using ClassSchedule2.Blazor.Services.Data;
 using ClassSchedule2.Blazor.Services.UI;
@@ -25,6 +26,7 @@ builder.Services.AddAuthorization(options =>
 });
 
 builder.Services.AddScoped<BrowserAuthService>();
+builder.Services.AddHttpClient<IInstitutionService, InstitutionService>();
 builder.Services.AddScoped<SchoolAuthenticationStateProvider>();
 builder.Services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<SchoolAuthenticationStateProvider>()); //Sikrer at man får fat i samme instans af SchoolAuthenticationStateProvider når man beder om Authentication
 builder.Services.AddScoped<ThemeService>();

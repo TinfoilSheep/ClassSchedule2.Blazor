@@ -1,4 +1,4 @@
-﻿using ClassSchedule2.Blazor.Models.DTOs.Response;
+﻿using static ClassSchedule2.Blazor.Models.DTOs.UserLibrary;
 
 namespace ClassSchedule2.Blazor.Models.Models
 {

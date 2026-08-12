@@ -1,7 +1,12 @@
-﻿using ClassSchedule2.Blazor.Models.DTOs.Request;
+﻿using ClassSchedule2.Blazor.Interfaces;
+using ClassSchedule2.Blazor.Models.Models;
 using ClassSchedule2.Blazor.Services.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using static ClassSchedule2.Blazor.Models.DTOs.InstitutionLibrary;
+using static ClassSchedule2.Blazor.Models.DTOs.UserLibrary;
+using static System.Net.WebRequestMethods;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ClassSchedule2.Blazor.Components.Pages
 {
@@ -12,15 +17,32 @@ namespace ClassSchedule2.Blazor.Components.Pages
         private NavigationManager Navigation { get; set; } = default!;
         [Inject]
         private BrowserAuthService BrowserAuthService { get; set; } = default!;
+        [Inject]
+        private IInstitutionService InstitutionService { get; set; } = default!;
         protected LoginRequestDTO LoginModel { get; set; } = new();
+        private List<GetInstitutionListResponseDTO> Institutions { get; set; } = new();
         protected bool IsSubmitting { get; set; } = false;
         protected string? ErrorMessage { get; set; }
+        private bool IsLoadingInstitutions = true;
 
-        protected override async Task OnInitialized(bool firstRender)
+        protected override async Task OnInitializedAsync()
         {
-            if (!firstRender)
-                return;
-            
+            try
+            {
+                var result = await InstitutionService.GetAllInstitutions();
+                if (result is not null)
+                {
+                    Institutions = result;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = "Kunne ikke hente institutioner. Prøv venligst igen senere.";
+            }
+            finally
+            {
+                IsLoadingInstitutions = false;
+            }
         }
 
         protected void NavigateToHome()
@@ -48,7 +70,7 @@ namespace ClassSchedule2.Blazor.Components.Pages
                     return;
                 }
 
-                // TODO Tjek efter brugeren rolle da det er nok kun administrator der har et Dashboard.
+                // TODO Tjek efter brugerens rolle da det nok kun er administrator der har et Dashboard.
                 Navigation.NavigateTo("/dashboard");
             }
             catch (Exception ex)
