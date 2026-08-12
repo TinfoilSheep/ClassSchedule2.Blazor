@@ -26,7 +26,7 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddScoped<BrowserAuthService>();
 builder.Services.AddScoped<SchoolAuthenticationStateProvider>();
-builder.Services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<SchoolAuthenticationStateProvider>());
+builder.Services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<SchoolAuthenticationStateProvider>()); //Sikrer at man får fat i samme instans af SchoolAuthenticationStateProvider når man beder om Authentication
 builder.Services.AddScoped<ThemeService>();
 
 var app = builder.Build();

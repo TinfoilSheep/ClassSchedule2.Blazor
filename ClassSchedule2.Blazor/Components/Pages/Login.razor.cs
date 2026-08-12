@@ -1,6 +1,7 @@
 ﻿using ClassSchedule2.Blazor.Models.DTOs.Request;
 using ClassSchedule2.Blazor.Services.Data;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace ClassSchedule2.Blazor.Components.Pages
 {
@@ -14,6 +15,13 @@ namespace ClassSchedule2.Blazor.Components.Pages
         protected LoginRequestDTO LoginModel { get; set; } = new();
         protected bool IsSubmitting { get; set; } = false;
         protected string? ErrorMessage { get; set; }
+
+        protected override async Task OnInitialized(bool firstRender)
+        {
+            if (!firstRender)
+                return;
+            
+        }
 
         protected void NavigateToHome()
         {
