@@ -69,11 +69,10 @@ namespace ClassSchedule2.Blazor.Providers
             var claims = new List<Claim>
             {
                 new(ClaimTypes.NameIdentifier, user.Id.ToString()),
-
                 new(ClaimTypes.Name, user.Username ?? string.Empty),
-
+                new(ClaimTypes.GivenName, user.FirstName ?? string.Empty),
+                new(ClaimTypes.Surname, user.LastName ?? string.Empty),
                 new(ClaimTypes.Role, user.Role.ToString()),
-
                 new("InstitutionId", user.InstitutionId.ToString())
             };
 

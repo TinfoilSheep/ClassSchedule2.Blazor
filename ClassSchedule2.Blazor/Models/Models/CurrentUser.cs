@@ -1,37 +1,46 @@
 ﻿using ClassSchedule2.Blazor.Interfaces;
 using ClassSchedule2.Blazor.Models.Enums;
+using Microsoft.AspNetCore.Components.Authorization;
 using System.Security.Claims;
 
 namespace ClassSchedule2.Blazor.Models.Models
 {
     public class CurrentUser : ICurrentUser
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly AuthenticationStateProvider _authenticationStateProvider;
 
-        public CurrentUser(IHttpContextAccessor httpContextAccessor)
+        public CurrentUser(AuthenticationStateProvider authenticationStateProvider)
         {
-            _httpContextAccessor = httpContextAccessor;
+            _authenticationStateProvider = authenticationStateProvider;
         }
 
-        public Guid UserId =>
-            Guid.Parse(
-                _httpContextAccessor.HttpContext!
-                    .User
-                    .FindFirstValue(ClaimTypes.NameIdentifier)!
-            );
+        public async Task<CurrentUserData?> GetAsync()
+        {
+            var authState =
+                await _authenticationStateProvider.GetAuthenticationStateAsync();
 
-        public Guid InstitutionId =>
-            Guid.Parse(
-                _httpContextAccessor.HttpContext!
-                    .User
-                    .FindFirstValue("InstitutionId")!
-            );
+            var user = authState.User;
 
-        public UserRoles Role =>
-            Enum.Parse<UserRoles>(
-                _httpContextAccessor.HttpContext!
-                    .User
-                    .FindFirstValue(ClaimTypes.Role)!
-            );
+            if (user.Identity?.IsAuthenticated != true)
+                return null;
+
+            return new CurrentUserData
+            {
+                UserId = Guid.Parse(
+                    user.FindFirstValue(ClaimTypes.NameIdentifier)!),
+
+                FirstName = user.FindFirstValue(ClaimTypes.GivenName) ?? "",
+
+                LastName = user.FindFirstValue(ClaimTypes.Surname) ?? "",
+
+                Username = user.FindFirstValue(ClaimTypes.Name) ?? "",
+
+                Role = Enum.Parse<UserRoles>(
+                    user.FindFirstValue(ClaimTypes.Role)!),
+
+                InstitutionId = Guid.Parse(
+                    user.FindFirstValue("InstitutionId")!)
+            };
+        }
     }
 }

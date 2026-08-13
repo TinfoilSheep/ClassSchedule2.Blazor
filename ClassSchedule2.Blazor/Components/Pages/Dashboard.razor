@@ -1,5 +1,6 @@
 ﻿@page "/dashboard"
-@rendermode InteractiveServer
+@using ClassSchedule2.Blazor.Models.Enums
+@layout MainLayout
 
 <AuthenticationGuard>
     <PageTitle>Dashboard - Skoleportalen</PageTitle>
@@ -8,9 +9,18 @@
 
     <p>Du er logget ind.</p>
 
-    <button @onclick="LogoutAsync">
-        Log ud
-    </button>
+    <RoleGuard RequiredRole="@UserRoles.Admin">
+        <p>Du har administratorrettigheder.</p>
+    </RoleGuard>
+    <RoleGuard RequiredRole="@UserRoles.Teacher">
+        <p>Du har lærerrettigheder.</p>
+    </RoleGuard>
+    <RoleGuard RequiredRole="@UserRoles.Student">
+        <p>Du har elevrettigheder.</p>
+    </RoleGuard>
+        <button @onclick="LogoutAsync">
+            Log ud
+        </button>
 
 </AuthenticationGuard>
 

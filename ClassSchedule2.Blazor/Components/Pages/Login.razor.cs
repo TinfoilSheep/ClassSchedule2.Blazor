@@ -13,12 +13,9 @@ namespace ClassSchedule2.Blazor.Components.Pages
     public partial class Login
     {
 
-        [Inject]
-        private NavigationManager Navigation { get; set; } = default!;
-        [Inject]
-        private BrowserAuthService BrowserAuthService { get; set; } = default!;
-        [Inject]
-        private IInstitutionService InstitutionService { get; set; } = default!;
+        [Inject] private NavigationManager Navigation { get; set; } = default!;
+        [Inject] private BrowserAuthService BrowserAuthService { get; set; } = default!;
+        [Inject] private IInstitutionService InstitutionService { get; set; } = default!;
         protected LoginRequestDTO LoginModel { get; set; } = new();
         private List<GetInstitutionListResponseDTO> Institutions { get; set; } = new();
         protected bool IsSubmitting { get; set; } = false;

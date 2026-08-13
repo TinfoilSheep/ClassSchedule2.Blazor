@@ -9,11 +9,9 @@ namespace ClassSchedule2.Blazor.Components.Pages
 {
     public partial class Dashboard
     {
-        [Inject]
-        private SchoolAuthenticationStateProvider AuthenticationProvider { get; set; } = default!;
+        [Inject] private SchoolAuthenticationStateProvider AuthenticationProvider { get; set; } = default!;
 
-        [Inject]
-        private NavigationManager Navigation { get; set; } = default!;
+        [Inject] private NavigationManager Navigation { get; set; } = default!;
 
         private async Task LogoutAsync()
         {
