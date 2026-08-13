@@ -8,7 +8,7 @@ namespace ClassSchedule2.Blazor.Components.Layout
     public partial class MainLayout
     {
         [Inject] private SchoolAuthenticationStateProvider AuthenticationProvider { get; set; } = default!;
-        [Inject] private ICurrentUser CurrentUser { get; set; } = default!;
+        [Inject] private ICurrentUserProvider CurrentUser { get; set; } = default!;
         [Inject] private NavigationManager Navigation { get; set; } = default!;
         private string _userName = string.Empty;
         private string _userInitials = string.Empty;
@@ -36,23 +36,6 @@ namespace ClassSchedule2.Blazor.Components.Layout
             }
 
             StateHasChanged();
-        }
-
-        private static string GetInitials(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                return "?";
-            }
-
-            var parts = name.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries);
-
-            if (parts.Length == 1)
-            {
-                return parts[0][0].ToString().ToUpper();
-            }
-
-            return $"{parts[0][0]}{parts[^1][0]}".ToUpper();
         }
 
         private void ToggleMobileMenu()

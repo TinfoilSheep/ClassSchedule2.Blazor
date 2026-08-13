@@ -57,6 +57,13 @@ namespace ClassSchedule2.Blazor.Providers
 
         public async Task LogoutAsync()
         {
+            var success = await _browserAuthService.LogoutAsync();
+
+            if (!success)
+            {
+                return;
+            }
+
             await _js.InvokeVoidAsync("localStorage.removeItem", "SchoolUserId");
 
             _currentUser = new ClaimsPrincipal(new ClaimsIdentity());

@@ -1,15 +1,16 @@
 ﻿using ClassSchedule2.Blazor.Interfaces;
 using ClassSchedule2.Blazor.Models.Enums;
+using ClassSchedule2.Blazor.Models.Models;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Security.Claims;
 
-namespace ClassSchedule2.Blazor.Models.Models
+namespace ClassSchedule2.Blazor.Providers
 {
-    public class CurrentUser : ICurrentUser
+    public class CurrentUserProvider : ICurrentUserProvider
     {
         private readonly AuthenticationStateProvider _authenticationStateProvider;
 
-        public CurrentUser(AuthenticationStateProvider authenticationStateProvider)
+        public CurrentUserProvider(AuthenticationStateProvider authenticationStateProvider)
         {
             _authenticationStateProvider = authenticationStateProvider;
         }
@@ -44,3 +45,4 @@ namespace ClassSchedule2.Blazor.Models.Models
         }
     }
 }
+

@@ -31,7 +31,7 @@ builder.Services.AddHttpClient<IInstitutionService, InstitutionService>();
 builder.Services.AddScoped<SchoolAuthenticationStateProvider>();
 builder.Services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<SchoolAuthenticationStateProvider>()); //Sikrer at man får fat i samme instans af SchoolAuthenticationStateProvider når man beder om Authentication
 builder.Services.AddScoped<ThemeService>();
-builder.Services.AddScoped<ICurrentUser, CurrentUser>();
+builder.Services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();
 
 var app = builder.Build();
 

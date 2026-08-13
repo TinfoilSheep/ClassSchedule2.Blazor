@@ -3,7 +3,7 @@ using ClassSchedule2.Blazor.Models.Models;
 
 namespace ClassSchedule2.Blazor.Interfaces
 {
-    public interface ICurrentUser
+    public interface ICurrentUserProvider
     {
         public Task<CurrentUserData?> GetAsync();
     }

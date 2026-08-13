@@ -9,6 +9,7 @@ namespace ClassSchedule2.Blazor.Services.Data
     {
         private readonly IJSRuntime _js;
         private readonly IConfiguration _configuration;
+        private readonly string _userUrl = "api/User/";
 
         public BrowserAuthService(IJSRuntime js, IConfiguration configuration)
         {
@@ -20,7 +21,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var loginUrl = new Uri(new Uri(apiBase), "api/User/Login").ToString();
+            var loginUrl = new Uri(new Uri(apiBase), _userUrl + "Login").ToString();
 
             var result = await _js.InvokeAsync<JsonElement>("authLogin", loginUrl, login);
 
@@ -58,7 +59,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var userUrl = new Uri(new Uri(apiBase), $"api/User/Get-User-Information?id={userId}").ToString();
+            var userUrl = new Uri(new Uri(apiBase), _userUrl + $"Get-User-Information?id={userId}").ToString();
 
             var result = await _js.InvokeAsync<JsonElement>("authGet", userUrl);
 
@@ -80,6 +81,17 @@ namespace ClassSchedule2.Blazor.Services.Data
                 {
                     PropertyNameCaseInsensitive = true
                 });
+        }
+
+        public async Task<bool> LogoutAsync()
+        {
+            var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
+
+            var logoutUrl = new Uri(new Uri(apiBase), _userUrl + "Logout").ToString();
+
+            var result = await _js.InvokeAsync<JsonElement>("authLogout", logoutUrl);
+
+            return result.GetProperty("ok").GetBoolean();
         }
     }
 }
