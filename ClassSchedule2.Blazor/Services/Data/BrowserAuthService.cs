@@ -1,7 +1,7 @@
 ﻿using ClassSchedule2.Blazor.Models.Models;
 using Microsoft.JSInterop;
 using System.Text.Json;
-using static ClassSchedule2.Blazor.Models.DTOs.UserLibrary;
+using static ClassSchedule2.Blazor.Models.DTOs.AuthLibrary;
 
 namespace ClassSchedule2.Blazor.Services.Data
 {

@@ -1,4 +1,4 @@
-﻿using static ClassSchedule2.Blazor.Models.DTOs.UserLibrary;
+﻿using static ClassSchedule2.Blazor.Models.DTOs.AuthLibrary;
 
 namespace ClassSchedule2.Blazor.Models.Models
 {

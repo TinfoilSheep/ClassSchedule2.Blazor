@@ -4,7 +4,7 @@ using ClassSchedule2.Blazor.Services.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using static ClassSchedule2.Blazor.Models.DTOs.InstitutionLibrary;
-using static ClassSchedule2.Blazor.Models.DTOs.UserLibrary;
+using static ClassSchedule2.Blazor.Models.DTOs.AuthLibrary;
 using static System.Net.WebRequestMethods;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 

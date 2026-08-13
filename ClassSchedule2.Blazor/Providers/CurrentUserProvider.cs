@@ -17,18 +17,18 @@ namespace ClassSchedule2.Blazor.Providers
 
         public async Task<CurrentUserData?> GetAsync()
         {
-            var authState =
-                await _authenticationStateProvider.GetAuthenticationStateAsync();
+            var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
 
             var user = authState.User;
 
             if (user.Identity?.IsAuthenticated != true)
+            {
                 return null;
+            }
 
             return new CurrentUserData
             {
-                UserId = Guid.Parse(
-                    user.FindFirstValue(ClaimTypes.NameIdentifier)!),
+                UserId = Guid.Parse(user.FindFirstValue(ClaimTypes.NameIdentifier)!),
 
                 FirstName = user.FindFirstValue(ClaimTypes.GivenName) ?? "",
 
@@ -36,11 +36,9 @@ namespace ClassSchedule2.Blazor.Providers
 
                 Username = user.FindFirstValue(ClaimTypes.Name) ?? "",
 
-                Role = Enum.Parse<UserRoles>(
-                    user.FindFirstValue(ClaimTypes.Role)!),
+                Role = Enum.Parse<UserRoles>(user.FindFirstValue(ClaimTypes.Role)!),
 
-                InstitutionId = Guid.Parse(
-                    user.FindFirstValue("InstitutionId")!)
+                InstitutionId = Guid.Parse(user.FindFirstValue("InstitutionId")!)
             };
         }
     }
