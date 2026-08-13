@@ -55,9 +55,11 @@ namespace ClassSchedule2.Blazor.Providers
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(_currentUser)));
         }
 
-        public void Logout()
+        public async Task LogoutAsync()
         {
-            _currentUser = Anonymous;
+            await _js.InvokeVoidAsync("localStorage.removeItem", "SchoolUserId");
+
+            _currentUser = new ClaimsPrincipal(new ClaimsIdentity());
 
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(_currentUser)));
         }

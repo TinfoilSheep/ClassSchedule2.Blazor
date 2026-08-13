@@ -1,0 +1,27 @@
+﻿@if (Visible)
+{
+    <div class="@OverlayClass">
+        <div class="relative flex items-center justify-center">
+            <div class="h-28 w-28 animate-spin rounded-full border-4 border-slate-300/60 border-t-amber-400 dark:border-slate-700/60 dark:border-t-amber-400"></div>
+
+            @if (!string.IsNullOrEmpty(Message))
+            {
+                <div class="absolute inset-0 flex items-center justify-center p-2 text-center">
+                    <span class="max-w-[80px] leading-tight font-semibold tracking-tight text-[11px] text-slate-800 dark:text-slate-100">
+                        @Message
+                    </span>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public bool Visible { get; set; } = true;
+    [Parameter] public string? Message { get; set; }
+    [Parameter] public bool FullScreen { get; set; } = false;
+
+    private string OverlayClass => FullScreen
+        ? "fixed inset-0 z-50 flex items-center justify-center bg-slate-100/30 backdrop transition-all duration-200 dark:bg-slate-950/30"
+        : "absolute inset-0 z-40 flex items-center justify-center bg-slate-100/30 backdrop-blur transition-all duration-200 dark:bg-slate-950/30";
+}

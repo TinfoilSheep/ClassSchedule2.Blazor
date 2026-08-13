@@ -1,26 +1,19 @@
-﻿@using ClassSchedule2.Blazor.Components.Pages.Errors
+﻿@using ClassSchedule2.Blazor.Components.Pages.Shared
 @using ClassSchedule2.Blazor.Providers
 @using Microsoft.AspNetCore.Components.Authorization
 @inject AuthenticationStateProvider AuthStateProvider
 @inject SchoolAuthenticationStateProvider SchoolAuthenticationProvider
 @inject NavigationManager Navigation
 
-@if (_loading)
+@if(_loading)
 {
-    <p>Indlæser...</p>
+    <LoadingSpinner Visible="@_loading" Message="Indlæser..." />
 }
-else if (!_isAuthenticated)
-{
-    <p>Du skal være logget ind.</p>
-}
-else if (!_isAuthorized)
-{
-    <p>Du har ikke adgang til denne side.</p>
-}
-else
+else if(_isAuthenticated && _isAuthorized)
 {
     @ChildContent
 }
+
 
 @code {
     [Parameter]

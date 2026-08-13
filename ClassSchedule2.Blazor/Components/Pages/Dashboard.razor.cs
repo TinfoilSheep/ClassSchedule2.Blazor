@@ -10,37 +10,17 @@ namespace ClassSchedule2.Blazor.Components.Pages
     public partial class Dashboard
     {
         [Inject]
-        IJSRuntime JS { get; set; } = default!;
+        private SchoolAuthenticationStateProvider AuthenticationProvider { get; set; } = default!;
+
         [Inject]
-        private BrowserAuthService BrowserAuthService { get; set; } = default!;
-        [Inject]
-        private AuthenticationStateProvider AuthStateProvider { get; set; } = default!;
-        [Inject]
-        private SchoolAuthenticationStateProvider SchoolAuthenticationProvider { get; set; } = default!;
+        private NavigationManager Navigation { get; set; } = default!;
 
-        //protected override async Task OnAfterRenderAsync(bool firstRender)
-        //{
-        //    if (!firstRender)
-        //        return;
+        private async Task LogoutAsync()
+        {
+            await AuthenticationProvider.LogoutAsync();
 
-        //    await SchoolAuthenticationProvider.InitializeAsync();
+            Navigation.NavigateTo("/login");
+        }
 
-        //    var authState = await AuthStateProvider.GetAuthenticationStateAsync();
-
-        //    var user = authState.User;
-        //}
-
-        //protected override async Task OnInitializedAsync()
-        //{
-        //    var authState = await AuthStateProvider.GetAuthenticationStateAsync();
-
-        //    var user = authState.User;
-
-        //    Console.WriteLine($"Authenticated: {user.Identity?.IsAuthenticated}");
-
-        //    Console.WriteLine($"Name: {user.Identity?.Name}");
-
-        //    Console.WriteLine($"Role: {user.FindFirst(ClaimTypes.Role)?.Value}");
-        //}
     }
 }

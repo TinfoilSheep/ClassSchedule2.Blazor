@@ -1,12 +1,16 @@
 ﻿@page "/dashboard"
 @rendermode InteractiveServer
 
-<AuthenticationGuard RequiredRole="Teacher">
+<AuthenticationGuard>
     <PageTitle>Dashboard - Skoleportalen</PageTitle>
 
     <h1>Dashboard</h1>
 
     <p>Du er logget ind.</p>
+
+    <button @onclick="LogoutAsync">
+        Log ud
+    </button>
 
 </AuthenticationGuard>
 
