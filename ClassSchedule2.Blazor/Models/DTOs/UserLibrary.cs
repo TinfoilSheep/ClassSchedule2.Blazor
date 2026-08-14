@@ -4,7 +4,7 @@ namespace ClassSchedule2.Blazor.Models.DTOs
 {
     public class UserLibrary
     {
-        public class AddUserRequestDTO
+        public class CreateUserRequestDTO
         {
             public string? FirstName { get; set; }
             public string? LastName { get; set; }
@@ -13,7 +13,6 @@ namespace ClassSchedule2.Blazor.Models.DTOs
             public string? Email { get; set; }
             public string? Password { get; set; }
             public UserRoles Role { get; set; }
-            public Guid InstitutionId { get; set; }
         }
 
         public class DeleteUserRequestDTO
@@ -23,8 +22,7 @@ namespace ClassSchedule2.Blazor.Models.DTOs
 
         public class GetUserInformationRequestDTO
         {
-            public Guid UserId { get; set; }
-            public UserRoles Role { get; set; }
+            public Guid RequestedUserId { get; set; }
         }
 
         public class GetUserInformationResponseDTO
@@ -39,11 +37,6 @@ namespace ClassSchedule2.Blazor.Models.DTOs
             public UserRoles Role { get; set; }
             public Guid InstitutionId { get; set; }
             public string? InstitutionName { get; set; }
-        }
-
-        public class GetAllUsersRequestDTO
-        {
-            public Guid InstitutionId { get; set; }
         }
 
         public class GetAllUsersResponseDTO

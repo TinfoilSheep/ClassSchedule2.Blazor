@@ -8,12 +8,14 @@ namespace ClassSchedule2.Blazor.Services.Data
     {
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _configuration;
+        private readonly ILogger<InstitutionService> _logger;
         private readonly string _InstitutionBaseUrl = "api/Institution/";
 
-        public InstitutionService(HttpClient httpClient, IConfiguration configuration)
+        public InstitutionService(HttpClient httpClient, IConfiguration configuration, ILogger<InstitutionService> logger)
         {
             _httpClient = httpClient;
             _configuration = configuration;
+            _logger = logger;
         }
         public Task CreateInstitution(CreateInstitutionDTO dto)
         {
@@ -40,7 +42,7 @@ namespace ClassSchedule2.Blazor.Services.Data
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Fejl ved hentning af institutioner: {ex.Message}");
+                _logger.LogError(ex, "Fejl ved hentning af alle institutioner.");
                 return [];
             }
         }

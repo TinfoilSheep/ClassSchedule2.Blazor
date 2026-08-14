@@ -14,24 +14,17 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddAuthentication();
 builder.Services.AddCascadingAuthenticationState();
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("Admin", policy =>
-        policy.RequireRole("Admin"));
+builder.Services.AddAuthorization();
 
-    options.AddPolicy("Teacher", policy =>
-        policy.RequireRole("Teacher"));
-
-    options.AddPolicy("Student", policy =>
-        policy.RequireRole("Student"));
-});
-
-builder.Services.AddScoped<BrowserAuthService>();
-builder.Services.AddHttpClient<IInstitutionService, InstitutionService>();
+//Providers
 builder.Services.AddScoped<SchoolAuthenticationStateProvider>();
 builder.Services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<SchoolAuthenticationStateProvider>()); //Sikrer at man får fat i samme instans af SchoolAuthenticationStateProvider når man beder om Authentication
-builder.Services.AddScoped<ThemeService>();
 builder.Services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();
+//Services
+builder.Services.AddHttpClient<IInstitutionService, InstitutionService>();
+builder.Services.AddHttpClient<IUserService, UserService>();
+builder.Services.AddScoped<ThemeService>();
+builder.Services.AddScoped<BrowserAuthService>();
 
 var app = builder.Build();
 

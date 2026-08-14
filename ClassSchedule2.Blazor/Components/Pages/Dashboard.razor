@@ -5,33 +5,14 @@
 <AuthenticationGuard>
     <PageTitle>Dashboard - Skoleportalen</PageTitle>
 
-    <h1>Dashboard</h1>
-
-    <p>Du er logget ind.</p>
-
-    <RoleGuard RequiredRole="@UserRoles.Admin">
-        <p>Du har administratorrettigheder.</p>
-    </RoleGuard>
-    <RoleGuard RequiredRole="@UserRoles.Teacher">
-        <p>Du har lærerrettigheder.</p>
-    </RoleGuard>
-    <RoleGuard RequiredRole="@UserRoles.Student">
-        <p>Du har elevrettigheder.</p>
-    </RoleGuard>
-        <button @onclick="LogoutAsync">
-            Log ud
-        </button>
-
-</AuthenticationGuard>
-
-@* <div class="space-y-6">
+    <div class="space-y-6">
     <!-- Overskrift -->
     <div>
         <h1 class="text-2xl font-bold tracking-tight text-white">Dashboard</h1>
         <p class="text-sm text-slate-400">Velkommen tilbage! Her er dit overblik for i dag.</p>
     </div>
 
-    <!-- Eksempel på Stats Grid i samme amber/slate stil -->
+    <!-- Eksempel på Stats Grid -->
     <div class="grid grid-cols-1 gap-5 sm:grid-cols-3">
         <div class="rounded-2xl border border-slate-800/80 bg-slate-950 p-5 shadow-xl">
             <p class="text-xs font-semibold tracking-wider text-slate-400 uppercase">Dagens Lektioner</p>
@@ -47,4 +28,6 @@
             <p class="text-xs text-slate-500">Kl. 10:15 - Lokale 12</p>
         </div>
     </div>
-</div> *@
+</div>
+
+</AuthenticationGuard>

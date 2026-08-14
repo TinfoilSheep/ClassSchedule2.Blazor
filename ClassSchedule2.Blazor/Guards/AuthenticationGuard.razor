@@ -1,4 +1,5 @@
 ﻿@using ClassSchedule2.Blazor.Components.Pages.Shared
+@using ClassSchedule2.Blazor.Models.Enums
 @using ClassSchedule2.Blazor.Providers
 @using Microsoft.AspNetCore.Components.Authorization
 @inject AuthenticationStateProvider AuthStateProvider
@@ -19,7 +20,7 @@ else if(_isAuthenticated && _isAuthorized)
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
     [Parameter]
-    public string? RequiredRole { get; set; }
+    public UserRoles? RequiredRole { get; set; }
 
     private bool _loading = true;
     private bool _isAuthenticated;
@@ -40,7 +41,7 @@ else if(_isAuthenticated && _isAuthorized)
 
         _isAuthenticated = user.Identity?.IsAuthenticated == true;
 
-        _isAuthorized = _isAuthenticated && (string.IsNullOrEmpty(RequiredRole) || user.IsInRole(RequiredRole));
+        _isAuthorized = _isAuthenticated && (!RequiredRole.HasValue || user.IsInRole(RequiredRole.Value.ToString()));
 
         _loading = false;
 

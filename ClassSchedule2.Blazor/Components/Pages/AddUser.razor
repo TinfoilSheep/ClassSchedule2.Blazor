@@ -1,0 +1,9 @@
+﻿@page "/add-user"
+
+<AuthenticationGuard RequiredRole="@UserRoles.Admin">
+    
+    <button @onclick="TestAddUser">
+        Test opret Teacher
+    </button>
+
+</AuthenticationGuard>
