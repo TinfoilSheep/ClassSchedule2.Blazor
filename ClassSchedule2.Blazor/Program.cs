@@ -22,7 +22,7 @@ builder.Services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredServ
 builder.Services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();
 //Services
 builder.Services.AddHttpClient<IInstitutionService, InstitutionService>();
-builder.Services.AddHttpClient<IUserService, UserService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ThemeService>();
 builder.Services.AddScoped<BrowserAuthService>();
 

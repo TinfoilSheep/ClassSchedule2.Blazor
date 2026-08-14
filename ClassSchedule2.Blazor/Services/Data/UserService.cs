@@ -8,13 +8,15 @@ namespace ClassSchedule2.Blazor.Services.Data
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _configuration;
         private readonly ILogger<UserService> _logger;
+        private readonly BrowserAuthService _browserAuthService;
         private readonly string _userBaseUrl = "api/User/";
 
-        public UserService(HttpClient httpClient, IConfiguration configuration, ILogger<UserService> logger)
+        public UserService(HttpClient httpClient, IConfiguration configuration, ILogger<UserService> logger, BrowserAuthService browserAuthService)
         {
             _httpClient = httpClient;
             _configuration = configuration;
             _logger = logger;
+            _browserAuthService = browserAuthService;
         }
 
         public async Task<bool> AddUserAsync(UserLibrary.CreateUserRequestDTO dto)
@@ -24,18 +26,18 @@ namespace ClassSchedule2.Blazor.Services.Data
 
             try
             {
-                var response = await _httpClient.PostAsJsonAsync(addUserUrl, dto);
+                var result = await _browserAuthService.PostAsync(addUserUrl, dto);
 
-                if (!response.IsSuccessStatusCode)
+                if (!result.Success)
                 {
-                    _logger.LogWarning("Oprettelse af bruger fejlede. StatusCode: {StatusCode}, Username: {Username}", response.StatusCode, dto.Username);
+                    _logger.LogWarning("Oprettelse af bruger fejlede. StatusCode: {StatusCode}, Username: {Username}", result.Status, dto.Username);
 
                     return false;
                 }
 
                 _logger.LogInformation("Bruger oprettet. Username: {Username}, Role: {Role}", dto.Username, dto.Role);
 
-                return response.IsSuccessStatusCode;
+                return result.Success;
             }
             catch (Exception ex)
             {

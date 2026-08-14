@@ -1,5 +1,4 @@
-﻿using ClassSchedule2.Blazor.Models.Models;
-using Microsoft.JSInterop;
+﻿using Microsoft.JSInterop;
 using System.Text.Json;
 using static ClassSchedule2.Blazor.Models.DTOs.AuthLibrary;
 
@@ -92,6 +91,21 @@ namespace ClassSchedule2.Blazor.Services.Data
             var result = await _js.InvokeAsync<JsonElement>("authLogout", logoutUrl);
 
             return result.GetProperty("ok").GetBoolean();
+        }
+
+        public async Task<BrowserApiResult> PostAsync<T>(string url, T payload)
+        {
+            var result = await _js.InvokeAsync<JsonElement>(
+                "authPost",
+                url,
+                payload);
+
+            return new BrowserApiResult
+            {
+                Success = result.GetProperty("ok").GetBoolean(),
+                Status = result.GetProperty("status").GetInt32(),
+                ResponseText = result.GetProperty("text").GetString()
+            };
         }
     }
 }

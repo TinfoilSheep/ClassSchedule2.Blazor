@@ -28,5 +28,20 @@ namespace ClassSchedule2.Blazor.Models.DTOs
             public UserRoles Role { get; set; }
             public Guid InstitutionId { get; set; }
         }
+
+        public class BrowserApiResult
+        {
+            public bool Success { get; set; }
+            public int Status { get; set; }
+            public string? ResponseText { get; set; }
+        }
+
+        public class BrowserLoginResult
+        {
+            public bool Success { get; set; }
+            public int Status { get; set; }
+            public string? ResponseText { get; set; }
+            public LoginResponseDTO? User { get; set; }
+        }
     }
 }
