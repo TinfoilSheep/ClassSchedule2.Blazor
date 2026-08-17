@@ -16,17 +16,23 @@
     --color-red-700: oklch(50.5% 0.213 27.518);
     --color-red-900: oklch(39.6% 0.141 25.723);
     --color-red-950: oklch(25.8% 0.092 26.042);
+    --color-amber-50: oklch(98.7% 0.022 95.277);
     --color-amber-300: oklch(87.9% 0.169 91.605);
     --color-amber-400: oklch(82.8% 0.189 84.429);
     --color-amber-500: oklch(76.9% 0.188 70.08);
     --color-amber-600: oklch(66.6% 0.179 58.318);
     --color-amber-700: oklch(55.5% 0.163 48.998);
+    --color-amber-950: oklch(27.9% 0.077 45.635);
     --color-emerald-400: oklch(76.5% 0.177 163.223);
     --color-emerald-500: oklch(69.6% 0.17 162.48);
     --color-emerald-700: oklch(50.8% 0.118 165.612);
+    --color-sky-50: oklch(97.7% 0.013 236.62);
+    --color-sky-300: oklch(82.8% 0.111 230.318);
     --color-sky-400: oklch(74.6% 0.16 232.661);
     --color-sky-500: oklch(68.5% 0.169 237.323);
+    --color-sky-600: oklch(58.8% 0.158 241.966);
     --color-sky-700: oklch(50% 0.134 242.749);
+    --color-sky-950: oklch(29.3% 0.066 243.157);
     --color-blue-500: oklch(62.3% 0.214 259.815);
     --color-blue-600: oklch(54.6% 0.245 262.881);
     --color-violet-400: oklch(70.2% 0.183 293.541);
@@ -289,14 +295,23 @@
   .top-0 {
     top: 0px;
   }
+  .top-1 {
+    top: var(--spacing);
+  }
   .right-0 {
     right: 0px;
+  }
+  .right-2 {
+    right: calc(var(--spacing) * 2);
   }
   .left-0 {
     left: 0px;
   }
   .left-1 {
     left: var(--spacing);
+  }
+  .left-3 {
+    left: calc(var(--spacing) * 3);
   }
   .z-10 {
     z-index: 10;
@@ -327,6 +342,9 @@
     @media (width >= 96rem) {
       max-width: 96rem;
     }
+  }
+  .mx-6 {
+    margin-inline: calc(var(--spacing) * 6);
   }
   .mx-auto {
     margin-inline: auto;
@@ -394,6 +412,9 @@
   .table {
     display: table;
   }
+  .h-3 {
+    height: calc(var(--spacing) * 3);
+  }
   .h-4 {
     height: calc(var(--spacing) * 4);
   }
@@ -438,6 +459,9 @@
   }
   .min-h-screen {
     min-height: 100vh;
+  }
+  .w-3 {
+    width: calc(var(--spacing) * 3);
   }
   .w-4 {
     width: calc(var(--spacing) * 4);
@@ -505,6 +529,9 @@
   .min-w-0 {
     min-width: 0px;
   }
+  .min-w-28 {
+    min-width: calc(var(--spacing) * 28);
+  }
   .min-w-32 {
     min-width: calc(var(--spacing) * 32);
   }
@@ -525,6 +552,10 @@
   }
   .-translate-x-1 {
     --tw-translate-x: calc(var(--spacing) * -1);
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
+  .-translate-y-1 {
+    --tw-translate-y: calc(var(--spacing) * -1);
     translate: var(--tw-translate-x) var(--tw-translate-y);
   }
   .transform {
@@ -711,8 +742,14 @@
   .bg-red-500 {
     background-color: var(--color-red-500);
   }
+  .bg-red-600 {
+    background-color: var(--color-red-600);
+  }
   .bg-sky-400 {
     background-color: var(--color-sky-400);
+  }
+  .bg-sky-500 {
+    background-color: var(--color-sky-500);
   }
   .bg-slate-50 {
     background-color: var(--color-slate-50);
@@ -803,6 +840,9 @@
   }
   .pl-3 {
     padding-left: calc(var(--spacing) * 3);
+  }
+  .pl-10 {
+    padding-left: calc(var(--spacing) * 10);
   }
   .text-center {
     text-align: center;
@@ -911,6 +951,9 @@
   .text-red-700 {
     color: var(--color-red-700);
   }
+  .text-sky-600 {
+    color: var(--color-sky-600);
+  }
   .text-sky-700 {
     color: var(--color-sky-700);
   }
@@ -975,6 +1018,10 @@
     --tw-shadow: 0 20px 25px -5px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 8px 10px -6px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   }
+  .ring-1 {
+    --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
   .shadow-amber-500 {
     --tw-shadow-color: oklch(76.9% 0.188 70.08);
     @supports (color: color-mix(in lab, red, red)) {
@@ -986,6 +1033,12 @@
     @supports (color: color-mix(in lab, red, red)) {
       --tw-shadow-color: color-mix(in oklab, var(--color-slate-200) var(--tw-shadow-alpha), transparent);
     }
+  }
+  .ring-amber-400 {
+    --tw-ring-color: var(--color-amber-400);
+  }
+  .ring-sky-400 {
+    --tw-ring-color: var(--color-sky-400);
   }
   .outline {
     outline-style: var(--tw-outline-style);

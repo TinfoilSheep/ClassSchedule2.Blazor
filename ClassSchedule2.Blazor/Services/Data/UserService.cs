@@ -49,9 +49,31 @@ namespace ClassSchedule2.Blazor.Services.Data
             }
         }
 
-        public Task DeleteUserAsync(UserLibrary.DeleteUserRequestDTO dto)
+        public async Task<bool> DeleteUserAsync(Guid userId)
         {
-            throw new NotImplementedException();
+            var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
+
+            var url = new Uri(new Uri(apiBase), _userBaseUrl + "Delete").ToString();
+
+            try
+            {
+                var result = await _browserAuthService.DeleteAsync(url, userId);
+
+                if (!result.Success)
+                {
+                    _logger.LogWarning("Sletning af bruger fejlede. StatusCode: {StatusCode}, UserId: {UserId}", result.Status, userId);
+
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Fejl ved sletning af bruger {UserId}", userId);
+
+                return false;
+            }
         }
 
         public async Task<List<GetAllUsersResponseDTO>> GetAllUsersListAsync(Guid institutionId)

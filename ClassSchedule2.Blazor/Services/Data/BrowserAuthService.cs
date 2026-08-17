@@ -119,5 +119,17 @@ namespace ClassSchedule2.Blazor.Services.Data
                 ResponseText = result.GetProperty("text").GetString()
             };
         }
+
+        public async Task<BrowserApiResult> DeleteAsync(string url, Guid id)
+        {
+            var result = await _js.InvokeAsync<JsonElement>("authDelete", url, id);
+
+            return new BrowserApiResult
+            {
+                Success = result.GetProperty("ok").GetBoolean(),
+                Status = result.GetProperty("status").GetInt32(),
+                ResponseText = result.GetProperty("text").GetString()
+            };
+        }
     }
 }

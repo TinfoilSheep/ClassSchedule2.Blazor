@@ -5,7 +5,7 @@ namespace ClassSchedule2.Blazor.Interfaces
     public interface IUserService
     {
         public Task<bool> AddUserAsync(CreateUserRequestDTO dto);
-        public Task DeleteUserAsync(DeleteUserRequestDTO dto);
+        public Task<bool> DeleteUserAsync(Guid userId);
         public Task GetUserInformationAsync(GetUserInformationRequestDTO dto);
         public Task<List<GetAllUsersResponseDTO>> GetAllUsersListAsync(Guid institutionId);
     }

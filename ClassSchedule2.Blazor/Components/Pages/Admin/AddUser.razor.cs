@@ -78,4 +78,34 @@ public partial class AddUser
 
         await OnCancel.InvokeAsync();
     }
+
+    private string GetRoleCardClass(UserRoles role)
+    {
+        var selected = _form.Role == role;
+
+        if (role == UserRoles.Student)
+        {
+            return selected
+                ? "flex w-full cursor-pointer items-center justify-between rounded-xl border border-sky-400 bg-sky-400/10 px-4 py-4 text-left shadow-sm ring-1 ring-sky-400/20 transition-all dark:border-sky-500/70 dark:bg-sky-400/10"
+                : "flex w-full cursor-pointer items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-4 text-left transition-all hover:border-sky-300 hover:bg-sky-50/50 dark:border-slate-700 dark:bg-slate-950 dark:hover:border-sky-700 dark:hover:bg-sky-950/20";
+        }
+
+        return selected
+            ? "flex w-full cursor-pointer items-center justify-between rounded-xl border border-amber-400 bg-amber-400/10 px-4 py-4 text-left shadow-sm ring-1 ring-amber-400/20 transition-all dark:border-amber-500/70 dark:bg-amber-400/10"
+            : "flex w-full cursor-pointer items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-4 text-left transition-all hover:border-amber-300 hover:bg-amber-50/50 dark:border-slate-700 dark:bg-slate-950 dark:hover:border-amber-700 dark:hover:bg-amber-950/20";
+    }
+
+    private string GetRoleIconClass(UserRoles role)
+    {
+        if (role == UserRoles.Student)
+        {
+            return _form.Role == role
+                ? "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-sky-400/15 text-sky-600 dark:bg-sky-400/10 dark:text-sky-400"
+                : "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400";
+        }
+
+        return _form.Role == role
+            ? "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-400/15 text-amber-600 dark:bg-amber-400/10 dark:text-amber-400"
+            : "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400";
+    }
 }

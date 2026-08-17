@@ -3,6 +3,7 @@
     public enum UserModalMode
     {
         Create,
-        Edit
+        Edit,
+        Delete
     }
 }
