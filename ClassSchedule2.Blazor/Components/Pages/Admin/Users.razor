@@ -1,0 +1,261 @@
+﻿@page "/admin/users"
+@layout MainLayout
+
+<PageTitle>Brugeradministration - Skoleportalen</PageTitle>
+
+<main class="w-full px-6 py-8 sm:px-8 lg:px-10">
+
+    <!-- Header -->
+    <div class="mb-8 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+        <div class="flex items-center gap-4">
+            <div class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-amber-500/20 bg-amber-400/10 text-amber-600 dark:border-slate-800 dark:bg-slate-900 dark:text-amber-400">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke-width="1.8"
+                     stroke="currentColor"
+                     class="h-5 w-5">
+                    <path stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M15 19.128a9.38 9.38 0 002.625.372 9.38 9.38 0 002.625-.372M15 19.128v-3.5m0 3.5a9.38 9.38 0 01-2.625.372 9.38 9.38 0 01-2.625-.372M15 15.628v-3.5m0 0a3.75 3.75 0 10-7.5 0m7.5 0a3.75 3.75 0 10-7.5 0m0 0v3.5m0 0a9.38 9.38 0 01-2.625-.372m2.625.372a9.38 9.38 0 002.625.372" />
+                </svg>
+            </div>
+
+            <div>
+                <h1 class="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl dark:text-slate-100">
+                    Brugere
+                </h1>
+
+                <p class="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
+                    Administrer lærere og elever på institutionen
+                </p>
+            </div>
+        </div>
+
+        <button @onclick="OpenCreateModal"
+                type="button"
+                class="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-amber-400 px-4 py-2.5 text-xs font-semibold text-slate-950 shadow-sm transition-all hover:bg-amber-300 focus:ring-2 focus:ring-amber-400/40 focus:outline-none dark:focus:ring-offset-slate-900">
+
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 fill="none"
+                 viewBox="0 0 24 24"
+                 stroke-width="2"
+                 stroke="currentColor"
+                 class="h-4 w-4">
+                <path stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+            <span>Ny bruger</span>
+        </button>
+    </div>
+
+
+    <!-- Users table -->
+    <div class="overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+        <div class="overflow-x-auto">
+            <table class="w-full min-w-[900px] text-left text-sm text-slate-600 dark:text-slate-300">
+                <thead class="border-b border-slate-200 bg-slate-50/70 dark:border-slate-800 dark:bg-slate-950/40">
+                    <tr class="font-bold tracking-wider text-[11px] text-slate-500 uppercase dark:text-slate-400">
+                        <th scope="col" class="px-6 py-4">
+                            Navn
+                        </th>
+
+                        <th scope="col" class="px-6 py-4">
+                            Brugernavn
+                        </th>
+
+                        <th scope="col" class="px-6 py-4">
+                            Email
+                        </th>
+
+                        <th scope="col" class="px-6 py-4">
+                            Fødselsdato
+                        </th>
+
+                        <th scope="col" class="px-6 py-4">
+                            Rolle
+                        </th>
+
+                        <th scope="col" class="px-6 py-4">
+                            Oprettet
+                        </th>
+
+                        <th scope="col" class="w-24 px-6 py-4 text-right">
+                            Handlinger
+                        </th>
+                    </tr>
+                </thead>
+
+
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-800/70">
+                    @if (_isLoading)
+                    {
+                        <tr>
+                            <td colspan="7" class="px-6 py-14 text-center">
+                                <div class="flex flex-col items-center justify-center gap-3">
+                                    <div class="h-5 w-5 animate-spin rounded-full border-2 border-slate-200 border-t-amber-400 dark:border-slate-700 dark:border-t-amber-400">
+                                    </div>
+
+                                    <span class="text-xs text-slate-400 dark:text-slate-500">
+                                        <LoadingSpinner Message="Henter brugere"/>
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    else if (!_users.Any())
+                    {
+                        <tr>
+                            <td colspan="7" class="px-6 py-14 text-center">
+                                <div class="flex flex-col items-center justify-center gap-2">
+                                    <span class="text-sm font-semibold text-slate-500 dark:text-slate-400">
+                                        Ingen brugere fundet
+                                    </span>
+
+                                    <span class="text-xs text-slate-400 dark:text-slate-500">
+                                        Der er endnu ikke oprettet nogen brugere på institutionen.
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var user in _users)
+                        {
+                            <tr class="group transition-colors hover:bg-slate-50/70 dark:hover:bg-slate-800/30">
+                                <!-- Name -->
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 font-bold text-[11px] text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+                                            @user.FirstName?.FirstOrDefault()@user.LastName?.FirstOrDefault()
+                                        </div>
+
+                                        <div>
+                                            <div class="font-semibold text-slate-900 dark:text-slate-100">
+                                                @user.FirstName @user.LastName
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <!-- Username -->
+                                <td class="px-6 py-4 font-mono text-xs text-slate-500 dark:text-slate-400">
+                                    @user.Username
+                                </td>
+
+                                <!-- Email -->
+                                <td class="px-6 py-4 text-slate-600 dark:text-slate-300">
+                                    <p>test@test.dk</p>
+                                    @* @user.Email *@
+                                </td>
+
+                                <!-- Date of birth -->
+                                <td class="px-6 py-4 whitespace-nowrap text-slate-500 dark:text-slate-400">
+                                    @user.DateOfBirth.ToString("dd-MM-yyyy")
+                                </td>
+
+                                <!-- Role -->
+                                <td class="px-6 py-4">
+                                    @if (user.Role == UserRoles.Teacher)
+                                    {
+                                        <span class="inline-flex items-center rounded-lg border border-amber-400/20 bg-amber-400/10 px-2.5 py-1 font-semibold text-[11px] text-amber-700 dark:text-amber-400">
+                                            Lærer
+                                        </span>
+                                    }
+                                    else if (user.Role == UserRoles.Student)
+                                    {
+                                        <span class="inline-flex items-center rounded-lg border border-amber-400/20 bg-amber-400/10 px-2.5 py-1 font-semibold text-[11px] text-amber-700 dark:text-amber-400">
+                                            Elev
+                                        </span>
+                                    }
+                                    else if (user.Role == UserRoles.Admin)
+                                    {
+                                        <span class="inline-flex items-center rounded-lg border border-amber-400/20 bg-amber-400/10 px-2.5 py-1 font-semibold text-[11px] text-amber-700 dark:text-amber-400">
+                                            Admin
+                                        </span>
+                                    }
+                                </td>
+
+                                <!-- Created -->
+                                <td class="px-6 py-4 whitespace-nowrap text-slate-500 dark:text-slate-400">
+                                    @user.CreatedAt.ToString("dd-MM-yyyy")
+                                </td>
+
+                                <!-- Actions -->
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center justify-end gap-1 opacity-70 transition-opacity group-hover:opacity-100">
+                                        <button @onclick="() => OpenEditModal(user)"
+                                                type="button"
+                                                title="Rediger"
+                                                class="rounded-lg p-2 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200">
+
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                 fill="none"
+                                                 viewBox="0 0 24 24"
+                                                 stroke-width="1.8"
+                                                 stroke="currentColor"
+                                                 class="h-4 w-4">
+                                                <path stroke-linecap="round"
+                                                      stroke-linejoin="round"
+                                                      d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                            </svg>
+                                        </button>
+
+
+                                        <button @onclick="() => ConfirmDelete(user)"
+                                                type="button"
+                                                title="Slet"
+                                                class="rounded-lg p-2 text-slate-400 transition-colors hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/30 dark:hover:text-red-400">
+
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                 fill="none"
+                                                 viewBox="0 0 24 24"
+                                                 stroke-width="1.8"
+                                                 stroke="currentColor"
+                                                 class="h-4 w-4">
+                                                <path stroke-linecap="round"
+                                                      stroke-linejoin="round"
+                                                      d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    @if (_showModal)
+    {
+        <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
+
+            <div class="absolute inset-0 bg-slate-950/40 backdrop-blur-sm"
+                    @onclick="CloseModal">
+            </div>
+
+            <div class="relative z-10 w-full max-w-2xl overflow-hidden rounded-2xl
+                        border border-slate-200 bg-white shadow-2xl
+                        dark:border-slate-800 dark:bg-slate-900">
+
+                <div class="max-h-[90vh] overflow-y-auto p-6 sm:p-8">
+
+                    @if (_modalMode == UserModalMode.Create)
+                    {
+                        <AddUser OnSaved="HandleUserSaved" OnCancel="CloseModal" />
+                    }
+                    else if (_modalMode == UserModalMode.Edit)
+                    {
+                        <EditUser User="@_selectedUser" OnSaved="HandleUserSaved" OnCancel="CloseModal" />
+                    }
+
+                </div>
+            </div>
+        </div>
+    }
+
+</main>

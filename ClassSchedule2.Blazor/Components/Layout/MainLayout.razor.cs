@@ -1,7 +1,7 @@
 ﻿using ClassSchedule2.Blazor.Interfaces;
 using ClassSchedule2.Blazor.Providers;
 using Microsoft.AspNetCore.Components;
-using System.Security.Claims;
+using Microsoft.Extensions.Caching.Hybrid;
 
 namespace ClassSchedule2.Blazor.Components.Layout
 {
@@ -9,10 +9,12 @@ namespace ClassSchedule2.Blazor.Components.Layout
     {
         [Inject] private SchoolAuthenticationStateProvider AuthenticationProvider { get; set; } = default!;
         [Inject] private ICurrentUserProvider CurrentUser { get; set; } = default!;
+        [Inject] private IInstitutionService InstitutionService { get; set; } = default!;
         [Inject] private NavigationManager Navigation { get; set; } = default!;
         private string _userName = string.Empty;
         private string _userInitials = string.Empty;
         private string _userRole = string.Empty;
+        private string _institutionName = string.Empty;
         private bool _mobileMenuOpen;
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -33,6 +35,10 @@ namespace ClassSchedule2.Blazor.Components.Layout
                 _userRole = user.Role.ToString();
 
                 _userInitials = user.Initials;
+
+                var institution = await InstitutionService.GetInstitutionById(user.InstitutionId);
+
+                _institutionName = institution?.Name ?? "Ukendt institution";
             }
 
             StateHasChanged();

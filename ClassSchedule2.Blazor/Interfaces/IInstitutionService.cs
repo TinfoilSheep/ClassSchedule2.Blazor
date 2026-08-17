@@ -8,6 +8,6 @@ namespace ClassSchedule2.Blazor.Interfaces
         public Task<GetInstitutionListResponseDTO> UpdateInstitution(UpdateInstitutionRequestDTO dto);
         public Task<List<GetInstitutionListResponseDTO>> GetAllInstitutions();
         public Task<bool> DeleteInstitution(DeleteInstitutionRequestDTO dto);
-        public Task<GetInstitutionListResponseDTO> GetInstitutionById(GetInstitutionByIdRequestDTO dto);
+        public Task<GetInstitutionListResponseDTO?> GetInstitutionById(Guid id);
     }
 }

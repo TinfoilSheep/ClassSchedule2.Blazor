@@ -58,7 +58,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var userUrl = new Uri(new Uri(apiBase), _userUrl + $"Get-User-Information?id={userId}").ToString();
+            var userUrl = new Uri(new Uri(apiBase), _userUrl + $"Get-User-Information?targetId={userId}").ToString();
 
             var result = await _js.InvokeAsync<JsonElement>("authGet", userUrl);
 
@@ -99,6 +99,18 @@ namespace ClassSchedule2.Blazor.Services.Data
                 "authPost",
                 url,
                 payload);
+
+            return new BrowserApiResult
+            {
+                Success = result.GetProperty("ok").GetBoolean(),
+                Status = result.GetProperty("status").GetInt32(),
+                ResponseText = result.GetProperty("text").GetString()
+            };
+        }
+
+        public async Task<BrowserApiResult> GetAsync(string url)
+        {
+            var result = await _js.InvokeAsync<JsonElement>("authGet", url);
 
             return new BrowserApiResult
             {

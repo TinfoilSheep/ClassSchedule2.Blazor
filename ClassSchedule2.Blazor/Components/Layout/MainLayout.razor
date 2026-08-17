@@ -68,6 +68,13 @@
 
             </div>
 
+            <!-- Midten -->
+            <div class="absolute left-1/2 hidden -translate-x-1/2 items-center sm:flex">
+                <div class="text-sm font-bold tracking-tight text-slate-900 dark:text-slate-100">
+                    @_institutionName
+                </div>
+            </div>
+
             <!-- Højre side -->
             <div class="flex items-center gap-3">
 
@@ -148,6 +155,29 @@
 
                     </NavLink>
 
+                    @if (_userRole == "Admin")
+                    {
+                        <NavLink href="/admin/users"
+                        class="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/70 dark:hover:text-slate-100"
+                        ActiveClass="bg-amber-400/10 text-amber-700 dark:bg-amber-400/10 dark:text-amber-400">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.8"
+                            stroke="currentColor"
+                            class="h-5 w-5">
+
+                                <path stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M15 19.128a9.38 9.38 0 002.625.372 9.38 9.38 0 002.625-.372M15 19.128v-3.5m0 3.5a9.38 9.38 0 01-2.625.372 9.38 9.38 0 01-2.625-.372M15 15.628v-3.5m0 0a3.75 3.75 0 10-7.5 0m7.5 0a3.75 3.75 0 10-7.5 0m0 0v3.5m0 0a9.38 9.38 0 01-2.625-.372m2.625.372a9.38 9.38 0 002.625.372" />
+
+                            </svg>
+
+                            <span>Brugere</span>
+
+                        </NavLink>
+                    }
                 </nav>
 
 
@@ -285,6 +315,30 @@
 
                     </NavLink>
 
+                    @if (_userRole == "Admin")
+                    {
+                        <NavLink href="/admin/users"
+                                 @onclick="CloseMobileMenu"
+                                 class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/70 dark:hover:text-slate-100"
+                                 ActiveClass="bg-amber-400/10 text-amber-700 dark:bg-amber-400/10 dark:text-amber-400">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke-width="1.8"
+                                 stroke="currentColor"
+                                 class="h-5 w-5">
+
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M15 19.128a9.38 9.38 0 002.625.372 9.38 9.38 0 002.625-.372M15 19.128v-3.5m0 3.5a9.38 9.38 0 01-2.625.372 9.38 9.38 0 01-2.625-.372M15 15.628v-3.5m0 0a3.75 3.75 0 10-7.5 0m7.5 0a3.75 3.75 0 10-7.5 0m0 0v3.5m0 0a9.38 9.38 0 01-2.625-.372m2.625.372a9.38 9.38 0 002.625.372" />
+
+                            </svg>
+
+                            <span>Brugere</span>
+
+                        </NavLink>
+                    }
                 </nav>
 
                 <!-- Logout -->

@@ -1,5 +1,7 @@
 ﻿using ClassSchedule2.Blazor.Interfaces;
 using ClassSchedule2.Blazor.Models.DTOs;
+using Newtonsoft.Json;
+using static ClassSchedule2.Blazor.Models.DTOs.UserLibrary;
 
 namespace ClassSchedule2.Blazor.Services.Data
 {
@@ -19,7 +21,7 @@ namespace ClassSchedule2.Blazor.Services.Data
             _browserAuthService = browserAuthService;
         }
 
-        public async Task<bool> AddUserAsync(UserLibrary.CreateUserRequestDTO dto)
+        public async Task<bool> AddUserAsync(CreateUserRequestDTO dto)
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
             var addUserUrl = new Uri(new Uri(apiBase), _userBaseUrl + "Add").ToString();
@@ -52,9 +54,32 @@ namespace ClassSchedule2.Blazor.Services.Data
             throw new NotImplementedException();
         }
 
-        public Task GetAllUsersListAsync()
+        public async Task<List<GetAllUsersResponseDTO>> GetAllUsersListAsync(Guid institutionId)
         {
-            throw new NotImplementedException();
+            var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
+            var url = new Uri(new Uri(apiBase), $"api/User/Get-All-Users?institutionId={institutionId}").ToString();
+
+            try
+            {
+                var response = await _httpClient.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogWarning("Hentning af brugere fejlede. StatusCode: {StatusCode}, InstitutionId: {InstitutionId}", response.StatusCode, institutionId);
+
+                    return [];
+                }
+
+                var json = await response.Content.ReadAsStringAsync();
+
+                return JsonConvert.DeserializeObject<List<GetAllUsersResponseDTO>>(json) ?? [];
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Fejl ved hentning af brugere for institution {InstitutionId}", institutionId);
+
+                return [];
+            }
         }
 
         public Task GetUserInformationAsync(UserLibrary.GetUserInformationRequestDTO dto)

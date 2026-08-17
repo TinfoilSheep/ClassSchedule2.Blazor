@@ -11,13 +11,11 @@ namespace ClassSchedule2.Blazor.Providers
         private readonly IJSRuntime _js;
         private readonly BrowserAuthService _browserAuthService;
 
-        private static readonly ClaimsPrincipal Anonymous =new(new ClaimsIdentity());
+        private static readonly ClaimsPrincipal Anonymous = new(new ClaimsIdentity());
 
         private ClaimsPrincipal _currentUser = Anonymous;
 
-        public SchoolAuthenticationStateProvider(
-            IJSRuntime js,
-            BrowserAuthService browserAuthService)
+        public SchoolAuthenticationStateProvider(IJSRuntime js, BrowserAuthService browserAuthService)
         {
             _js = js;
             _browserAuthService = browserAuthService;
@@ -25,7 +23,6 @@ namespace ClassSchedule2.Blazor.Providers
 
         public override Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            // hent logged-in bruger-id fra LocalStorage
             return Task.FromResult(new AuthenticationState(_currentUser));
         }
 
@@ -38,7 +35,7 @@ namespace ClassSchedule2.Blazor.Providers
                 return;
             }
 
-            LoginResponseDTO? user = await _browserAuthService.GetUserAsync(userId);
+            var user = await _browserAuthService.GetUserAsync(userId);
 
             if (user is null)
             {
@@ -66,7 +63,7 @@ namespace ClassSchedule2.Blazor.Providers
 
             await _js.InvokeVoidAsync("localStorage.removeItem", "SchoolUserId");
 
-            _currentUser = new ClaimsPrincipal(new ClaimsIdentity());
+            _currentUser = Anonymous;
 
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(_currentUser)));
         }
@@ -76,10 +73,15 @@ namespace ClassSchedule2.Blazor.Providers
             var claims = new List<Claim>
             {
                 new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+
                 new(ClaimTypes.Name, user.Username ?? string.Empty),
+
                 new(ClaimTypes.GivenName, user.FirstName ?? string.Empty),
+
                 new(ClaimTypes.Surname, user.LastName ?? string.Empty),
+
                 new(ClaimTypes.Role, user.Role.ToString()),
+
                 new("InstitutionId", user.InstitutionId.ToString())
             };
 
