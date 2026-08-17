@@ -7,6 +7,8 @@ using static ClassSchedule2.Blazor.Models.DTOs.InstitutionLibrary;
 using static ClassSchedule2.Blazor.Models.DTOs.AuthLibrary;
 using static System.Net.WebRequestMethods;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using ClassSchedule2.Blazor.Providers;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace ClassSchedule2.Blazor.Components.Pages
 {
@@ -16,6 +18,8 @@ namespace ClassSchedule2.Blazor.Components.Pages
         [Inject] private NavigationManager Navigation { get; set; } = default!;
         [Inject] private BrowserAuthService BrowserAuthService { get; set; } = default!;
         [Inject] private IInstitutionService InstitutionService { get; set; } = default!;
+        [Inject] private SchoolAuthenticationStateProvider AuthenticationProvider { get; set; } = default!;
+        [Inject] private AuthenticationStateProvider AuthStateProvider { get; set; } = default!;
         protected LoginRequestDTO LoginModel { get; set; } = new();
         private List<GetInstitutionListResponseDTO> Institutions { get; set; } = new();
         protected bool IsSubmitting { get; set; } = false;
@@ -40,6 +44,26 @@ namespace ClassSchedule2.Blazor.Components.Pages
             {
                 IsLoadingInstitutions = false;
             }
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (!firstRender)
+            {
+                return;
+            }
+
+            await AuthenticationProvider.InitializeAsync();
+
+            var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+
+            if (authState.User.Identity?.IsAuthenticated == true)
+            {
+                Navigation.NavigateTo("/dashboard", replace: true);
+                return;
+            }
+
+            StateHasChanged();
         }
 
         protected void NavigateToHome()
