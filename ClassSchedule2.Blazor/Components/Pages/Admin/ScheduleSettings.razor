@@ -1,5 +1,52 @@
 ﻿@page "/admin/schedule-settings"
+@using ClassSchedule2.Blazor.Components.Pages.Admin.Subjects
+@layout MainLayout
 
 <AuthenticationGuard RequiredRole="@UserRoles.Admin">
-    <h3>ScheduleSettings</h3>
+    <PageTitle>Skema administration - Skoleportalen</PageTitle>
+
+    <main class="mx-auto w-full px-4 py-8 sm:px-6 lg:px-8">
+
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl dark:text-slate-100">
+                Skema administration
+            </h1>
+
+            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                Administrer fag, lokaler, terminer, perioder og ikke-undervisningsdage.
+            </p>
+        </div>
+
+        <!-- Cards -->
+        <div class="grid grid-cols-1 gap-6 xl:grid-cols-2">
+
+            <!-- Subjects -->
+            <section class="rounded-2xl border border-slate-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                <SubjectCard/>
+            </section>
+
+            <!-- Rooms -->
+            <section class="rounded-2xl border border-slate-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                ...
+            </section>
+
+            <!-- Terms -->
+            <section class="rounded-2xl border border-slate-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                ...
+            </section>
+
+            <!-- Periods -->
+            <section class="rounded-2xl border border-slate-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                ...
+            </section>
+
+            <!-- Non teaching days -->
+            <section class="rounded-2xl border border-slate-200/80 bg-white shadow-sm xl:col-span-2 dark:border-slate-800 dark:bg-slate-900">
+                ...
+            </section>
+
+        </div>
+
+    </main>
 </AuthenticationGuard>

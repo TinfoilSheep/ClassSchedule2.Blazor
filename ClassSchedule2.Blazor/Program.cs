@@ -1,6 +1,5 @@
 using ClassSchedule2.Blazor.Components;
 using ClassSchedule2.Blazor.Interfaces;
-using ClassSchedule2.Blazor.Models.Models;
 using ClassSchedule2.Blazor.Providers;
 using ClassSchedule2.Blazor.Services.Data;
 using ClassSchedule2.Blazor.Services.UI;
@@ -23,6 +22,7 @@ builder.Services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();
 //Services
 builder.Services.AddHttpClient<IInstitutionService, InstitutionService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ISubjectService, SubjectService>();
 builder.Services.AddScoped<ThemeService>();
 builder.Services.AddScoped<BrowserAuthService>();
 
