@@ -1,5 +1,5 @@
-﻿using ClassSchedule2.Blazor.Models.Forms.Subjects;
-using ClassSchedule2.Blazor.Services.Data;
+﻿using ClassSchedule2.Blazor.Interfaces;
+using ClassSchedule2.Blazor.Models.Forms.Subjects;
 using Microsoft.AspNetCore.Components;
 using static ClassSchedule2.Blazor.Models.DTOs.SubjectLibrary;
 
@@ -8,7 +8,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Subjects
     public partial class EditSubject
     {
         [Inject]
-        private SubjectService SubjectService { get; set; } = default!;
+        private ISubjectService _subjectService { get; set; } = default!;
 
         [Parameter]
         public SubjectDTO? Subject { get; set; }
@@ -49,7 +49,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Subjects
             try
             {
                 var dto = new SubjectDTO(Id: _form.Id, Name: _form.Name);
-                var result = await SubjectService.UpdateSubjectAsync(dto);
+                var result = await _subjectService.UpdateSubjectAsync(dto);
 
                 if (result is null)
                 {

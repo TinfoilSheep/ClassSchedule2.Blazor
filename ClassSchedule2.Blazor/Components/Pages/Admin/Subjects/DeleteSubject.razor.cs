@@ -1,4 +1,4 @@
-﻿using ClassSchedule2.Blazor.Services.Data;
+﻿using ClassSchedule2.Blazor.Interfaces;
 using Microsoft.AspNetCore.Components;
 using static ClassSchedule2.Blazor.Models.DTOs.SubjectLibrary;
 
@@ -7,7 +7,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Subjects
     public partial class DeleteSubject
     {
         [Inject]
-        private SubjectService SubjectService { get; set; } = default!;
+        private ISubjectService _subjectService { get; set; } = default!;
 
         [Parameter]
         public SubjectDTO? Subject { get; set; }
@@ -31,7 +31,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Subjects
 
             try
             {
-                var success = await SubjectService.DeleteSubjectAsync(Subject.Id);
+                var success = await _subjectService.DeleteSubjectAsync(Subject.Id);
 
                 if (success)
                 {

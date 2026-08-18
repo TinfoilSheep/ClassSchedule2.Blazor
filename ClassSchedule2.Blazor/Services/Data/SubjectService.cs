@@ -49,7 +49,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), SubjectBaseUrl + $"delete-subject").ToString();
+            var url = new Uri(new Uri(apiBase), SubjectBaseUrl + $"delete-subject?id={subjectId}").ToString();
 
             try
             {

@@ -8,8 +8,7 @@
 
 @if(_loading)
 {
-    @* <LoadingSpinner Visible="@_loading" Message="Indlæser..." /> *@
-    <p>Tester</p>
+    <LoadingSpinner Visible="@_loading" Message="Indlæser..." />
 }
 else if(_isAuthenticated && _isAuthorized)
 {

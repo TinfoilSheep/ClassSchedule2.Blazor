@@ -1,13 +1,14 @@
 ﻿using ClassSchedule2.Blazor.Interfaces;
 using ClassSchedule2.Blazor.Models.Enums;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using static ClassSchedule2.Blazor.Models.DTOs.SubjectLibrary;
 
 namespace ClassSchedule2.Blazor.Components.Pages.Admin.Subjects
 {
     public partial class SubjectCard
     {
-        [Inject] private ISubjectService SubjectService { get; set; } = default!;
+        [Inject] private ISubjectService _subjectService { get; set; } = default!;
         private SubjectModalMode _modalMode;
         private List<SubjectDTO> _subjects = [];
         private bool _isLoading;
@@ -32,7 +33,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Subjects
 
             try
             {
-                _subjects = await SubjectService.GetAllSubjectsAsync();
+                _subjects = await _subjectService.GetAllSubjectsAsync();
             }
             catch (Exception ex)
             {
