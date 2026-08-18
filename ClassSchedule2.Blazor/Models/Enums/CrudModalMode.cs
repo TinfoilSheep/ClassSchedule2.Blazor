@@ -1,6 +1,6 @@
 ﻿namespace ClassSchedule2.Blazor.Models.Enums
 {
-    public enum SubjectModalMode
+    public enum CrudModalMode
     {
         None,
         Create,

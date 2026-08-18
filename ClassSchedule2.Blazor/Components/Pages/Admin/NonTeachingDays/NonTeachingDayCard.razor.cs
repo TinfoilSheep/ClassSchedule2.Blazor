@@ -1,19 +1,18 @@
 ﻿using ClassSchedule2.Blazor.Interfaces;
 using ClassSchedule2.Blazor.Models.Enums;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using static ClassSchedule2.Blazor.Models.DTOs.SubjectLibrary;
+using static ClassSchedule2.Blazor.Models.DTOs.NonTeachingDayLibrary;
 
-namespace ClassSchedule2.Blazor.Components.Pages.Admin.Subjects
+namespace ClassSchedule2.Blazor.Components.Pages.Admin.NonTeachingDays
 {
-    public partial class SubjectCard
+    public partial class NonTeachingDayCard
     {
-        [Inject] private ISubjectService _subjectService { get; set; } = default!;
+        [Inject] private INonTeachingDayService _nonTeachingDayService { get; set; } = default!;
         private CrudModalMode _modalMode;
-        private List<SubjectDTO> _subjects = [];
+        private List<NonTeachingDayDTO> _nonTeachingDays = [];
         private bool _isLoading;
 
-        private SubjectDTO? _selectedSubject;
+        private NonTeachingDayDTO? _selectedNonTeachingDay;
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -22,23 +21,23 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Subjects
                 return;
             }
 
-            await LoadSubjectsAsync();
+            await LoadNonTeachingDaysAsync();
 
             StateHasChanged();
         }
 
-        private async Task LoadSubjectsAsync()
+        private async Task LoadNonTeachingDaysAsync()
         {
             _isLoading = true;
 
             try
             {
-                _subjects = await _subjectService.GetAllSubjectsAsync();
+                _nonTeachingDays = await _nonTeachingDayService.GetAllNonTeachingDaysAsync();
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"SubjectCard fejl: {ex}");
-                _subjects = [];
+                Console.WriteLine($"NonTeachingDayCard fejl: {ex}");
+                _nonTeachingDays = [];
             }
             finally
             {
@@ -48,32 +47,32 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Subjects
 
         private void OpenCreateModal()
         {
-            _selectedSubject = null;
+            _selectedNonTeachingDay = null;
             _modalMode = CrudModalMode.Create;
         }
 
-        private void OpenEditModal(SubjectDTO subject)
+        private void OpenEditModal(NonTeachingDayDTO nonTeachingDay)
         {
-            _selectedSubject = subject;
+            _selectedNonTeachingDay = nonTeachingDay;
             _modalMode = CrudModalMode.Edit;
         }
 
-        private void OpenDeleteModal(SubjectDTO subject)
+        private void OpenDeleteModal(NonTeachingDayDTO nonTeachingDay)
         {
-            _selectedSubject = subject;
+            _selectedNonTeachingDay = nonTeachingDay;
             _modalMode = CrudModalMode.Delete;
         }
 
         private void CloseModals()
         {
             _modalMode = CrudModalMode.None;
-            _selectedSubject = null;
+            _selectedNonTeachingDay = null;
         }
 
         private async Task HandleSaved()
         {
             CloseModals();
-            await LoadSubjectsAsync();
+            await LoadNonTeachingDaysAsync();
             StateHasChanged();
         }
     }

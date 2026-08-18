@@ -1,19 +1,18 @@
 ﻿using ClassSchedule2.Blazor.Interfaces;
 using ClassSchedule2.Blazor.Models.Enums;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using static ClassSchedule2.Blazor.Models.DTOs.SubjectLibrary;
+using static ClassSchedule2.Blazor.Models.DTOs.TermLibrary;
 
-namespace ClassSchedule2.Blazor.Components.Pages.Admin.Subjects
+namespace ClassSchedule2.Blazor.Components.Pages.Admin.Terms
 {
-    public partial class SubjectCard
+    public partial class TermCard
     {
-        [Inject] private ISubjectService _subjectService { get; set; } = default!;
+        [Inject] private ITermService _termService { get; set; } = default!;
         private CrudModalMode _modalMode;
-        private List<SubjectDTO> _subjects = [];
+        private List<TermDTO> _terms = [];
         private bool _isLoading;
 
-        private SubjectDTO? _selectedSubject;
+        private TermDTO? _selectedTerm;
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -22,23 +21,23 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Subjects
                 return;
             }
 
-            await LoadSubjectsAsync();
+            await LoadTermsAsync();
 
             StateHasChanged();
         }
 
-        private async Task LoadSubjectsAsync()
+        private async Task LoadTermsAsync()
         {
             _isLoading = true;
 
             try
             {
-                _subjects = await _subjectService.GetAllSubjectsAsync();
+                _terms = await _termService.GetAllTermsAsync();
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"SubjectCard fejl: {ex}");
-                _subjects = [];
+                Console.WriteLine($"TermCard fejl: {ex}");
+                _terms = [];
             }
             finally
             {
@@ -48,32 +47,32 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Subjects
 
         private void OpenCreateModal()
         {
-            _selectedSubject = null;
+            _selectedTerm = null;
             _modalMode = CrudModalMode.Create;
         }
 
-        private void OpenEditModal(SubjectDTO subject)
+        private void OpenEditModal(TermDTO term)
         {
-            _selectedSubject = subject;
+            _selectedTerm = term;
             _modalMode = CrudModalMode.Edit;
         }
 
-        private void OpenDeleteModal(SubjectDTO subject)
+        private void OpenDeleteModal(TermDTO term)
         {
-            _selectedSubject = subject;
+            _selectedTerm = term;
             _modalMode = CrudModalMode.Delete;
         }
 
         private void CloseModals()
         {
             _modalMode = CrudModalMode.None;
-            _selectedSubject = null;
+            _selectedTerm = null;
         }
 
         private async Task HandleSaved()
         {
             CloseModals();
-            await LoadSubjectsAsync();
+            await LoadTermsAsync();
             StateHasChanged();
         }
     }

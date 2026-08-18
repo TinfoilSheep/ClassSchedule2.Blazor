@@ -1,11 +1,7 @@
 ﻿<div class="w-full max-w-md overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-slate-800 dark:bg-slate-900">
-
     <div class="px-6 py-6">
-
         <div class="flex items-start gap-4">
-
             <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-red-50 text-red-600 dark:bg-red-500/10 dark:text-red-400">
-
                 <svg xmlns="http://www.w3.org/2000/svg"
                      fill="none"
                      viewBox="0 0 24 24"
@@ -16,20 +12,17 @@
                     <path stroke-linecap="round"
                           stroke-linejoin="round"
                           d="M6 7.5h12m-9 3v6m6-6v6M9.75 4.5h4.5l1.5 3H8.25l1.5-3zM7.5 7.5l.75 12h7.5l.75-12" />
-
                 </svg>
-
             </div>
-
             <div>
                 <h2 class="text-lg font-bold text-slate-900 dark:text-slate-100">
-                    Slet fag?
+                    Slet fridag?
                 </h2>
 
                 <p class="mt-1 text-sm leading-6 text-slate-500 dark:text-slate-400">
                     Er du sikker på, at du vil slette
                     <span class="font-semibold text-slate-700 dark:text-slate-200">
-                        @Subject?.Name
+                        @NonTeachingDay?.Reason
                     </span>
                 </p>
 
@@ -60,7 +53,7 @@
             }
             else
             {
-                <span>Slet fag</span>
+                <span>Slet fridag</span>
             }
 
         </button>

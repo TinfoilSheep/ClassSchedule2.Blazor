@@ -58,7 +58,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var userUrl = new Uri(new Uri(apiBase), _userUrl + $"Get-User-Information?targetId={userId}").ToString();
+            var userUrl = new Uri(new Uri(apiBase), _userUrl + $"Get-User-Information?id={userId}").ToString();
 
             var result = await _js.InvokeAsync<JsonElement>("authGet", userUrl);
 

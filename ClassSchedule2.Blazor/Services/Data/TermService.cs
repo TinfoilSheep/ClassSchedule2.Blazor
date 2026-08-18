@@ -1,29 +1,29 @@
 ﻿using ClassSchedule2.Blazor.Interfaces;
 using Newtonsoft.Json;
-using static ClassSchedule2.Blazor.Models.DTOs.SubjectLibrary;
+using static ClassSchedule2.Blazor.Models.DTOs.TermLibrary;
 
 namespace ClassSchedule2.Blazor.Services.Data
 {
-    public class SubjectService : ISubjectService
+    public class TermService : ITermService
     {
         private readonly BrowserAuthService _browserAuthService;
         private readonly IConfiguration _configuration;
         private readonly ILogger<SubjectService> _logger;
 
-        private const string SubjectBaseUrl = "api/Subject/";
+        private const string TermBaseUrl = "api/Term/";
 
-        public SubjectService(BrowserAuthService browserAuthService, IConfiguration configuration, ILogger<SubjectService> logger)
+        public TermService(BrowserAuthService browserAuthService, IConfiguration configuration, ILogger<SubjectService> logger)
         {
             _browserAuthService = browserAuthService;
             _configuration = configuration;
             _logger = logger;
         }
 
-        public async Task<SubjectDTO?> CreateSubjectAsync(CreateSubjectDTO dto)
+        public async Task<TermDTO?> CreateTermAsync(CreateTermDTO dto)
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), SubjectBaseUrl + "create-subject").ToString();
+            var url = new Uri(new Uri(apiBase), TermBaseUrl + "create-term").ToString();
 
             try
             {
@@ -35,20 +35,20 @@ namespace ClassSchedule2.Blazor.Services.Data
                     return null;
                 }
 
-                return JsonConvert.DeserializeObject<SubjectDTO>(result.ResponseText ?? string.Empty);
+                return JsonConvert.DeserializeObject<TermDTO>(result.ResponseText ?? string.Empty);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Fejl ved oprettelse af fag.");
+                _logger.LogError(ex, "Fejl ved oprettelse af term.");
                 return null;
             }
         }
 
-        public async Task<bool> DeleteSubjectAsync(Guid subjectId)
+        public async Task<bool> DeleteTermAsync(Guid termId)
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), SubjectBaseUrl + $"delete-subject?id={subjectId}").ToString();
+            var url = new Uri(new Uri(apiBase), TermBaseUrl + $"delete-term?id={termId}").ToString();
 
             try
             {
@@ -64,16 +64,16 @@ namespace ClassSchedule2.Blazor.Services.Data
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Fejl ved sletning af fag {SubjectId}.", subjectId);
+                _logger.LogError(ex, "Fejl ved sletning af term {TermId}.", termId);
                 return false;
             }
         }
 
-        public async Task<List<SubjectDTO>> GetAllSubjectsAsync()
+        public async Task<List<TermDTO>> GetAllTermsAsync()
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), SubjectBaseUrl + "get-all-subjects").ToString();
+            var url = new Uri(new Uri(apiBase), TermBaseUrl + "get-all-terms").ToString();
 
             try
             {
@@ -81,25 +81,25 @@ namespace ClassSchedule2.Blazor.Services.Data
 
                 if (!result.Success)
                 {
-                    _logger.LogWarning("Kunne ikke hente fag. Status: {Status}", result.Status);
+                    _logger.LogWarning("Kunne ikke hente termer. Status: {Status}", result.Status);
 
                     return [];
                 }
 
-                return JsonConvert.DeserializeObject<List<SubjectDTO>>(result.ResponseText ?? string.Empty) ?? [];
+                return JsonConvert.DeserializeObject<List<TermDTO>>(result.ResponseText ?? string.Empty) ?? [];
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Fejl ved hentning af fag.");
+                _logger.LogError(ex, "Fejl ved hentning af termer.");
                 return [];
             }
         }
 
-        public async Task<SubjectDTO?> GetSubjectByIdAsync(Guid subjectId)
+        public async Task<TermDTO?> GetTermByIdAsync(Guid termId)
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), SubjectBaseUrl + $"get-subject?id={subjectId}").ToString();
+            var url = new Uri(new Uri(apiBase), TermBaseUrl + $"get-term?id={termId}").ToString();
 
             try
             {
@@ -107,25 +107,25 @@ namespace ClassSchedule2.Blazor.Services.Data
 
                 if (!result.Success)
                 {
-                    _logger.LogWarning("Kunne ikke hente fag. Status: {Status}", result.Status);
+                    _logger.LogWarning("Kunne ikke hente term. Status: {Status}", result.Status);
 
                     return null;
                 }
 
-                return JsonConvert.DeserializeObject<SubjectDTO>(result.ResponseText ?? string.Empty);
+                return JsonConvert.DeserializeObject<TermDTO>(result.ResponseText ?? string.Empty);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Fejl ved hentning af fag {SubjectId}.", subjectId);
+                _logger.LogError(ex, "Fejl ved hentning af term {TermId}.", termId);
                 return null;
             }
         }
 
-        public async Task<SubjectDTO?> UpdateSubjectAsync(SubjectDTO dto)
+        public async Task<TermDTO?> UpdateTermAsync(TermDTO dto)
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), SubjectBaseUrl + "update-subject").ToString();
+            var url = new Uri(new Uri(apiBase), TermBaseUrl + "update-term").ToString();
 
             try
             {
@@ -133,16 +133,16 @@ namespace ClassSchedule2.Blazor.Services.Data
 
                 if (!result.Success)
                 {
-                    _logger.LogWarning("Kunne ikke opdatere fag. Status: {Status}", result.Status);
+                    _logger.LogWarning("Kunne ikke opdatere term. Status: {Status}", result.Status);
 
                     return null;
                 }
 
-                return JsonConvert.DeserializeObject<SubjectDTO>(result.ResponseText ?? string.Empty);
+                return JsonConvert.DeserializeObject<TermDTO>(result.ResponseText ?? string.Empty);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Fejl ved opdatering af fag.");
+                _logger.LogError(ex, "Fejl ved opdatering af term.");
                 return null;
             }
         }

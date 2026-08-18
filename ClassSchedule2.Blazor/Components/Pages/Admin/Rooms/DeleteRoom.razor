@@ -23,13 +23,13 @@
 
             <div>
                 <h2 class="text-lg font-bold text-slate-900 dark:text-slate-100">
-                    Slet fag?
+                    Slet lokale?
                 </h2>
 
                 <p class="mt-1 text-sm leading-6 text-slate-500 dark:text-slate-400">
                     Er du sikker på, at du vil slette
                     <span class="font-semibold text-slate-700 dark:text-slate-200">
-                        @Subject?.Name
+                        @Room?.Name
                     </span>
                 </p>
 
@@ -56,11 +56,11 @@
 
             @if (_isDeleting)
             {
-                <LoadingSpinner Message="Sletter..." Visible="_isDeleting" FullScreen="false"/>
+                <LoadingSpinner Message="Sletter..." Visible="_isDeleting" FullScreen="false" />
             }
             else
             {
-                <span>Slet fag</span>
+                <span>Slet lokale</span>
             }
 
         </button>

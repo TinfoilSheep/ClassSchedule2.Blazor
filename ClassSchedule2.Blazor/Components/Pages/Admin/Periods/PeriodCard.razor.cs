@@ -1,19 +1,18 @@
 ﻿using ClassSchedule2.Blazor.Interfaces;
 using ClassSchedule2.Blazor.Models.Enums;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using static ClassSchedule2.Blazor.Models.DTOs.SubjectLibrary;
+using static ClassSchedule2.Blazor.Models.DTOs.PeriodLibrary;
 
-namespace ClassSchedule2.Blazor.Components.Pages.Admin.Subjects
+namespace ClassSchedule2.Blazor.Components.Pages.Admin.Periods
 {
-    public partial class SubjectCard
+    public partial class PeriodCard
     {
-        [Inject] private ISubjectService _subjectService { get; set; } = default!;
+        [Inject] private IPeriodService _periodService { get; set; } = default!;
         private CrudModalMode _modalMode;
-        private List<SubjectDTO> _subjects = [];
+        private List<PeriodDTO> _periods = [];
         private bool _isLoading;
 
-        private SubjectDTO? _selectedSubject;
+        private PeriodDTO? _selectedPeriod;
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -22,23 +21,23 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Subjects
                 return;
             }
 
-            await LoadSubjectsAsync();
+            await LoadPeriodsAsync();
 
             StateHasChanged();
         }
 
-        private async Task LoadSubjectsAsync()
+        private async Task LoadPeriodsAsync()
         {
             _isLoading = true;
 
             try
             {
-                _subjects = await _subjectService.GetAllSubjectsAsync();
+                _periods = await _periodService.GetAllPeriodsAsync();
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"SubjectCard fejl: {ex}");
-                _subjects = [];
+                Console.WriteLine($"PeriodCard fejl: {ex}");
+                _periods = [];
             }
             finally
             {
@@ -48,32 +47,32 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Subjects
 
         private void OpenCreateModal()
         {
-            _selectedSubject = null;
+            _selectedPeriod = null;
             _modalMode = CrudModalMode.Create;
         }
 
-        private void OpenEditModal(SubjectDTO subject)
+        private void OpenEditModal(PeriodDTO period)
         {
-            _selectedSubject = subject;
+            _selectedPeriod = period;
             _modalMode = CrudModalMode.Edit;
         }
 
-        private void OpenDeleteModal(SubjectDTO subject)
+        private void OpenDeleteModal(PeriodDTO period)
         {
-            _selectedSubject = subject;
+            _selectedPeriod = period;
             _modalMode = CrudModalMode.Delete;
         }
 
         private void CloseModals()
         {
             _modalMode = CrudModalMode.None;
-            _selectedSubject = null;
+            _selectedPeriod = null;
         }
 
         private async Task HandleSaved()
         {
             CloseModals();
-            await LoadSubjectsAsync();
+            await LoadPeriodsAsync();
             StateHasChanged();
         }
     }

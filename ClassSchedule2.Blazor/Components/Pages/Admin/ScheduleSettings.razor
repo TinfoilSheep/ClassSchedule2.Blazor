@@ -1,5 +1,9 @@
 ﻿@page "/admin/schedule-settings"
+@using ClassSchedule2.Blazor.Components.Pages.Admin.NonTeachingDays
+@using ClassSchedule2.Blazor.Components.Pages.Admin.Periods
+@using ClassSchedule2.Blazor.Components.Pages.Admin.Rooms
 @using ClassSchedule2.Blazor.Components.Pages.Admin.Subjects
+@using ClassSchedule2.Blazor.Components.Pages.Admin.Terms
 @layout MainLayout
 
 <AuthenticationGuard RequiredRole="@UserRoles.Admin">
@@ -28,22 +32,22 @@
 
             <!-- Rooms -->
             <section class="rounded-2xl border border-slate-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                ...
+                <RoomCard/>
             </section>
 
             <!-- Terms -->
             <section class="rounded-2xl border border-slate-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                ...
+                <TermCard/>
             </section>
 
             <!-- Periods -->
             <section class="rounded-2xl border border-slate-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                ...
+                <PeriodCard/>
             </section>
 
             <!-- Non teaching days -->
             <section class="rounded-2xl border border-slate-200/80 bg-white shadow-sm xl:col-span-2 dark:border-slate-800 dark:bg-slate-900">
-                ...
+                <NonTeachingDayCard/>
             </section>
 
         </div>

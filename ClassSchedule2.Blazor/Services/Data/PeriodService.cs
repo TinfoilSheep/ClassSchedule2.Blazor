@@ -1,29 +1,30 @@
 ﻿using ClassSchedule2.Blazor.Interfaces;
+using ClassSchedule2.Blazor.Models.DTOs;
 using Newtonsoft.Json;
-using static ClassSchedule2.Blazor.Models.DTOs.SubjectLibrary;
+using static ClassSchedule2.Blazor.Models.DTOs.PeriodLibrary;
 
 namespace ClassSchedule2.Blazor.Services.Data
 {
-    public class SubjectService : ISubjectService
+    public class PeriodService : IPeriodService
     {
         private readonly BrowserAuthService _browserAuthService;
         private readonly IConfiguration _configuration;
         private readonly ILogger<SubjectService> _logger;
 
-        private const string SubjectBaseUrl = "api/Subject/";
+        private const string PeriodBaseUrl = "api/Period/";
 
-        public SubjectService(BrowserAuthService browserAuthService, IConfiguration configuration, ILogger<SubjectService> logger)
+        public PeriodService(BrowserAuthService browserAuthService, IConfiguration configuration, ILogger<SubjectService> logger)
         {
             _browserAuthService = browserAuthService;
             _configuration = configuration;
             _logger = logger;
         }
 
-        public async Task<SubjectDTO?> CreateSubjectAsync(CreateSubjectDTO dto)
+        public async Task<PeriodDTO?> CreatePeriodAsync(CreatePeriodDTO dto)
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), SubjectBaseUrl + "create-subject").ToString();
+            var url = new Uri(new Uri(apiBase), PeriodBaseUrl + "create-period").ToString();
 
             try
             {
@@ -35,20 +36,20 @@ namespace ClassSchedule2.Blazor.Services.Data
                     return null;
                 }
 
-                return JsonConvert.DeserializeObject<SubjectDTO>(result.ResponseText ?? string.Empty);
+                return JsonConvert.DeserializeObject<PeriodDTO>(result.ResponseText ?? string.Empty);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Fejl ved oprettelse af fag.");
+                _logger.LogError(ex, "Fejl ved oprettelse af periode.");
                 return null;
             }
         }
 
-        public async Task<bool> DeleteSubjectAsync(Guid subjectId)
+        public async Task<bool> DeletePeriodAsync(Guid periodId)
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), SubjectBaseUrl + $"delete-subject?id={subjectId}").ToString();
+            var url = new Uri(new Uri(apiBase), PeriodBaseUrl + $"delete-period?id={periodId}").ToString();
 
             try
             {
@@ -64,16 +65,16 @@ namespace ClassSchedule2.Blazor.Services.Data
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Fejl ved sletning af fag {SubjectId}.", subjectId);
+                _logger.LogError(ex, "Fejl ved sletning af periode {PeriodId}.", periodId);
                 return false;
             }
         }
 
-        public async Task<List<SubjectDTO>> GetAllSubjectsAsync()
+        public async Task<List<PeriodDTO>> GetAllPeriodsAsync()
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), SubjectBaseUrl + "get-all-subjects").ToString();
+            var url = new Uri(new Uri(apiBase), PeriodBaseUrl + "get-all-periods").ToString();
 
             try
             {
@@ -81,25 +82,25 @@ namespace ClassSchedule2.Blazor.Services.Data
 
                 if (!result.Success)
                 {
-                    _logger.LogWarning("Kunne ikke hente fag. Status: {Status}", result.Status);
+                    _logger.LogWarning("Kunne ikke hente periode. Status: {Status}", result.Status);
 
                     return [];
                 }
 
-                return JsonConvert.DeserializeObject<List<SubjectDTO>>(result.ResponseText ?? string.Empty) ?? [];
+                return JsonConvert.DeserializeObject<List<PeriodDTO>>(result.ResponseText ?? string.Empty) ?? [];
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Fejl ved hentning af fag.");
+                _logger.LogError(ex, "Fejl ved hentning af periode.");
                 return [];
             }
         }
 
-        public async Task<SubjectDTO?> GetSubjectByIdAsync(Guid subjectId)
+        public async Task<PeriodDTO?> GetPeriodByIdAsync(Guid periodId)
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), SubjectBaseUrl + $"get-subject?id={subjectId}").ToString();
+            var url = new Uri(new Uri(apiBase), PeriodBaseUrl + $"get-period?id={periodId}").ToString();
 
             try
             {
@@ -107,25 +108,25 @@ namespace ClassSchedule2.Blazor.Services.Data
 
                 if (!result.Success)
                 {
-                    _logger.LogWarning("Kunne ikke hente fag. Status: {Status}", result.Status);
+                    _logger.LogWarning("Kunne ikke hente periode. Status: {Status}", result.Status);
 
                     return null;
                 }
 
-                return JsonConvert.DeserializeObject<SubjectDTO>(result.ResponseText ?? string.Empty);
+                return JsonConvert.DeserializeObject<PeriodDTO>(result.ResponseText ?? string.Empty);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Fejl ved hentning af fag {SubjectId}.", subjectId);
+                _logger.LogError(ex, "Fejl ved hentning af periode {PeriodId}.", periodId);
                 return null;
             }
         }
 
-        public async Task<SubjectDTO?> UpdateSubjectAsync(SubjectDTO dto)
+        public async Task<PeriodDTO?> UpdatePeriodAsync(PeriodDTO dto)
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), SubjectBaseUrl + "update-subject").ToString();
+            var url = new Uri(new Uri(apiBase), PeriodBaseUrl + "update-period").ToString();
 
             try
             {
@@ -133,16 +134,16 @@ namespace ClassSchedule2.Blazor.Services.Data
 
                 if (!result.Success)
                 {
-                    _logger.LogWarning("Kunne ikke opdatere fag. Status: {Status}", result.Status);
+                    _logger.LogWarning("Kunne ikke opdatere periode. Status: {Status}", result.Status);
 
                     return null;
                 }
 
-                return JsonConvert.DeserializeObject<SubjectDTO>(result.ResponseText ?? string.Empty);
+                return JsonConvert.DeserializeObject<PeriodDTO>(result.ResponseText ?? string.Empty);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Fejl ved opdatering af fag.");
+                _logger.LogError(ex, "Fejl ved opdatering af periode.");
                 return null;
             }
         }
