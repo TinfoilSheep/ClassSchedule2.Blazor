@@ -15,9 +15,5 @@ namespace ClassSchedule2.Blazor.Models.Forms.Periods
         [Required(ErrorMessage = "Sluttid er påkrævet.")]
         [TimeGreaterThan(nameof(StartTime), ErrorMessage = "Sluttid skal være efter starttid.")]
         public TimeOnly EndTime { get; set; } = new(9,00);
-
-        [Required(ErrorMessage = "Rækkefølge er påkrævet.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Rækkefølge skal være et positivt tal.")]
-        public int SortOrder { get; set; } = 1;
     }
 }

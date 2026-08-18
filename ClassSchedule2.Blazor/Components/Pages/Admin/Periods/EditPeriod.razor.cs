@@ -33,7 +33,6 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Periods
             _form.Name = Period.Name;
             _form.StartTime = Period.StartTime;
             _form.EndTime = Period.EndTime;
-            _form.SortOrder = Period.SortOrder;
 
             _errorMessage = null;
         }
@@ -51,7 +50,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Periods
 
             try
             {
-                var dto = new PeriodDTO(Id: _form.Id, Name: _form.Name, StartTime: _form.StartTime, EndTime: _form.EndTime, SortOrder: _form.SortOrder);
+                var dto = new PeriodDTO(Id: _form.Id, Name: _form.Name, StartTime: _form.StartTime, EndTime: _form.EndTime);
                 var result = await _periodService.UpdatePeriodAsync(dto);
 
                 if (result is null)
