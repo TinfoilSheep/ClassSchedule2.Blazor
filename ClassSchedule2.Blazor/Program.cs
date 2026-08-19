@@ -27,6 +27,7 @@ builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<ITermService, TermService>();
 builder.Services.AddScoped<IPeriodService, PeriodService>();
 builder.Services.AddScoped<INonTeachingDayService, NonTeachingDayService>();
+builder.Services.AddScoped<IScheduleService, DummyScheduleService>();
 builder.Services.AddScoped<ThemeService>();
 builder.Services.AddScoped<BrowserAuthService>();
 

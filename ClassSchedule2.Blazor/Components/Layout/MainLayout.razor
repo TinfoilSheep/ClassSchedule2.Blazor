@@ -140,7 +140,8 @@
                         <span>Dashboard</span>
                     </NavLink>
 
-                    @if (_userRole == "Student" || _userRole == "Teacher")
+                    @* TODO: @if (_userRole == "Student" || _userRole == "Teacher") *@
+                    @if (_userRole == "Student" || _userRole == "Teacher" || _userRole == "Admin")
                     {
                         <NavLink href="/schedule"
                                  class="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/70 dark:hover:text-slate-100"
