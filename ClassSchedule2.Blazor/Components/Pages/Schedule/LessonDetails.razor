@@ -1,0 +1,73 @@
+﻿<div class="w-full max-w-lg overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-slate-800 dark:bg-slate-900">
+
+    <!-- Header -->
+    <div class="flex items-start justify-between border-b border-slate-200 px-6 py-5 dark:border-slate-800">
+
+        <div>
+            <h2 class="text-lg font-bold text-slate-900 dark:text-slate-100">
+                @Lesson.SubjectName
+            </h2>
+
+            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                @Lesson.HoldName
+            </p>
+        </div>
+
+        <button type="button"
+                @onclick="OnCancel"
+                class="cursor-pointer rounded-lg p-2 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200">
+
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 fill="none"
+                 viewBox="0 0 24 24"
+                 stroke-width="2"
+                 stroke="currentColor"
+                 class="h-5 w-5">
+
+                <path stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M6 18L18 6M6 6l12 12" />
+
+            </svg>
+        </button>
+
+    </div>
+
+    <!-- Content -->
+    <div class="space-y-4 px-6 py-6">
+
+        <div>
+            <div class="text-xs font-semibold tracking-wide text-slate-400 uppercase">
+                Tidspunkt
+            </div>
+
+            <div class="mt-1 text-sm font-medium text-slate-900 dark:text-slate-100">
+                @Lesson.StartTime.ToString("HH:mm")
+                –
+                @Lesson.EndTime.ToString("HH:mm")
+            </div>
+        </div>
+
+        <div>
+            <div class="text-xs font-semibold tracking-wide text-slate-400 uppercase">
+                Lokale
+            </div>
+
+            <div class="mt-1 text-sm font-medium text-slate-900 dark:text-slate-100">
+                @Lesson.RoomName
+            </div>
+        </div>
+
+        <div>
+            <div class="text-xs font-semibold tracking-wide text-slate-400 uppercase">
+                Lærer
+            </div>
+
+            <div class="mt-1 text-sm font-medium text-slate-900 dark:text-slate-100">
+                @string.Join(", ", Lesson.Teachers)
+            </div>
+        </div>
+
+    </div>
+
+</div>

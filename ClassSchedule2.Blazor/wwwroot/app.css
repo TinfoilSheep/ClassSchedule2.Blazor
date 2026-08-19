@@ -23,6 +23,7 @@
     --color-amber-500: oklch(76.9% 0.188 70.08);
     --color-amber-600: oklch(66.6% 0.179 58.318);
     --color-amber-700: oklch(55.5% 0.163 48.998);
+    --color-amber-800: oklch(47.3% 0.137 46.201);
     --color-amber-900: oklch(41.4% 0.112 45.904);
     --color-amber-950: oklch(27.9% 0.077 45.635);
     --color-emerald-400: oklch(76.5% 0.177 163.223);
@@ -563,6 +564,9 @@
   .min-w-32 {
     min-width: calc(var(--spacing) * 32);
   }
+  .min-w-\[210px\] {
+    min-width: 210px;
+  }
   .min-w-\[700px\] {
     min-width: 700px;
   }
@@ -691,6 +695,11 @@
     --tw-space-y-reverse: 0;
     margin-block-start: calc(calc(var(--spacing) * 1.5) * var(--tw-space-y-reverse));
     margin-block-end: calc(calc(var(--spacing) * 1.5) * calc(1 - var(--tw-space-y-reverse)));
+  }
+  :where(.space-y-4 > :not(:last-child)) {
+    --tw-space-y-reverse: 0;
+    margin-block-start: calc(calc(var(--spacing) * 4) * var(--tw-space-y-reverse));
+    margin-block-end: calc(calc(var(--spacing) * 4) * calc(1 - var(--tw-space-y-reverse)));
   }
   :where(.space-y-5 > :not(:last-child)) {
     --tw-space-y-reverse: 0;
@@ -1168,6 +1177,9 @@
   .text-amber-700 {
     color: var(--color-amber-700);
   }
+  .text-amber-800 {
+    color: var(--color-amber-800);
+  }
   .text-red-500 {
     color: var(--color-red-500);
   }
@@ -1416,6 +1428,9 @@
     }
     .hover\:bg-slate-200:hover {
       background-color: var(--color-slate-200);
+    }
+    .hover\:text-amber-400:hover {
+      color: var(--color-amber-400);
     }
     .hover\:text-amber-500:hover {
       color: var(--color-amber-500);
@@ -1892,6 +1907,9 @@
       .dark\:hover\:bg-slate-800\/80:where(.dark, .dark *):hover {
         background-color: color-mix(in oklab, var(--color-slate-800) 80%, transparent);
       }
+    }
+    .dark\:hover\:text-amber-300:where(.dark, .dark *):hover {
+      color: var(--color-amber-300);
     }
     .dark\:hover\:text-amber-400:where(.dark, .dark *):hover {
       color: var(--color-amber-400);

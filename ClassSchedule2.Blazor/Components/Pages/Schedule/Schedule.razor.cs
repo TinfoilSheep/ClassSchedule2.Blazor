@@ -10,11 +10,12 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
         private IScheduleService ScheduleService { get; set; } = default!;
 
         private List<ScheduleLesson> _lessons = [];
+        private ScheduleLesson? _selectedLesson;
         private DateOnly _selectedWeek = new(2026, 8, 10);
         private const int HourHeight = 80;
         private const int ScheduleStartHour = 8;
         private const int ScheduleEndHour = 12;
-
+        private bool _showLessonModal;
         private bool _isLoading = true;
 
         protected override async Task OnInitializedAsync()
@@ -69,6 +70,33 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
             var durationMinutes = endMinutes - startMinutes;
 
             return durationMinutes / 60.0 * HourHeight;
+        }
+
+        private void PreviousWeek()
+        {
+            _selectedWeek = GetMonday(_selectedWeek).AddDays(-7);
+        }
+
+        private void NextWeek()
+        {
+            _selectedWeek = GetMonday(_selectedWeek).AddDays(7);
+        }
+
+        private void GoToCurrentWeek()
+        {
+            _selectedWeek = GetMonday(DateOnly.FromDateTime(DateTime.Today));
+        }
+
+        private void OpenLessonModal(ScheduleLesson lesson)
+        {
+            _selectedLesson = lesson;
+            _showLessonModal = true;
+        }
+
+        private void CloseLessonModal()
+        {
+            _showLessonModal = false;
+            _selectedLesson = null;
         }
 
         private IEnumerable<ScheduleLesson> GetLessonsForDay(DateOnly date)
