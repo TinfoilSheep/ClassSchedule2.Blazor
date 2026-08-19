@@ -3,7 +3,7 @@
 <div class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/40 p-4 backdrop-blur-sm">
 
     <!-- Modal -->
-    <div class="w-full max-w-2xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-slate-800 dark:bg-slate-900">
+    <div class="flex max-h-[calc(100vh-2rem)] w-full max-w-2xl flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-slate-800 dark:bg-slate-900">
 
         <!-- Header -->
         <div class="flex items-start justify-between border-b border-slate-200 px-6 py-5 dark:border-slate-800">
@@ -42,266 +42,267 @@
 
 
         <!-- Form -->
-        <EditForm Model="@_form"
-                  OnValidSubmit="HandleSubmitAsync">
+        <EditForm Model="@_form" OnValidSubmit="HandleSubmitAsync" class="flex min-h-0 flex-1 flex-col">
 
             <DataAnnotationsValidator />
 
-            <div class="space-y-6 px-6 py-6">
+            <div class="min-h-0 flex-1 overflow-y-auto">
+                <div class="space-y-6 px-6 py-6">
 
-                @if (!string.IsNullOrWhiteSpace(_errorMessage))
-                {
-                    <div class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-400">
+                    @if (!string.IsNullOrWhiteSpace(_errorMessage))
+                    {
+                        <div class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-400">
 
-                        @_errorMessage
+                            @_errorMessage
 
+                        </div>
+                    }
+
+                    <!-- Rolle -->
+                    <div>
+                        <div class="mb-3">
+                            <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100">
+                                Vælg brugertype
+                            </h3>
+
+                            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                                Vælg om brugeren skal oprettes som elev eller lærer.
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+
+                            <!-- Elev -->
+                            <button type="button"
+                                    @onclick="@(() => _form.Role = UserRoles.Student)"
+                                    class="@GetRoleCardClass(UserRoles.Student)">
+
+                                <div class="flex items-center gap-3">
+
+                                    <div class="@GetRoleIconClass(UserRoles.Student)">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                             fill="none"
+                                             viewBox="0 0 24 24"
+                                             stroke-width="1.8"
+                                             stroke="currentColor"
+                                             class="h-5 w-5">
+
+                                            <path stroke-linecap="round"
+                                                  stroke-linejoin="round"
+                                                  d="M4.26 10.147L12 14.6l7.74-4.453M12 4.5l8.25 4.75v6.5L12 20.5l-8.25-4.75v-6.5L12 4.5z" />
+                                        </svg>
+                                    </div>
+
+                                    <div class="min-w-0 text-left">
+                                        <div class="text-sm font-bold text-slate-900 dark:text-slate-100">
+                                            Elev
+                                        </div>
+
+                                        <div class="text-[11px] text-slate-500 dark:text-slate-400">
+                                            En bruger der er tilknyttet som elev
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                @if (_form.Role == UserRoles.Student)
+                                {
+                                    <div class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-sky-500 text-white">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                             fill="none"
+                                             viewBox="0 0 24 24"
+                                             stroke-width="3"
+                                             stroke="currentColor"
+                                             class="h-3 w-3">
+
+                                            <path stroke-linecap="round"
+                                                  stroke-linejoin="round"
+                                                  d="M5 12.5l4 4L19 7" />
+
+                                        </svg>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="h-5 w-5 shrink-0 rounded-full border-2 border-slate-300 dark:border-slate-600"></div>
+                                }
+
+                            </button>
+
+
+                            <!-- Lærer -->
+                            <button type="button"
+                                    @onclick="@(() => _form.Role = UserRoles.Teacher)"
+                                    class="@GetRoleCardClass(UserRoles.Teacher)">
+
+                                <div class="flex items-center gap-3">
+
+                                    <div class="@GetRoleIconClass(UserRoles.Teacher)">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                             fill="none"
+                                             viewBox="0 0 24 24"
+                                             stroke-width="1.8"
+                                             stroke="currentColor"
+                                             class="h-5 w-5">
+
+                                            <path stroke-linecap="round"
+                                                  stroke-linejoin="round"
+                                                  d="M15 19.128a9.38 9.38 0 002.625.372 9.38 9.38 0 002.625-.372M15 19.128v-3.5m0 3.5a9.38 9.38 0 01-2.625.372 9.38 9.38 0 01-2.625-.372M15 15.628v-3.5m0 0a3.75 3.75 0 10-7.5 0m7.5 0a3.75 3.75 0 10-7.5 0m0 0v3.5m0 0a9.38 9.38 0 01-2.625-.372m2.625.372a9.38 9.38 0 002.625-.372" />
+
+                                        </svg>
+                                    </div>
+
+                                    <div class="min-w-0 text-left">
+                                        <div class="text-sm font-bold text-slate-900 dark:text-slate-100">
+                                            Lærer
+                                        </div>
+
+                                        <div class="text-[11px] text-slate-500 dark:text-slate-400">
+                                            En bruger der er tilknyttet som lærer
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                @if (_form.Role == UserRoles.Teacher)
+                                {
+                                    <div class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-amber-400 text-slate-950">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                             fill="none"
+                                             viewBox="0 0 24 24"
+                                             stroke-width="3"
+                                             stroke="currentColor"
+                                             class="h-3 w-3">
+
+                                            <path stroke-linecap="round"
+                                                  stroke-linejoin="round"
+                                                  d="M5 12.5l4 4L19 7" />
+
+                                        </svg>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="h-5 w-5 shrink-0 rounded-full border-2 border-slate-300 dark:border-slate-600"></div>
+                                }
+
+                            </button>
+
+                        </div>
+
+                        <ValidationMessage For="@(() => _form.Role)"
+                                           class="mt-2 text-xs text-red-500" />
                     </div>
-                }
-
-                <!-- Rolle -->
-                <div>
-                    <div class="mb-3">
-                        <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100">
-                            Vælg brugertype
+                    <!-- Navn -->
+                    <div>
+                        <h3 class="mb-3 text-sm font-bold text-slate-900 dark:text-slate-100">
+                            Personlige oplysninger
                         </h3>
 
-                        <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                            Vælg om brugeren skal oprettes som elev eller lærer.
-                        </p>
-                    </div>
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
 
-                    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                            <!-- Fornavn -->
+                            <div>
+                                <label class="mb-1.5 block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                                    Fornavn
+                                </label>
 
-                        <!-- Elev -->
-                        <button type="button"
-                                @onclick="@(() => _form.Role = UserRoles.Student)"
-                                class="@GetRoleCardClass(UserRoles.Student)">
+                                <InputText @bind-Value="_form.FirstName"
+                                           class="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 transition outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" />
 
-                            <div class="flex items-center gap-3">
-
-                                <div class="@GetRoleIconClass(UserRoles.Student)">
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                         fill="none"
-                                         viewBox="0 0 24 24"
-                                         stroke-width="1.8"
-                                         stroke="currentColor"
-                                         class="h-5 w-5">
-
-                                        <path stroke-linecap="round"
-                                              stroke-linejoin="round"
-                                              d="M4.26 10.147L12 14.6l7.74-4.453M12 4.5l8.25 4.75v6.5L12 20.5l-8.25-4.75v-6.5L12 4.5z" />
-                                    </svg>
-                                </div>
-
-                                <div class="min-w-0 text-left">
-                                    <div class="text-sm font-bold text-slate-900 dark:text-slate-100">
-                                        Elev
-                                    </div>
-
-                                    <div class="text-[11px] text-slate-500 dark:text-slate-400">
-                                        En bruger der er tilknyttet som elev
-                                    </div>
-                                </div>
-
+                                <ValidationMessage For="@(() => _form.FirstName)"
+                                                   class="mt-1 text-xs text-red-500" />
                             </div>
 
-                            @if (_form.Role == UserRoles.Student)
-                            {
-                                <div class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-sky-500 text-white">
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                         fill="none"
-                                         viewBox="0 0 24 24"
-                                         stroke-width="3"
-                                         stroke="currentColor"
-                                         class="h-3 w-3">
+                            <!-- Efternavn -->
+                            <div>
+                                <label class="mb-1.5 block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                                    Efternavn
+                                </label>
 
-                                        <path stroke-linecap="round"
-                                              stroke-linejoin="round"
-                                              d="M5 12.5l4 4L19 7" />
+                                <InputText @bind-Value="_form.LastName"
+                                           class="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 transition outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" />
 
-                                    </svg>
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="h-5 w-5 shrink-0 rounded-full border-2 border-slate-300 dark:border-slate-600"></div>
-                            }
-
-                        </button>
-
-
-                        <!-- Lærer -->
-                        <button type="button"
-                                @onclick="@(() => _form.Role = UserRoles.Teacher)"
-                                class="@GetRoleCardClass(UserRoles.Teacher)">
-
-                            <div class="flex items-center gap-3">
-
-                                <div class="@GetRoleIconClass(UserRoles.Teacher)">
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                         fill="none"
-                                         viewBox="0 0 24 24"
-                                         stroke-width="1.8"
-                                         stroke="currentColor"
-                                         class="h-5 w-5">
-
-                                        <path stroke-linecap="round"
-                                              stroke-linejoin="round"
-                                              d="M15 19.128a9.38 9.38 0 002.625.372 9.38 9.38 0 002.625-.372M15 19.128v-3.5m0 3.5a9.38 9.38 0 01-2.625.372 9.38 9.38 0 01-2.625-.372M15 15.628v-3.5m0 0a3.75 3.75 0 10-7.5 0m7.5 0a3.75 3.75 0 10-7.5 0m0 0v3.5m0 0a9.38 9.38 0 01-2.625-.372m2.625.372a9.38 9.38 0 002.625-.372" />
-
-                                    </svg>
-                                </div>
-
-                                <div class="min-w-0 text-left">
-                                    <div class="text-sm font-bold text-slate-900 dark:text-slate-100">
-                                        Lærer
-                                    </div>
-
-                                    <div class="text-[11px] text-slate-500 dark:text-slate-400">
-                                        En bruger der er tilknyttet som lærer
-                                    </div>
-                                </div>
-
+                                <ValidationMessage For="@(() => _form.LastName)"
+                                                   class="mt-1 text-xs text-red-500" />
                             </div>
 
-                            @if (_form.Role == UserRoles.Teacher)
-                            {
-                                <div class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-amber-400 text-slate-950">
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                         fill="none"
-                                         viewBox="0 0 24 24"
-                                         stroke-width="3"
-                                         stroke="currentColor"
-                                         class="h-3 w-3">
+                            <!-- Fødselsdato -->
+                            <div>
+                                <label class="mb-1.5 block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                                    Fødselsdato
+                                </label>
 
-                                        <path stroke-linecap="round"
-                                              stroke-linejoin="round"
-                                              d="M5 12.5l4 4L19 7" />
+                                <InputDate @bind-Value="_form.DateOfBirth"
+                                           class="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 transition outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" />
 
-                                    </svg>
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="h-5 w-5 shrink-0 rounded-full border-2 border-slate-300 dark:border-slate-600"></div>
-                            }
-
-                        </button>
-
-                    </div>
-
-                    <ValidationMessage For="@(() => _form.Role)"
-                                       class="mt-2 text-xs text-red-500" />
-                </div>
-                <!-- Navn -->
-                <div>
-                    <h3 class="mb-3 text-sm font-bold text-slate-900 dark:text-slate-100">
-                        Personlige oplysninger
-                    </h3>
-
-                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-
-                        <!-- Fornavn -->
-                        <div>
-                            <label class="mb-1.5 block text-xs font-semibold text-slate-700 dark:text-slate-300">
-                                Fornavn
-                            </label>
-
-                            <InputText @bind-Value="_form.FirstName"
-                                       class="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 transition outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" />
-
-                            <ValidationMessage For="@(() => _form.FirstName)"
-                                               class="mt-1 text-xs text-red-500" />
-                        </div>
-
-                        <!-- Efternavn -->
-                        <div>
-                            <label class="mb-1.5 block text-xs font-semibold text-slate-700 dark:text-slate-300">
-                                Efternavn
-                            </label>
-
-                            <InputText @bind-Value="_form.LastName"
-                                       class="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 transition outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" />
-
-                            <ValidationMessage For="@(() => _form.LastName)"
-                                               class="mt-1 text-xs text-red-500" />
-                        </div>
-
-                        <!-- Fødselsdato -->
-                        <div>
-                            <label class="mb-1.5 block text-xs font-semibold text-slate-700 dark:text-slate-300">
-                                Fødselsdato
-                            </label>
-
-                            <InputDate @bind-Value="_form.DateOfBirth"
-                                       class="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 transition outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" />
-
-                            <ValidationMessage For="@(() => _form.DateOfBirth)"
-                                               class="mt-1 text-xs text-red-500" />
+                                <ValidationMessage For="@(() => _form.DateOfBirth)"
+                                                   class="mt-1 text-xs text-red-500" />
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Login -->
-                <div>
-                    <h3 class="mb-3 text-sm font-bold text-slate-900 dark:text-slate-100">
-                        Loginoplysninger
-                    </h3>
+                    <!-- Login -->
+                    <div>
+                        <h3 class="mb-3 text-sm font-bold text-slate-900 dark:text-slate-100">
+                            Loginoplysninger
+                        </h3>
 
-                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
 
-                        <!-- Brugernavn -->
-                        <div>
-                            <label class="mb-1.5 block text-xs font-semibold text-slate-700 dark:text-slate-300">
-                                Brugernavn
-                            </label>
+                            <!-- Brugernavn -->
+                            <div>
+                                <label class="mb-1.5 block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                                    Brugernavn
+                                </label>
 
-                            <InputText @bind-Value="_form.Username"
-                                       class="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 font-mono text-sm text-slate-900 transition outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" />
+                                <InputText @bind-Value="_form.Username"
+                                           class="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 font-mono text-sm text-slate-900 transition outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" />
 
-                            <ValidationMessage For="@(() => _form.Username)"
-                                               class="mt-1 text-xs text-red-500" />
-                        </div>
+                                <ValidationMessage For="@(() => _form.Username)"
+                                                   class="mt-1 text-xs text-red-500" />
+                            </div>
 
 
-                        <!-- Email -->
-                        <div>
+                            <!-- Email -->
+                            <div>
 
-                            <label class="mb-1.5 block text-xs font-semibold text-slate-700 dark:text-slate-300">
-                                Email
-                            </label>
+                                <label class="mb-1.5 block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                                    Email
+                                </label>
 
-                            <InputText @bind-Value="_form.Email"
-                                       type="email"
-                                       class="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 transition outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" />
+                                <InputText @bind-Value="_form.Email"
+                                           type="email"
+                                           class="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 transition outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" />
 
-                            <ValidationMessage For="@(() => _form.Email)"
-                                               class="mt-1 text-xs text-red-500" />
-                        </div>
+                                <ValidationMessage For="@(() => _form.Email)"
+                                                   class="mt-1 text-xs text-red-500" />
+                            </div>
 
-                        <!-- Password -->
-                        <div class="sm:col-span-2">
-                            <label class="mb-1.5 block text-xs font-semibold text-slate-700 dark:text-slate-300">
-                                Adgangskode
-                            </label>
+                            <!-- Password -->
+                            <div class="sm:col-span-2">
+                                <label class="mb-1.5 block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                                    Adgangskode
+                                </label>
 
-                            <InputText @bind-Value="_form.Password"
-                                       type="password"
-                                       class="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 transition outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" />
+                                <InputText @bind-Value="_form.Password"
+                                           type="password"
+                                           class="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 transition outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" />
 
-                            <ValidationMessage For="@(() => _form.Password)"
-                                               class="mt-1 text-xs text-red-500" />
+                                <ValidationMessage For="@(() => _form.Password)"
+                                                   class="mt-1 text-xs text-red-500" />
 
-                            <p class="mt-1.5 text-[11px] text-slate-400">
-                                Adgangskoden skal være mellem 8 og 16 tegn.
-                            </p>
+                                <p class="mt-1.5 text-[11px] text-slate-400">
+                                    Adgangskoden skal være mellem 8 og 16 tegn.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Footer -->
-            <div class="flex items-center justify-end gap-3 border-t border-slate-200 bg-slate-50/50 px-6 py-4 dark:border-slate-800 dark:bg-slate-950/40">
+            <div class="flex shrink-0 items-center justify-end gap-3 border-t border-slate-200 bg-slate-50/50 px-6 py-4 dark:border-slate-800 dark:bg-slate-950/40">
                 <button type="button"
                         @onclick="Cancel"
                         disabled="@_isSubmitting"
