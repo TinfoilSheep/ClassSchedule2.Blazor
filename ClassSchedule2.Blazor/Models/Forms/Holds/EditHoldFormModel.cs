@@ -15,8 +15,13 @@ namespace ClassSchedule2.Blazor.Models.Forms.Holds
 
         [Required(ErrorMessage = "Fag Id på Hold er påkrævet")]
         public Guid SubjectId { get; set; }
+        public string SubjectName { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Term Id på Hold er påkrævet")]
         public Guid TermId { get; set; }
+        public string TermName { get; set; } = string.Empty;
+
+        public List<Guid> Teachers = [];
+        public List<Guid> Students = [];
     }
 }

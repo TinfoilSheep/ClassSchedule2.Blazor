@@ -77,8 +77,19 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Holds
 
             _form.Id = UpdateHold!.Id;
             _form.Name = UpdateHold!.Name;
+
             _form.TermId = UpdateHold!.TermId;
+            // Prefer the DTO name directly, fallback to list lookup if missing
+            _form.TermName = UpdateHold.TermName
+                ?? _terms.FirstOrDefault(s => s.Id == _form.TermId)?.Name
+                ?? "";
+
             _form.SubjectId = UpdateHold!.SubjectId;
+            _form.SubjectName = UpdateHold.SubjectName
+                ?? _subjects.FirstOrDefault(s => s.Id == _form.SubjectId)?.Name
+                ?? "";
+
+
 
             _errorMessage = null;
         }
@@ -96,7 +107,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Holds
 
             try
             {
-                var dto = new HoldDTO(_form.Id, _form.Name, _form.TermId, _form.SubjectId);
+                var dto = new HoldDTO(_form.Id, _form.Name, _form.SubjectId, _form.TermId, _form.SubjectName, _form.TermName, _form.Teachers, _form.Students);
                 var result = await _holdService.Update(dto);
 
                 if (result is null)

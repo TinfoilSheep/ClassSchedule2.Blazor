@@ -77,7 +77,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Holds
 
             try
             {
-                var dto = new CreateHoldDTO(_form.Name, _form.TermId, _form.SubjectId);
+                var dto = new CreateHoldDTO(_form.Name, _form.TermId, _form.SubjectId, [], []);
                 var result = await _holdService.Create(dto);
 
                 if (result is null)
