@@ -178,7 +178,7 @@
     else if (_modalMode == CrudModalMode.Delete)
     {
         <div class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/30 p-4 backdrop-blur-sm">
-            <DeleteHold UpdatedHold="@_selectedHold"
+            <DeleteHold UpdateHold="@_selectedHold"
                                   OnDeleted="HandleSaved"
                                   OnCancel="CloseModals" />
         </div>
