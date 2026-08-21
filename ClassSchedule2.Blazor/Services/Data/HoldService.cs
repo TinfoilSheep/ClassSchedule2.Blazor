@@ -122,7 +122,7 @@ namespace ClassSchedule2.Blazor.Services.Data
 
             try
             {
-                var result = await _browserAuthService.PostAsync(url, dto);
+                var result = await _browserAuthService.PatchAsync(url, dto);
 
                 if (!result.Success)
                 {

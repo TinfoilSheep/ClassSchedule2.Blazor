@@ -2,7 +2,7 @@
 {
     public class HoldLibrary
     {
-        public record HoldDTO(Guid Id, string Name, Guid TermId, Guid SubjectId);
-        public record CreateHoldDTO(string Name, Guid TermId, Guid SubjectId);
+        public record HoldDTO(Guid Id, string Name, Guid SubjectId, Guid TermId, string SubjectName, string TermName, List<Guid> Teachers, List<Guid> Students);
+        public record CreateHoldDTO(string Name, Guid TermId, Guid SubjectId, List<Guid> Teachers, List<Guid> Students);
     }
 }
