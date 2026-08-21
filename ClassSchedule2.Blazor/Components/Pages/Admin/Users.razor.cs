@@ -63,7 +63,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin
                     return;
                 }
 
-                _users = await UserService.GetAllUsersListAsync(currentUser.InstitutionId);
+                _users = await UserService.GetAllUsersListAsync(currentUser.InstitutionId, null);
             }
             finally
             {
