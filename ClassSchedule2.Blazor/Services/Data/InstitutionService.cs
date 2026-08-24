@@ -19,20 +19,11 @@ namespace ClassSchedule2.Blazor.Services.Data
             _logger = logger;
             _browserAuthService = browserAuthService;
         }
-        public Task CreateInstitution(CreateInstitutionDTO dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> DeleteInstitution(DeleteInstitutionRequestDTO dto)
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task<List<GetInstitutionListResponseDTO>> GetAllInstitutions()
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
-            var getAllInstitutionsUrl = new Uri(new Uri(apiBase), _InstitutionBaseUrl + "get-all-institution").ToString();
+            var getAllInstitutionsUrl = new Uri(new Uri(apiBase), _InstitutionBaseUrl + "get-all").ToString();
 
             try
             {
@@ -53,7 +44,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), _InstitutionBaseUrl + $"get-institution?id={id}"
+            var url = new Uri(new Uri(apiBase), _InstitutionBaseUrl + $"get?id={id}"
             ).ToString();
 
             try
@@ -80,11 +71,6 @@ namespace ClassSchedule2.Blazor.Services.Data
 
                 return null;
             }
-        }
-
-        public Task<GetInstitutionListResponseDTO> UpdateInstitution(UpdateInstitutionRequestDTO dto)
-        {
-            throw new NotImplementedException();
         }
     }
 }

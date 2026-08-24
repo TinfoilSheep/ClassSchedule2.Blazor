@@ -2,6 +2,8 @@
 using ClassSchedule2.Blazor.Models.DTOs;
 using ClassSchedule2.Blazor.Models.Enums;
 using Newtonsoft.Json;
+using System.Data;
+using static ClassSchedule2.Blazor.Models.DTOs.TermLibrary;
 using static ClassSchedule2.Blazor.Models.DTOs.UserLibrary;
 
 namespace ClassSchedule2.Blazor.Services.Data
@@ -20,10 +22,10 @@ namespace ClassSchedule2.Blazor.Services.Data
             _browserAuthService = browserAuthService;
         }
 
-        public async Task<bool> AddUserAsync(CreateUserRequestDTO dto)
+        public async Task<bool> CreateUserAsync(CreateUserRequestDTO dto)
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
-            var addUserUrl = new Uri(new Uri(apiBase), _userBaseUrl + "Add").ToString();
+            var addUserUrl = new Uri(new Uri(apiBase), _userBaseUrl + "create").ToString();
 
             try
             {
@@ -52,7 +54,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), _userBaseUrl + "Delete").ToString();
+            var url = new Uri(new Uri(apiBase), _userBaseUrl + "delete").ToString();
 
             try
             {
@@ -79,7 +81,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            string url = new Uri(new Uri(apiBase), $"api/User/Get-All-Users?role={role}").ToString();
+            string url = new Uri(new Uri(apiBase), $"api/User/get-all?role={role}").ToString();
 
             try
             {
@@ -102,9 +104,31 @@ namespace ClassSchedule2.Blazor.Services.Data
             }
         }
 
-        public Task GetUserInformationAsync(GetUserInformationRequestDTO dto)
+        public async Task<GetUserInformationResponseDTO?> GetUserInformationAsync(GetUserInformationRequestDTO dto)
         {
-            throw new NotImplementedException();
+            var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
+
+            string url = new Uri(new Uri(apiBase), $"api/User/get?id={dto.RequestedUserId}").ToString();
+
+            try
+            {
+                var result = await _browserAuthService.GetAsync(url);
+
+                if (!result.Success)
+                {
+                    _logger.LogWarning("Hentning af bruger fejlede. StatusCode: {StatusCode}", result.Status);
+
+                    return null;
+                }
+
+                return JsonConvert.DeserializeObject<GetUserInformationResponseDTO>(result.ResponseText ?? string.Empty);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Fejl ved hentning af bruger.");
+
+                return null;
+            }
         }
     }
 }

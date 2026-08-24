@@ -23,7 +23,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), TermBaseUrl + "create-term").ToString();
+            var url = new Uri(new Uri(apiBase), TermBaseUrl + "create").ToString();
 
             try
             {
@@ -48,7 +48,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), TermBaseUrl + $"delete-term?id={termId}").ToString();
+            var url = new Uri(new Uri(apiBase), TermBaseUrl + $"delete?id={termId}").ToString();
 
             try
             {
@@ -73,7 +73,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), TermBaseUrl + "get-all-terms").ToString();
+            var url = new Uri(new Uri(apiBase), TermBaseUrl + "get-all").ToString();
 
             try
             {
@@ -99,7 +99,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), TermBaseUrl + $"get-term?id={termId}").ToString();
+            var url = new Uri(new Uri(apiBase), TermBaseUrl + $"get?id={termId}").ToString();
 
             try
             {
@@ -125,7 +125,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), TermBaseUrl + "update-term").ToString();
+            var url = new Uri(new Uri(apiBase), TermBaseUrl + "update").ToString();
 
             try
             {

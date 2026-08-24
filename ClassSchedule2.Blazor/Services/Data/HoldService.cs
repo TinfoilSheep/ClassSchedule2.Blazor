@@ -24,7 +24,7 @@ namespace ClassSchedule2.Blazor.Services.Data
 
         public async Task<bool> Create(CreateHoldDTO dto)
         {
-            string url = new Uri(new Uri(_ApiBase), _HoldBaseUrl + "Create").ToString();
+            string url = new Uri(new Uri(_ApiBase), _HoldBaseUrl + "create").ToString();
 
             try
             {
@@ -47,7 +47,7 @@ namespace ClassSchedule2.Blazor.Services.Data
 
         public async Task<bool> Delete(Guid holdId)
         {
-            string url = new Uri(new Uri(_ApiBase), _HoldBaseUrl + $"Delete?id={holdId}").ToString();
+            string url = new Uri(new Uri(_ApiBase), _HoldBaseUrl + $"delete?id={holdId}").ToString();
 
             try
             {
@@ -70,7 +70,7 @@ namespace ClassSchedule2.Blazor.Services.Data
 
         public async Task<HoldDTO?> Get(Guid holdId)
         {
-            string url = new Uri(new Uri(_ApiBase), _HoldBaseUrl + $"Get?id={holdId}").ToString();
+            string url = new Uri(new Uri(_ApiBase), _HoldBaseUrl + $"get?id={holdId}").ToString();
 
             try
             {
@@ -93,7 +93,7 @@ namespace ClassSchedule2.Blazor.Services.Data
 
         public async Task<List<HoldDTO>> GetAll()
         {
-            string url = new Uri(new Uri(_ApiBase), _HoldBaseUrl + $"Get-All").ToString();
+            string url = new Uri(new Uri(_ApiBase), _HoldBaseUrl + $"get-all").ToString();
 
             try
             {
@@ -116,7 +116,7 @@ namespace ClassSchedule2.Blazor.Services.Data
 
         public async Task<bool> Update(HoldDTO dto)
         {
-            string url = new Uri(new Uri(_ApiBase), _HoldBaseUrl + "Update").ToString();
+            string url = new Uri(new Uri(_ApiBase), _HoldBaseUrl + "update").ToString();
 
             try
             {

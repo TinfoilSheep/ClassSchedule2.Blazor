@@ -21,7 +21,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         }
         public async Task<List<MinimalUserInformationDTO>> GetStudentsAsync(Guid studentGroupId)
         {
-            string url = new Uri(new Uri(_ApiBase), _StudentGroupBaseUrl + $"{studentGroupId}/Get-Students").ToString();
+            string url = new Uri(new Uri(_ApiBase), _StudentGroupBaseUrl + $"{studentGroupId}/get-students").ToString();
 
             try
             {

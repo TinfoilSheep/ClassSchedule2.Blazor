@@ -24,7 +24,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), NonTeachingDayBaseUrl + "create-nonteachingday").ToString();
+            var url = new Uri(new Uri(apiBase), NonTeachingDayBaseUrl + "create").ToString();
 
             try
             {
@@ -49,7 +49,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), NonTeachingDayBaseUrl + $"delete-nonteachingday?id={nonTeachingDayId}").ToString();
+            var url = new Uri(new Uri(apiBase), NonTeachingDayBaseUrl + $"delete?id={nonTeachingDayId}").ToString();
 
             try
             {
@@ -74,7 +74,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), NonTeachingDayBaseUrl + "get-all-nonteachingday").ToString();
+            var url = new Uri(new Uri(apiBase), NonTeachingDayBaseUrl + "get-all").ToString();
 
             try
             {
@@ -100,7 +100,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), NonTeachingDayBaseUrl + $"get-nonteachingday?id={nonTeachingDayId}").ToString();
+            var url = new Uri(new Uri(apiBase), NonTeachingDayBaseUrl + $"get?id={nonTeachingDayId}").ToString();
 
             try
             {
@@ -126,7 +126,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), NonTeachingDayBaseUrl + "update-nonteachingday").ToString();
+            var url = new Uri(new Uri(apiBase), NonTeachingDayBaseUrl + "update").ToString();
 
             try
             {

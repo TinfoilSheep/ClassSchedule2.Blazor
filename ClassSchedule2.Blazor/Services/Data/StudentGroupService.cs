@@ -24,7 +24,7 @@ namespace ClassSchedule2.Blazor.Services.Data
 
         public async Task<bool> Create(CreateStudentGroupDTO dto)
         {
-            string? url = new Uri(new Uri(_ApiBase), _StudentGroupBaseUrl + "Add").ToString();
+            string? url = new Uri(new Uri(_ApiBase), _StudentGroupBaseUrl + "create").ToString();
 
             try
             {
@@ -47,7 +47,7 @@ namespace ClassSchedule2.Blazor.Services.Data
 
         public async Task<bool> Update(EditStudentGroupDTO dto)
         {
-            string? url = new Uri(new Uri(_ApiBase), _StudentGroupBaseUrl + "Update").ToString();
+            string? url = new Uri(new Uri(_ApiBase), _StudentGroupBaseUrl + "update").ToString();
 
             try
             {
@@ -70,7 +70,7 @@ namespace ClassSchedule2.Blazor.Services.Data
 
         public async Task<bool> Delete(Guid studentGroupId)
         {
-            string url = new Uri(new Uri(_ApiBase), _StudentGroupBaseUrl + $"Delete?id={studentGroupId}").ToString();
+            string url = new Uri(new Uri(_ApiBase), _StudentGroupBaseUrl + $"delete?id={studentGroupId}").ToString();
 
             try
             {
@@ -93,7 +93,7 @@ namespace ClassSchedule2.Blazor.Services.Data
 
         public async Task<StudentGroupDTO?> Get(Guid studentGroupId)
         {
-            string url = new Uri(new Uri(_ApiBase), _StudentGroupBaseUrl + $"Get?id={studentGroupId}").ToString();
+            string url = new Uri(new Uri(_ApiBase), _StudentGroupBaseUrl + $"get?id={studentGroupId}").ToString();
 
             try
             {
@@ -116,7 +116,7 @@ namespace ClassSchedule2.Blazor.Services.Data
 
         public async Task<List<StudentGroupDTO>> GetAll()
         {
-            string url = new Uri(new Uri(_ApiBase), _StudentGroupBaseUrl + $"Get-All").ToString();
+            string url = new Uri(new Uri(_ApiBase), _StudentGroupBaseUrl + $"get-all").ToString();
 
             try
             {
