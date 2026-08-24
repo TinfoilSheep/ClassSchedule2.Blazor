@@ -28,6 +28,7 @@ builder.Services.AddScoped<ITermService, TermService>();
 builder.Services.AddScoped<IPeriodService, PeriodService>();
 builder.Services.AddScoped<INonTeachingDayService, NonTeachingDayService>();
 builder.Services.AddScoped<IHoldService, HoldService>();
+builder.Services.AddScoped<IHoldMemberService, HoldMemberService>();
 builder.Services.AddScoped<IStudentGroupService, StudentGroupService>();
 builder.Services.AddScoped<IStudentGroupMemberService, StudentGroupMemberService>();
 builder.Services.AddScoped<ThemeService>();

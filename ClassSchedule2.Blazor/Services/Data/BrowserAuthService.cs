@@ -20,7 +20,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var loginUrl = new Uri(new Uri(apiBase), _userUrl + "Login").ToString();
+            var loginUrl = new Uri(new Uri(apiBase), _userUrl + "login").ToString();
 
             var result = await _js.InvokeAsync<JsonElement>("authLogin", loginUrl, login);
 
@@ -58,7 +58,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var userUrl = new Uri(new Uri(apiBase), _userUrl + $"Get-User-Information?id={userId}").ToString();
+            var userUrl = new Uri(new Uri(apiBase), _userUrl + $"get?id={userId}").ToString();
 
             var result = await _js.InvokeAsync<JsonElement>("authGet", userUrl);
 
@@ -86,7 +86,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var logoutUrl = new Uri(new Uri(apiBase), _userUrl + "Logout").ToString();
+            var logoutUrl = new Uri(new Uri(apiBase), _userUrl + "logout").ToString();
 
             var result = await _js.InvokeAsync<JsonElement>("authLogout", logoutUrl);
 
