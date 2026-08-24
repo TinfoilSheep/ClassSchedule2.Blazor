@@ -75,16 +75,11 @@ namespace ClassSchedule2.Blazor.Services.Data
             }
         }
 
-        public async Task<List<GetAllUsersResponseDTO>> GetAllUsersListAsync(Guid institutionId, UserRoles? role)
+        public async Task<List<GetUserInformationResponseDTO>> GetAllUsersListAsync(UserRoles? role = null)
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), $"api/User/Get-All-Users?institutionId={institutionId}").ToString();
-
-            if(role == null)
-            {
-                url = new Uri(new Uri(apiBase), $"api/User/Get-All-Users?institutionId={institutionId}&role={role}").ToString();
-            }
+            string url = new Uri(new Uri(apiBase), $"api/User/Get-All-Users?role={role}").ToString();
 
             try
             {
@@ -92,22 +87,22 @@ namespace ClassSchedule2.Blazor.Services.Data
 
                 if (!result.Success)
                 {
-                    _logger.LogWarning("Hentning af brugere fejlede. StatusCode: {StatusCode}, InstitutionId: {InstitutionId}", result.Status, institutionId);
+                    _logger.LogWarning("Hentning af brugere fejlede. StatusCode: {StatusCode}", result.Status);
 
                     return [];
                 }
 
-                return JsonConvert.DeserializeObject<List<GetAllUsersResponseDTO>>(result.ResponseText ?? string.Empty) ?? [];
+                return JsonConvert.DeserializeObject<List<GetUserInformationResponseDTO>>(result.ResponseText ?? string.Empty) ?? [];
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Fejl ved hentning af brugere for institution {InstitutionId}", institutionId);
+                _logger.LogError(ex, "Fejl ved hentning af brugere.");
 
                 return [];
             }
         }
 
-        public Task GetUserInformationAsync(UserLibrary.GetUserInformationRequestDTO dto)
+        public Task GetUserInformationAsync(GetUserInformationRequestDTO dto)
         {
             throw new NotImplementedException();
         }

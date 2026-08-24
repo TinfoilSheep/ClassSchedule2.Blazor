@@ -3,6 +3,7 @@
 @using ClassSchedule2.Blazor.Components.Pages.Admin.NonTeachingDays
 @using ClassSchedule2.Blazor.Components.Pages.Admin.Periods
 @using ClassSchedule2.Blazor.Components.Pages.Admin.Rooms
+@using ClassSchedule2.Blazor.Components.Pages.Admin.StudentGroup
 @using ClassSchedule2.Blazor.Components.Pages.Admin.Subjects
 @using ClassSchedule2.Blazor.Components.Pages.Admin.Terms
 @layout MainLayout
@@ -51,8 +52,13 @@
                 <NonTeachingDayCard/>
             </section>
 
+            <!-- Student Groups -->
+            <section class="rounded-2xl border border-slate-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                <StudentGroupCard />
+            </section>
+
             <!-- Holds -->
-            <section class="rounded-2xl border border-slate-200/80 bg-white shadow-sm xl:col-span-2 dark:border-slate-800 dark:bg-slate-900">
+            <section class="rounded-2xl border border-slate-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
                 <HoldCard/>
             </section>
         </div>

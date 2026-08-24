@@ -5,7 +5,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin
 {
     public partial class EditUser
     {
-        [Parameter] public GetAllUsersResponseDTO? User { get; set; }
+        [Parameter] public GetUserInformationResponseDTO? User { get; set; }
 
         [Parameter]
         public EventCallback OnSaved { get; set; }

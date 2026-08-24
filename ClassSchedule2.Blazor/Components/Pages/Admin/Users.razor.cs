@@ -14,8 +14,8 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin
         [Inject] private IUserService UserService { get; set; } = default!;
         [Inject] private ICurrentUserProvider CurrentUser { get; set; } = default!;
 
-        private List<GetAllUsersResponseDTO> _users = [];
-        private GetAllUsersResponseDTO? _selectedUser;
+        private List<GetUserInformationResponseDTO> _users = [];
+        private GetUserInformationResponseDTO? _selectedUser;
 
         private string _searchText = "";
         private bool _isLoading = true;
@@ -63,7 +63,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin
                     return;
                 }
 
-                _users = await UserService.GetAllUsersListAsync(currentUser.InstitutionId, null);
+                _users = await UserService.GetAllUsersListAsync();
             }
             finally
             {
@@ -77,14 +77,14 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin
             _showModal = true;
         }
 
-        private void OpenEditModal(GetAllUsersResponseDTO user)
+        private void OpenEditModal(GetUserInformationResponseDTO user)
         {
             _selectedUser = user;
             _modalMode = UserModalMode.Edit;
             _showModal = true;
         }
 
-        private void OpenDeleteModal(GetAllUsersResponseDTO user)
+        private void OpenDeleteModal(GetUserInformationResponseDTO user)
         {
             _selectedUser = user;
             _modalMode = UserModalMode.Delete;
@@ -121,11 +121,11 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin
             }
         }
 
-        private IEnumerable<GetAllUsersResponseDTO> FilteredAndSortedUsers
+        private IEnumerable<GetUserInformationResponseDTO> FilteredAndSortedUsers
         {
             get
             {
-                IEnumerable<GetAllUsersResponseDTO> result = _users;
+                IEnumerable<GetUserInformationResponseDTO> result = _users;
 
                 // Søgning
                 if (!string.IsNullOrWhiteSpace(_searchText))

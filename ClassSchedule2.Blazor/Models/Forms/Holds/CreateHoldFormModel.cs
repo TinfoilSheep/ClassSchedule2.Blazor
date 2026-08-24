@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using static ClassSchedule2.Blazor.Models.DTOs.SubjectLibrary;
 using static ClassSchedule2.Blazor.Models.DTOs.TermLibrary;
+using static ClassSchedule2.Blazor.Models.DTOs.UserLibrary;
 
 namespace ClassSchedule2.Blazor.Models.Forms.Holds
 {
@@ -17,7 +18,7 @@ namespace ClassSchedule2.Blazor.Models.Forms.Holds
         [Required(ErrorMessage = "Term Id på Hold er påkrævet")]
         public Guid TermId { get; set; }
 
-        public List<Guid> Teachers = [];
-        public List<Guid> Students = [];
+        public List<MinimalUserInformationDTO> Teachers = [];
+        public List<MinimalUserInformationDTO> Students = [];
     }
 }

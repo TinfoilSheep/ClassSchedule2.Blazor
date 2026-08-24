@@ -97,7 +97,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Holds
 
         private async Task HandleSubmitAsync()
         {
-            if (_isSubmitting)
+            if (_isSubmitting || _isLoading)
             {
                 return;
             }
@@ -110,7 +110,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Holds
                 var dto = new HoldDTO(_form.Id, _form.Name, _form.SubjectId, _form.TermId, _form.SubjectName, _form.TermName, _form.Teachers, _form.Students);
                 var result = await _holdService.Update(dto);
 
-                if (result is null)
+                if (!result)
                 {
                     _errorMessage = "Hold kunne ikke opdateres. Prøv igen.";
                     return;

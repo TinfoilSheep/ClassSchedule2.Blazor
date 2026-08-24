@@ -9,24 +9,22 @@ namespace ClassSchedule2.Blazor.Services.Data
     public class HoldService : IHoldService
     {
         private readonly BrowserAuthService _browserAuthService;
-        private readonly HttpClient _httpClient;
         private readonly IConfiguration _configuration;
         private readonly ILogger<InstitutionService> _logger;
         private readonly string _HoldBaseUrl = "api/Hold/";
         private readonly string _ApiBase;
 
-        public HoldService(HttpClient httpClient, IConfiguration configuration, ILogger<InstitutionService> logger, BrowserAuthService browserAuthService)
+        public HoldService(IConfiguration configuration, ILogger<InstitutionService> logger, BrowserAuthService browserAuthService)
         {
-            _httpClient = httpClient;
             _configuration = configuration;
             _logger = logger;
             _browserAuthService = browserAuthService;
             _ApiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
         }
 
-        public async Task<HoldDTO?> Create(CreateHoldDTO dto)
+        public async Task<bool> Create(CreateHoldDTO dto)
         {
-            string? url = new Uri(new Uri(_ApiBase), _HoldBaseUrl + "create-hold").ToString();
+            string url = new Uri(new Uri(_ApiBase), _HoldBaseUrl + "Create").ToString();
 
             try
             {
@@ -34,22 +32,22 @@ namespace ClassSchedule2.Blazor.Services.Data
 
                 if (!result.Success)
                 {
-                    _logger.LogWarning("Fejl ved oprettelse. Status: {Status}", result.Status);
-                    return null;
+                    _logger.LogWarning("Fejl ved oprettelse. Status: {Status} fejlbesked: {ErrorMessage}", result.Status, result.ResponseText);
+                    return result.Success;
                 }
 
-                return JsonConvert.DeserializeObject<HoldDTO>(result.ResponseText ?? string.Empty);
+                return result.Success;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Fejl ved oprettelse af Hold.");
-                return null;
+                return false;
             }
         }
 
         public async Task<bool> Delete(Guid holdId)
         {
-            var url = new Uri(new Uri(_ApiBase), _HoldBaseUrl + $"delete-hold?id={holdId}").ToString();
+            string url = new Uri(new Uri(_ApiBase), _HoldBaseUrl + $"Delete?id={holdId}").ToString();
 
             try
             {
@@ -72,7 +70,7 @@ namespace ClassSchedule2.Blazor.Services.Data
 
         public async Task<HoldDTO?> Get(Guid holdId)
         {
-            var url = new Uri(new Uri(_ApiBase), _HoldBaseUrl + $"get-hold?id={holdId}").ToString();
+            string url = new Uri(new Uri(_ApiBase), _HoldBaseUrl + $"Get?id={holdId}").ToString();
 
             try
             {
@@ -95,7 +93,7 @@ namespace ClassSchedule2.Blazor.Services.Data
 
         public async Task<List<HoldDTO>> GetAll()
         {
-            var url = new Uri(new Uri(_ApiBase), _HoldBaseUrl + $"get-all-holds").ToString();
+            string url = new Uri(new Uri(_ApiBase), _HoldBaseUrl + $"Get-All").ToString();
 
             try
             {
@@ -116,9 +114,9 @@ namespace ClassSchedule2.Blazor.Services.Data
             }
         }
 
-        public async Task<HoldDTO?> Update(HoldDTO dto)
+        public async Task<bool> Update(HoldDTO dto)
         {
-            string? url = new Uri(new Uri(_ApiBase), _HoldBaseUrl + "update-hold").ToString();
+            string url = new Uri(new Uri(_ApiBase), _HoldBaseUrl + "Update").ToString();
 
             try
             {
@@ -127,15 +125,15 @@ namespace ClassSchedule2.Blazor.Services.Data
                 if (!result.Success)
                 {
                     _logger.LogWarning("Fejl ved opdatering. Status: {Status}", result.Status);
-                    return null;
+                    return result.Success;
                 }
 
-                return JsonConvert.DeserializeObject<HoldDTO>(result.ResponseText ?? string.Empty);
+                return result.Success;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Fejl ved opdatering af Hold.");
-                return null;
+                return false;
             }
         }
     }

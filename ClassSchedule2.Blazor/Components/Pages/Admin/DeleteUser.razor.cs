@@ -7,7 +7,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin
     public partial class DeleteUser
     {
         [Parameter]
-        public GetAllUsersResponseDTO User { get; set; } = default!;
+        public GetUserInformationResponseDTO User { get; set; } = default!;
 
         [Parameter]
         public EventCallback OnCancel { get; set; }
@@ -41,9 +41,9 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin
 
                 await OnDeleted.InvokeAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                _errorMessage = "Der opstod en fejl under sletning af brugeren.";
+                _errorMessage = $"Der opstod en fejl under sletning af brugeren.";
             }
             finally
             {

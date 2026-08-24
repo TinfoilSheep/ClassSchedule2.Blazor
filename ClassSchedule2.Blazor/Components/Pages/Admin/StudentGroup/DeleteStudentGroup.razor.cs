@@ -2,16 +2,17 @@ using ClassSchedule2.Blazor.Interfaces;
 using Microsoft.AspNetCore.Components;
 using static ClassSchedule2.Blazor.Models.DTOs.HoldLibrary;
 using static ClassSchedule2.Blazor.Models.DTOs.NonTeachingDayLibrary;
+using static ClassSchedule2.Blazor.Models.DTOs.StudentGroupLibrary;
 
-namespace ClassSchedule2.Blazor.Components.Pages.Admin.Holds
+namespace ClassSchedule2.Blazor.Components.Pages.Admin.StudentGroup
 {
-    public partial class DeleteHold
+    public partial class DeleteStudentGroup
     {
         [Inject]
-        private IHoldService _holdService { get; set; } = default!;
+        private IStudentGroupService _studentGroupService { get; set; } = default!;
 
         [Parameter]
-        public HoldDTO? UpdateHold { get; set; }
+        public StudentGroupDTO? StudentGroup { get; set; }
 
         [Parameter]
         public EventCallback OnDeleted { get; set; }
@@ -23,7 +24,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Holds
 
         private async Task DeleteAsync()
         {
-            if (_isDeleting || UpdateHold is null)
+            if (_isDeleting || StudentGroup is null)
             {
                 return;
             }
@@ -32,7 +33,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Holds
 
             try
             {
-                var success = await _holdService.Delete(UpdateHold.Id);
+                var success = await _studentGroupService.Delete(StudentGroup.Id);
 
                 if (success)
                 {
