@@ -1,5 +1,6 @@
 ﻿using ClassSchedule2.Blazor.Interfaces;
 using ClassSchedule2.Blazor.Models.DTOs;
+using ClassSchedule2.Blazor.Models.Enums;
 using Newtonsoft.Json;
 using static ClassSchedule2.Blazor.Models.DTOs.UserLibrary;
 
@@ -7,15 +8,13 @@ namespace ClassSchedule2.Blazor.Services.Data
 {
     public class UserService : IUserService
     {
-        private readonly HttpClient _httpClient;
         private readonly IConfiguration _configuration;
         private readonly ILogger<UserService> _logger;
         private readonly BrowserAuthService _browserAuthService;
         private readonly string _userBaseUrl = "api/User/";
 
-        public UserService(HttpClient httpClient, IConfiguration configuration, ILogger<UserService> logger, BrowserAuthService browserAuthService)
+        public UserService(IConfiguration configuration, ILogger<UserService> logger, BrowserAuthService browserAuthService)
         {
-            _httpClient = httpClient;
             _configuration = configuration;
             _logger = logger;
             _browserAuthService = browserAuthService;
@@ -76,35 +75,34 @@ namespace ClassSchedule2.Blazor.Services.Data
             }
         }
 
-        public async Task<List<GetAllUsersResponseDTO>> GetAllUsersListAsync(Guid institutionId)
+        public async Task<List<GetUserInformationResponseDTO>> GetAllUsersListAsync(UserRoles? role = null)
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
-            var url = new Uri(new Uri(apiBase), $"api/User/Get-All-Users?institutionId={institutionId}").ToString();
+
+            string url = new Uri(new Uri(apiBase), $"api/User/Get-All-Users?role={role}").ToString();
 
             try
             {
-                var response = await _httpClient.GetAsync(url);
+                var result = await _browserAuthService.GetAsync(url);
 
-                if (!response.IsSuccessStatusCode)
+                if (!result.Success)
                 {
-                    _logger.LogWarning("Hentning af brugere fejlede. StatusCode: {StatusCode}, InstitutionId: {InstitutionId}", response.StatusCode, institutionId);
+                    _logger.LogWarning("Hentning af brugere fejlede. StatusCode: {StatusCode}", result.Status);
 
                     return [];
                 }
 
-                var json = await response.Content.ReadAsStringAsync();
-
-                return JsonConvert.DeserializeObject<List<GetAllUsersResponseDTO>>(json) ?? [];
+                return JsonConvert.DeserializeObject<List<GetUserInformationResponseDTO>>(result.ResponseText ?? string.Empty) ?? [];
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Fejl ved hentning af brugere for institution {InstitutionId}", institutionId);
+                _logger.LogError(ex, "Fejl ved hentning af brugere.");
 
                 return [];
             }
         }
 
-        public Task GetUserInformationAsync(UserLibrary.GetUserInformationRequestDTO dto)
+        public Task GetUserInformationAsync(GetUserInformationRequestDTO dto)
         {
             throw new NotImplementedException();
         }

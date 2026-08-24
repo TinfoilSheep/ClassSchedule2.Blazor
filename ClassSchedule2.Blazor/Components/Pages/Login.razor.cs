@@ -36,7 +36,7 @@ namespace ClassSchedule2.Blazor.Components.Pages
                     Institutions = result;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ErrorMessage = "Kunne ikke hente institutioner. Prøv venligst igen senere.";
             }

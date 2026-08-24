@@ -28,21 +28,29 @@ namespace ClassSchedule2.Blazor.Providers
 
         public async Task InitializeAsync()
         {
-            var userIdString = await _js.InvokeAsync<string?>("localStorage.getItem", "SchoolUserId");
-
-            if (!Guid.TryParse(userIdString, out var userId))
+            try
             {
+                var userIdString = await _js.InvokeAsync<string?>("localStorage.getItem", "SchoolUserId");
+
+                if (!Guid.TryParse(userIdString, out var userId))
+                {
+                    return;
+                }
+
+                var user = await _browserAuthService.GetUserAsync(userId);
+
+                if (user is null)
+                {
+                    return;
+                }
+
+                SetUser(user);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
                 return;
             }
-
-            var user = await _browserAuthService.GetUserAsync(userId);
-
-            if (user is null)
-            {
-                return;
-            }
-
-            SetUser(user);
         }
 
         public void SetUser(LoginResponseDTO user)
