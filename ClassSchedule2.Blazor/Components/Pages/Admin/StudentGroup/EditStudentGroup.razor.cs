@@ -132,7 +132,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.StudentGroup
 
                 if (!result)
                 {
-                    _errorMessage = "Klassen kunne ikke opdateres. Prøv igen.";
+                    _errorMessage = "Elevgruppen kunne ikke opdateres. Prøv igen.";
                     return;
                 }
 
@@ -140,7 +140,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.StudentGroup
             }
             catch (Exception)
             {
-                _errorMessage = "Der opstod en fejl under opdateringen af Klassen.";
+                _errorMessage = "Der opstod en fejl under opdateringen af Elevgruppen.";
             }
             finally
             {

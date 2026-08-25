@@ -40,7 +40,7 @@ namespace ClassSchedule2.Blazor.Services.Data
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Fejl ved oprettelse af Klassen.");
+                _logger.LogError(ex, "Fejl ved oprettelse af Elevgruppen.");
                 return false;
             }
         }
@@ -63,7 +63,7 @@ namespace ClassSchedule2.Blazor.Services.Data
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Fejl ved opdatering af Klassen {studentGroupId}.", dto.Id);
+                _logger.LogError(ex, "Fejl ved opdatering af Elevgruppen {studentGroupId}.", dto.Id);
                 return false;
             }
         }
@@ -86,7 +86,7 @@ namespace ClassSchedule2.Blazor.Services.Data
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Fejl ved sletning af Klassen {studentGroupId}.", studentGroupId);
+                _logger.LogError(ex, "Fejl ved sletning af Elevgruppen {studentGroupId}.", studentGroupId);
                 return false;
             }
         }
@@ -101,7 +101,7 @@ namespace ClassSchedule2.Blazor.Services.Data
 
                 if (!result.Success)
                 {
-                    _logger.LogWarning("Kunne ikke hente Klassen. Status: {Status}", result.Status);
+                    _logger.LogWarning("Kunne ikke hente Elevgruppen. Status: {Status}", result.Status);
                     return null;
                 }
 
@@ -109,7 +109,7 @@ namespace ClassSchedule2.Blazor.Services.Data
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Fejl ved hetning af Klassen {studentGroupId}.", studentGroupId);
+                _logger.LogError(ex, "Fejl ved hetning af Elevgruppen {studentGroupId}.", studentGroupId);
                 return null;
             }
         }
@@ -124,7 +124,7 @@ namespace ClassSchedule2.Blazor.Services.Data
 
                 if (!result.Success)
                 {
-                    _logger.LogWarning("Kunne ikke hente alle Klasser. Status: {Status}", result.Status);
+                    _logger.LogWarning("Kunne ikke hente alle Elevgrupper. Status: {Status}", result.Status);
                     return [];
                 }
 
@@ -132,7 +132,7 @@ namespace ClassSchedule2.Blazor.Services.Data
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Fejl ved hetning af alle Klasser");
+                _logger.LogError(ex, "Fejl ved hetning af alle Elevgrupper");
                 return [];
             }
         }

@@ -108,7 +108,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.StudentGroup
 
                 if (!result)
                 {
-                    _errorMessage = "Klassen kunne ikke oprettes. Prøv igen.";
+                    _errorMessage = "Elevgruppen kunne ikke oprettes. Prøv igen.";
                     return;
                 }
 
@@ -117,7 +117,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.StudentGroup
             }
             catch (Exception)
             {
-                _errorMessage = "Der opstod en fejl under oprettelsen af Klassen.";
+                _errorMessage = "Der opstod en fejl under oprettelsen af Elevgruppen.";
             }
             finally
             {
