@@ -1,11 +1,8 @@
 using ClassSchedule2.Blazor.Interfaces;
 using ClassSchedule2.Blazor.Models.Enums;
 using ClassSchedule2.Blazor.Models.Forms.Holds;
-using ClassSchedule2.Blazor.Models.Forms.NonTeachingDays;
-using ClassSchedule2.Blazor.Services.Data;
 using Microsoft.AspNetCore.Components;
 using static ClassSchedule2.Blazor.Models.DTOs.HoldLibrary;
-using static ClassSchedule2.Blazor.Models.DTOs.NonTeachingDayLibrary;
 using static ClassSchedule2.Blazor.Models.DTOs.StudentGroupLibrary;
 using static ClassSchedule2.Blazor.Models.DTOs.SubjectLibrary;
 using static ClassSchedule2.Blazor.Models.DTOs.TermLibrary;
@@ -16,12 +13,11 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Holds
     public partial class AddHold
     {
         [Inject] private IHoldService _holdService { get; set; } = default!;
-        [Inject] private IHoldMemberService _holdMemberService { get; set; }
         [Inject] private ITermService _termService { get; set; } = default!;
         [Inject] private ISubjectService _subjectService { get; set; } = default!;
-        [Inject] private IStudentGroupService _studentGroupService { get; set; }
-        [Inject] private IStudentGroupMemberService _studentGroupMemberService { get; set; }
-        [Inject] private IUserService _userService { get; set; }
+        [Inject] private IStudentGroupService _studentGroupService { get; set; } = default!;
+        [Inject] private IStudentGroupMemberService _studentGroupMemberService { get; set; } = default!;
+        [Inject] private IUserService _userService { get; set; } = default!;
 
         [Parameter]
         public EventCallback OnSaved { get; set; }
@@ -32,7 +28,13 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Holds
         private bool _isSubmitting;
         private string? _errorMessage;
         private bool _isLoading;
+        private string _studentSearchText = "";
+        private string _selectedStudentSearchText = "";
 
+        private string _teacherSearchText = "";
+        private string _selectedTeacherSearchText = "";
+
+        private Guid _selectedStudentGroupId = Guid.Empty;
         private List<TermDTO> _terms = [];
         private List<SubjectDTO> _subjects = [];
 
@@ -84,6 +86,53 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Holds
             }
         }
 
+        private async Task AddSelectedStudentGroup()
+        {
+            if (_selectedStudentGroupId == Guid.Empty)
+            {
+                return;
+            }
+
+            var studentGroup = _studentGroups
+                .FirstOrDefault(x => x.Id == _selectedStudentGroupId);
+
+            if (studentGroup is null)
+            {
+                return;
+            }
+
+            try
+            {
+                var students = await _studentGroupMemberService
+                    .GetStudentsAsync(studentGroup.Id);
+
+                // Fjern eventuelle elever, der allerede er valgt
+                var studentsToAdd = students
+                    .Where(student => !_selectedStudents.Contains(student))
+                    .ToList();
+
+                // Fjern eleverne fra tilgængelige elever
+                _allStudents = _allStudents
+                    .Except(studentsToAdd)
+                    .ToList();
+
+                // Tilføj eleverne til valgte elever
+                _selectedStudents.AddRange(studentsToAdd);
+
+                // Nulstil dropdown
+                _selectedStudentGroupId = Guid.Empty;
+
+                // Ryd eventuelle søgninger
+                _studentSearchText = "";
+                _selectedStudentSearchText = "";
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Fejl ved tilføjelse af elevgruppe: {ex}");
+                _errorMessage = "Elevgruppen kunne ikke tilføjes. Prøv igen.";
+            }
+        }
+
         private void AddTeacher(MinimalUserInformationDTO teacher)
         {
             _allTeachers.Remove(teacher);
@@ -108,15 +157,24 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Holds
             _allStudents.Add(teacher);
         }
 
-        private async Task AddStudentGroup(StudentGroupDTO studentGroup)
+        private void ClearStudentSearch()
         {
-            // Merge all students back into _allStudents
-            _allStudents = _allStudents.Union(_selectedStudents).ToList();
+            _studentSearchText = "";
+        }
 
-            List<MinimalUserInformationDTO> studentGroupMembers = await _studentGroupMemberService.GetStudentsAsync(studentGroup.Id);
+        private void ClearSelectedStudentSearch()
+        {
+            _selectedStudentSearchText = "";
+        }
 
-            _allStudents = _allStudents.Except(studentGroupMembers).ToList();
-            _selectedStudents = _selectedStudents.Union(studentGroupMembers).ToList();
+        private void ClearTeacherSearch()
+        {
+            _teacherSearchText = "";
+        }
+
+        private void ClearSelectedTeacherSearch()
+        {
+            _selectedTeacherSearchText = "";
         }
 
         private async Task HandleSubmitAsync()
@@ -164,6 +222,70 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Holds
             }
 
             await OnCancel.InvokeAsync();
+        }
+
+        private IEnumerable<MinimalUserInformationDTO> FilteredStudents
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(_studentSearchText))
+                {
+                    return _allStudents;
+                }
+
+                var search = _studentSearchText.Trim();
+
+                return _allStudents.Where(student =>
+                    student.Name.Contains(search, StringComparison.OrdinalIgnoreCase));
+            }
+        }
+
+        private IEnumerable<MinimalUserInformationDTO> FilteredSelectedStudents
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(_selectedStudentSearchText))
+                {
+                    return _selectedStudents;
+                }
+
+                var search = _selectedStudentSearchText.Trim();
+
+                return _selectedStudents.Where(student =>
+                    student.Name.Contains(search, StringComparison.OrdinalIgnoreCase));
+            }
+        }
+
+        private IEnumerable<MinimalUserInformationDTO> FilteredTeachers
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(_teacherSearchText))
+                {
+                    return _allTeachers;
+                }
+
+                var search = _teacherSearchText.Trim();
+
+                return _allTeachers.Where(teacher =>
+                    teacher.Name.Contains(search, StringComparison.OrdinalIgnoreCase));
+            }
+        }
+
+        private IEnumerable<MinimalUserInformationDTO> FilteredSelectedTeachers
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(_selectedTeacherSearchText))
+                {
+                    return _selectedTeachers;
+                }
+
+                var search = _selectedTeacherSearchText.Trim();
+
+                return _selectedTeachers.Where(teacher =>
+                    teacher.Name.Contains(search, StringComparison.OrdinalIgnoreCase));
+            }
         }
     }
 }

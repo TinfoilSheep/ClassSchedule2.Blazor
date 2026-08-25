@@ -14,53 +14,85 @@
     <main class="mx-auto w-full px-4 py-8 sm:px-6 lg:px-8">
 
         <!-- Header -->
-        <div class="mb-8">
+        <div class="mb-10 text-center">
             <h1 class="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl dark:text-slate-100">
                 Skema administration
             </h1>
 
-            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                Administrer fag, lokaler, terminer, perioder og ikke-undervisningsdage.
+            <p class="mx-auto mt-2 max-w-2xl text-xs text-slate-500 dark:text-slate-400">
+                Administrer de grundlæggende oplysninger, der bruges til at opbygge og planlægge skolens skema.
             </p>
         </div>
 
-        <!-- Cards -->
-        <div class="grid grid-cols-1 gap-6 xl:grid-cols-2">
 
-            <!-- Subjects -->
-            <section class="rounded-2xl border border-slate-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                <SubjectCard/>
-            </section>
+        <!-- Grundlæggende skemadata -->
+        <div class="mb-6">
+            <div class="mb-4">
+                <h2 class="text-base font-bold text-slate-900 dark:text-slate-100">
+                    Grundlæggende skemadata
+                </h2>
 
-            <!-- Rooms -->
-            <section class="rounded-2xl border border-slate-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                <RoomCard/>
-            </section>
+                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                    Disse oplysninger kan oprettes uafhængigt af hinanden og danner grundlaget for skemaplanlægningen.
+                </p>
+            </div>
 
-            <!-- Terms -->
-            <section class="rounded-2xl border border-slate-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                <TermCard/>
-            </section>
+            <div class="grid grid-cols-1 gap-6 xl:grid-cols-2">
 
-            <!-- Periods -->
-            <section class="rounded-2xl border border-slate-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                <PeriodCard/>
-            </section>
+                <!-- Subjects -->
+                <section class="rounded-2xl border border-slate-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                    <SubjectCard />
+                </section>
 
-            <!-- Non teaching days -->
-            <section class="rounded-2xl border border-slate-200/80 bg-white shadow-sm xl:col-span-2 dark:border-slate-800 dark:bg-slate-900">
-                <NonTeachingDayCard/>
-            </section>
+                <!-- Rooms -->
+                <section class="rounded-2xl border border-slate-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                    <RoomCard />
+                </section>
 
-            <!-- Student Groups -->
-            <section class="rounded-2xl border border-slate-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                <StudentGroupCard />
-            </section>
+                <!-- Terms -->
+                <section class="rounded-2xl border border-slate-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                    <TermCard />
+                </section>
 
-            <!-- Holds -->
-            <section class="rounded-2xl border border-slate-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                <HoldCard/>
-            </section>
+                <!-- Periods -->
+                <section class="rounded-2xl border border-slate-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                    <PeriodCard />
+                </section>
+
+                <!-- Non teaching days -->
+                <section class="rounded-2xl border border-slate-200/80 bg-white shadow-sm xl:col-span-2 dark:border-slate-800 dark:bg-slate-900">
+                    <NonTeachingDayCard />
+                </section>
+
+            </div>
+        </div>
+
+
+        <!-- Klasser og hold -->
+        <div>
+            <div class="mb-4">
+                <h2 class="text-base font-bold text-slate-900 dark:text-slate-100">
+                    Klasser og hold
+                </h2>
+
+                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                    Klasser og hold oprettes på baggrund af de elever, lærere og øvrige oplysninger, der allerede findes i systemet.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 gap-6 xl:grid-cols-2">
+
+                <!-- Student Groups -->
+                <section class="rounded-2xl border border-slate-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                    <StudentGroupCard />
+                </section>
+
+                <!-- Holds -->
+                <section class="rounded-2xl border border-slate-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                    <HoldCard />
+                </section>
+
+            </div>
         </div>
 
     </main>
