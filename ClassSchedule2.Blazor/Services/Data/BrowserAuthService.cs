@@ -108,6 +108,20 @@ namespace ClassSchedule2.Blazor.Services.Data
             };
         }
 
+        public async Task<BrowserApiResult> PostNoBodyAsync(string url)
+        {
+            var result = await _js.InvokeAsync<JsonElement>(
+                "authPostNoBody",
+                url);
+
+            return new BrowserApiResult
+            {
+                Success = result.GetProperty("ok").GetBoolean(),
+                Status = result.GetProperty("status").GetInt32(),
+                ResponseText = result.GetProperty("text").GetString()
+            };
+        }
+
         public async Task<BrowserApiResult> GetAsync(string url)
         {
             var result = await _js.InvokeAsync<JsonElement>("authGet", url);
