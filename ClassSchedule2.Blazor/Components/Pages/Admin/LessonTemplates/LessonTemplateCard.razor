@@ -193,19 +193,17 @@ else if (_modalMode == CrudModalMode.Edit)
 {
     <div class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/30 p-4 backdrop-blur-sm">
 
-        @* <EditLessonTemplate LessonTemplate="@_selectedLessonTemplate"
+        <EditLessonTemplate LessonTemplate="@_selectedLessonTemplate"
                             OnSaved="HandleSaved"
-                            OnCancel="CloseModals" /> *@
+                            OnCancel="CloseModals" />
 
     </div>
 }
 else if (_modalMode == CrudModalMode.Delete)
 {
     <div class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/30 p-4 backdrop-blur-sm">
-
-        @* <DeleteLessonTemplate LessonTemplate="@_selectedLessonTemplate"
+        <DeleteLessonTemplate LessonTemplate="@_selectedLessonTemplate"
                               OnDeleted="HandleSaved"
-                              OnCancel="CloseModals" /> *@
-
+                              OnCancel="CloseModals" />
     </div>
 }
