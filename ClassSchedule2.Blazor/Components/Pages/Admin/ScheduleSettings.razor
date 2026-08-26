@@ -1,5 +1,6 @@
 ﻿@page "/admin/schedule-settings"
 @using ClassSchedule2.Blazor.Components.Pages.Admin.Holds
+@using ClassSchedule2.Blazor.Components.Pages.Admin.LessonTemplates
 @using ClassSchedule2.Blazor.Components.Pages.Admin.NonTeachingDays
 @using ClassSchedule2.Blazor.Components.Pages.Admin.Periods
 @using ClassSchedule2.Blazor.Components.Pages.Admin.Rooms
@@ -69,7 +70,7 @@
 
 
         <!-- Elevgrupper og hold -->
-        <div>
+        <div class="mb-6">
             <div class="mb-4">
                 <h2 class="text-base font-bold text-slate-900 dark:text-slate-100">
                     Elevgrupper og hold
@@ -92,6 +93,26 @@
                     <HoldCard />
                 </section>
 
+            </div>
+        </div>
+
+        <div>
+            <div class="mb-4">
+                <h2 class="text-base font-bold text-slate-900 dark:text-slate-100">
+                    Lektionsplan og skemagenerering
+                </h2>
+
+                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                    Lektionsplaner og skemaer oprettes på baggrund af de hold og øvrige oplysninger, der allerede findes i systemet.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 gap-6 xl:grid-cols-2">
+
+                <!-- LessonTemplate -->
+                <section class="rounded-2xl border border-slate-200/80 bg-white shadow-sm xl:col-span-2 dark:border-slate-800 dark:bg-slate-900">
+                    <LessonTemplateCard />
+                </section>
             </div>
         </div>
 

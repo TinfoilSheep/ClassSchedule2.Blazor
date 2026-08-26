@@ -31,6 +31,7 @@ builder.Services.AddScoped<IHoldService, HoldService>();
 builder.Services.AddScoped<IHoldMemberService, HoldMemberService>();
 builder.Services.AddScoped<IStudentGroupService, StudentGroupService>();
 builder.Services.AddScoped<IStudentGroupMemberService, StudentGroupMemberService>();
+builder.Services.AddScoped<ILessonTemplateService, LessonTemplateService>();
 builder.Services.AddScoped<ThemeService>();
 builder.Services.AddScoped<BrowserAuthService>();
 

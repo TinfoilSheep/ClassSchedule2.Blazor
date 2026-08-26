@@ -8,11 +8,11 @@ namespace ClassSchedule2.Blazor.Services.Data
     {
         private readonly BrowserAuthService _browserAuthService;
         private readonly IConfiguration _configuration;
-        private readonly ILogger<SubjectService> _logger;
+        private readonly ILogger<TermService> _logger;
 
         private const string TermBaseUrl = "api/Term/";
 
-        public TermService(BrowserAuthService browserAuthService, IConfiguration configuration, ILogger<SubjectService> logger)
+        public TermService(BrowserAuthService browserAuthService, IConfiguration configuration, ILogger<TermService> logger)
         {
             _browserAuthService = browserAuthService;
             _configuration = configuration;

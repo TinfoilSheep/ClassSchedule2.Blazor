@@ -1,5 +1,4 @@
 ﻿using ClassSchedule2.Blazor.Interfaces;
-using ClassSchedule2.Blazor.Models.DTOs;
 using Newtonsoft.Json;
 using static ClassSchedule2.Blazor.Models.DTOs.NonTeachingDayLibrary;
 
@@ -9,11 +8,11 @@ namespace ClassSchedule2.Blazor.Services.Data
     {
         private readonly BrowserAuthService _browserAuthService;
         private readonly IConfiguration _configuration;
-        private readonly ILogger<SubjectService> _logger;
+        private readonly ILogger<NonTeachingDayService> _logger;
 
         private const string NonTeachingDayBaseUrl = "api/NonTeachingDay/";
 
-        public NonTeachingDayService(BrowserAuthService browserAuthService, IConfiguration configuration, ILogger<SubjectService> logger)
+        public NonTeachingDayService(BrowserAuthService browserAuthService, IConfiguration configuration, ILogger<NonTeachingDayService> logger)
         {
             _browserAuthService = browserAuthService;
             _configuration = configuration;

@@ -10,11 +10,11 @@ namespace ClassSchedule2.Blazor.Services.Data
     {
         private readonly BrowserAuthService _browserAuthService;
         private readonly IConfiguration _configuration;
-        private readonly ILogger<InstitutionService> _logger;
+        private readonly ILogger<HoldService> _logger;
         private readonly string _HoldBaseUrl = "api/Hold/";
         private readonly string _ApiBase;
 
-        public HoldService(IConfiguration configuration, ILogger<InstitutionService> logger, BrowserAuthService browserAuthService)
+        public HoldService(IConfiguration configuration, ILogger<HoldService> logger, BrowserAuthService browserAuthService)
         {
             _configuration = configuration;
             _logger = logger;

@@ -10,11 +10,11 @@ namespace ClassSchedule2.Blazor.Services.Data
     {
         private readonly BrowserAuthService _browserAuthService;
         private readonly IConfiguration _configuration;
-        private readonly ILogger<InstitutionService> _logger;
+        private readonly ILogger<StudentGroupService> _logger;
         private readonly string _StudentGroupBaseUrl = "api/StudentGroup/";
         private readonly string _ApiBase;
 
-        public StudentGroupService(IConfiguration configuration, ILogger<InstitutionService> logger, BrowserAuthService browserAuthService)
+        public StudentGroupService(IConfiguration configuration, ILogger<StudentGroupService> logger, BrowserAuthService browserAuthService)
         {
             _configuration = configuration;
             _logger = logger;

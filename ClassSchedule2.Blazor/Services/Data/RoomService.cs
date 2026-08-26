@@ -8,11 +8,11 @@ namespace ClassSchedule2.Blazor.Services.Data
     {
         private readonly BrowserAuthService _browserAuthService;
         private readonly IConfiguration _configuration;
-        private readonly ILogger<SubjectService> _logger;
+        private readonly ILogger<RoomService> _logger;
 
         private const string RoomBaseUrl = "api/Room/";
 
-        public RoomService(BrowserAuthService browserAuthService, IConfiguration configuration, ILogger<SubjectService> logger)
+        public RoomService(BrowserAuthService browserAuthService, IConfiguration configuration, ILogger<RoomService> logger)
         {
             _browserAuthService = browserAuthService;
             _configuration = configuration;

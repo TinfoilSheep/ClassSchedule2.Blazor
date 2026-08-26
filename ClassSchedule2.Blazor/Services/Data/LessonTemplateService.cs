@@ -1,30 +1,28 @@
 ﻿using ClassSchedule2.Blazor.Interfaces;
-using ClassSchedule2.Blazor.Models.DTOs;
 using Newtonsoft.Json;
-using static ClassSchedule2.Blazor.Models.DTOs.PeriodLibrary;
+using static ClassSchedule2.Blazor.Models.DTOs.LessonTemplateLibrary;
 
 namespace ClassSchedule2.Blazor.Services.Data
 {
-    public class PeriodService : IPeriodService
+    public class LessonTemplateService : ILessonTemplateService
     {
         private readonly BrowserAuthService _browserAuthService;
         private readonly IConfiguration _configuration;
-        private readonly ILogger<PeriodService> _logger;
+        private readonly ILogger<LessonTemplateService> _logger;
 
-        private const string PeriodBaseUrl = "api/Period/";
+        private const string LessonTemplateBaseUrl = "api/LessonTemplate/";
 
-        public PeriodService(BrowserAuthService browserAuthService, IConfiguration configuration, ILogger<PeriodService> logger)
+        public LessonTemplateService(BrowserAuthService browserAuthService, IConfiguration configuration, ILogger<LessonTemplateService> logger)
         {
             _browserAuthService = browserAuthService;
             _configuration = configuration;
             _logger = logger;
         }
-
-        public async Task<PeriodDTO?> CreatePeriodAsync(CreatePeriodDTO dto)
+        public async Task<LessonTemplateDTO?> CreateAsync(CreateLessonTemplateDTO dto)
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), PeriodBaseUrl + "create").ToString();
+            var url = new Uri(new Uri(apiBase), LessonTemplateBaseUrl + "create").ToString();
 
             try
             {
@@ -36,20 +34,20 @@ namespace ClassSchedule2.Blazor.Services.Data
                     return null;
                 }
 
-                return JsonConvert.DeserializeObject<PeriodDTO>(result.ResponseText ?? string.Empty);
+                return JsonConvert.DeserializeObject<LessonTemplateDTO>(result.ResponseText ?? string.Empty);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Fejl ved oprettelse af periode.");
+                _logger.LogError(ex, "Fejl ved oprettelse af lektionsplan.");
                 return null;
             }
         }
 
-        public async Task<bool> DeletePeriodAsync(Guid periodId)
+        public async Task<bool> DeleteAsync(Guid id)
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), PeriodBaseUrl + $"delete?id={periodId}").ToString();
+            var url = new Uri(new Uri(apiBase), LessonTemplateBaseUrl + $"delete?id={id}").ToString();
 
             try
             {
@@ -65,16 +63,16 @@ namespace ClassSchedule2.Blazor.Services.Data
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Fejl ved sletning af periode {PeriodId}.", periodId);
+                _logger.LogError(ex, "Fejl ved sletning af lektionsplan {LessonTemplateId}.", id);
                 return false;
             }
         }
 
-        public async Task<List<PeriodDTO>> GetAllPeriodsAsync()
+        public async Task<List<LessonTemplateDTO>?> GetAllAsync()
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), PeriodBaseUrl + "get-all").ToString();
+            var url = new Uri(new Uri(apiBase), LessonTemplateBaseUrl + "get-all").ToString();
 
             try
             {
@@ -82,51 +80,49 @@ namespace ClassSchedule2.Blazor.Services.Data
 
                 if (!result.Success)
                 {
-                    _logger.LogWarning("Kunne ikke hente periode. Status: {Status}", result.Status);
-
-                    return [];
-                }
-
-                return JsonConvert.DeserializeObject<List<PeriodDTO>>(result.ResponseText ?? string.Empty) ?? [];
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Fejl ved hentning af periode.");
-                return [];
-            }
-        }
-
-        public async Task<PeriodDTO?> GetPeriodByIdAsync(Guid periodId)
-        {
-            var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
-
-            var url = new Uri(new Uri(apiBase), PeriodBaseUrl + $"get?id={periodId}").ToString();
-
-            try
-            {
-                var result = await _browserAuthService.GetAsync(url);
-
-                if (!result.Success)
-                {
-                    _logger.LogWarning("Kunne ikke hente periode. Status: {Status}", result.Status);
-
+                    _logger.LogWarning("Fejl ved hentning af alle lektionsplaner. Status: {Status}", result.Status);
                     return null;
                 }
 
-                return JsonConvert.DeserializeObject<PeriodDTO>(result.ResponseText ?? string.Empty);
+                return JsonConvert.DeserializeObject<List<LessonTemplateDTO>>(result.ResponseText ?? string.Empty) ?? [];
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Fejl ved hentning af periode {PeriodId}.", periodId);
+                _logger.LogError(ex, "Fejl ved hentning af alle lektionsplaner.");
                 return null;
             }
         }
 
-        public async Task<PeriodDTO?> UpdatePeriodAsync(PeriodDTO dto)
+        public async Task<LessonTemplateDTO?> GetByIdAsync(Guid id)
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), PeriodBaseUrl + "update").ToString();
+            var url = new Uri(new Uri(apiBase), LessonTemplateBaseUrl + $"get-by-id?id={id}").ToString();
+
+            try
+            {
+                var result = await _browserAuthService.GetAsync(url);
+
+                if (!result.Success)
+                {
+                    _logger.LogWarning("Fejl ved hentning af lektionsplan. Status: {Status}", result.Status);
+                    return null;
+                }
+
+                return JsonConvert.DeserializeObject<LessonTemplateDTO>(result.ResponseText ?? string.Empty) ?? null;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Fejl ved hentning af lektionsplan {LessonTemplateId}.", id);
+                return null;
+            }
+        }
+
+        public async Task<LessonTemplateDTO?> UpdateAsync(UpdateLessonTemplateDTO dto)
+        {
+            var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
+
+            var url = new Uri(new Uri(apiBase), LessonTemplateBaseUrl + "update").ToString();
 
             try
             {
@@ -134,16 +130,15 @@ namespace ClassSchedule2.Blazor.Services.Data
 
                 if (!result.Success)
                 {
-                    _logger.LogWarning("Kunne ikke opdatere periode. Status: {Status}", result.Status);
-
+                    _logger.LogWarning("Fejl ved opdatering. Status: {Status}", result.Status);
                     return null;
                 }
 
-                return JsonConvert.DeserializeObject<PeriodDTO>(result.ResponseText ?? string.Empty);
+                return JsonConvert.DeserializeObject<LessonTemplateDTO>(result.ResponseText ?? string.Empty) ?? null;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Fejl ved opdatering af periode.");
+                _logger.LogError(ex, "Fejl ved opdatering af lektionsplan.");
                 return null;
             }
         }
