@@ -104,11 +104,11 @@ namespace ClassSchedule2.Blazor.Services.Data
             }
         }
 
-        public async Task<GetUserInformationResponseDTO?> GetUserInformationAsync(GetUserInformationRequestDTO dto)
+        public async Task<GetUserInformationResponseDTO?> GetUserInformationAsync(Guid id)
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            string url = new Uri(new Uri(apiBase), $"api/User/get?id={dto.RequestedUserId}").ToString();
+            string url = new Uri(new Uri(apiBase), $"api/User/get?id={id}").ToString();
 
             try
             {

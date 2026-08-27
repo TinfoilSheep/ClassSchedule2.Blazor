@@ -20,11 +20,6 @@ namespace ClassSchedule2.Blazor.Models.DTOs
             public Guid UserId { get; set; }
         }
 
-        public class GetUserInformationRequestDTO
-        {
-            public Guid RequestedUserId { get; set; }
-        }
-
         public class GetUserInformationResponseDTO
         {
             public Guid Id { get; set; }

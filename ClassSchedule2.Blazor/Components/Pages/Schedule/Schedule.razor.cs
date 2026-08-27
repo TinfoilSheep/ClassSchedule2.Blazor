@@ -1,18 +1,24 @@
 ﻿using ClassSchedule2.Blazor.Interfaces;
+using ClassSchedule2.Blazor.Models.Enums;
 using ClassSchedule2.Blazor.Models.Models;
 using Microsoft.AspNetCore.Components;
 using static ClassSchedule2.Blazor.Models.DTOs.ScheduleLibrary;
+using static ClassSchedule2.Blazor.Models.DTOs.UserLibrary;
 
 namespace ClassSchedule2.Blazor.Components.Pages.Schedule
 {
-    public partial class Schedule
+    public partial class Schedule : ComponentBase
     {
         [Inject]
         private IScheduleService ScheduleService { get; set; } = default!;
         [Inject]
         private ICurrentUserProvider CurrentUserProvider { get; set; } = default!;
 
+        [Parameter] public Guid? TargetUserId { get; set; } = null;
+
         private CurrentUserData? CurrentUser { get; set; }
+
+        private Guid UserId { get; set; }
 
         private List<ScheduleLessonDTO> _lessons = [];
         private ScheduleLessonDTO? _selectedLesson;
@@ -60,7 +66,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
             var to = from.AddDays(ScheduleDays - 1);
 
             var dto = new GetScheduleLessonDTO(
-                TargetId: CurrentUser!.UserId,
+                TargetId: Guid.Parse("53ecadbd-9a9b-4d03-96c9-050527f6dc8c"),
                 From: from,
                 To: to);
 
