@@ -1,6 +1,6 @@
 ﻿namespace ClassSchedule2.Blazor.Models.DTOs
 {
-    public class ScheduleLessonLibrary
+    public class ScheduleLibrary
     {
         public record ScheduleLessonDTO(
             Guid Id,

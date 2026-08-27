@@ -1,6 +1,7 @@
 ﻿using ClassSchedule2.Blazor.Interfaces;
 using ClassSchedule2.Blazor.Models.Models;
 using Microsoft.AspNetCore.Components;
+using static ClassSchedule2.Blazor.Models.DTOs.ScheduleLibrary;
 
 namespace ClassSchedule2.Blazor.Components.Pages.Schedule
 {
@@ -8,22 +9,71 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
     {
         [Inject]
         private IScheduleService ScheduleService { get; set; } = default!;
+        [Inject]
+        private ICurrentUserProvider CurrentUserProvider { get; set; } = default!;
 
-        private List<ScheduleLesson> _lessons = [];
-        private ScheduleLesson? _selectedLesson;
-        private DateOnly _selectedWeek = new(2026, 8, 10);
+        private CurrentUserData? CurrentUser { get; set; }
+
+        private List<ScheduleLessonDTO> _lessons = [];
+        private ScheduleLessonDTO? _selectedLesson;
+
+        private readonly HashSet<DateOnly> _loadedWeeks = [];
+        private DateOnly _selectedWeek = new();
         private const int MinuteHeight = 1;
-        //private const int HourHeight = 80;
         private static readonly TimeOnly ScheduleStart = new(8, 0);
         private static readonly TimeOnly ScheduleEnd = new(16, 30);
+        private const int ScheduleDays = 56;
         private bool _showLessonModal;
         private bool _isLoading = true;
 
-        protected override async Task OnInitializedAsync()
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            _lessons = await ScheduleService.GetScheduleAsync();
+            if (!firstRender)
+                return;
+
+            CurrentUser = await CurrentUserProvider.GetAsync();
+
+            if (CurrentUser is null)
+            {
+                _isLoading = false;
+                StateHasChanged();
+                return;
+            }
+
+            _selectedWeek = GetMonday(DateOnly.FromDateTime(DateTime.Today));
+
+            await EnsureWeekLoadedAsync(_selectedWeek);
 
             _isLoading = false;
+
+            StateHasChanged();
+        }
+
+        private async Task EnsureWeekLoadedAsync(DateOnly week)
+        {
+            week = GetMonday(week);
+
+            if (_loadedWeeks.Contains(week))
+                return;
+
+            var from = week;
+            var to = from.AddDays(ScheduleDays - 1);
+
+            var dto = new GetScheduleLessonDTO(
+                TargetId: CurrentUser!.UserId,
+                From: from,
+                To: to);
+
+            var newLessons = await ScheduleService.GetScheduleAsync(dto);
+
+            var existingIds = _lessons.Select(x => x.Id).ToHashSet();
+
+            _lessons.AddRange(newLessons.Where(x => !existingIds.Contains(x.Id)));
+
+            for (var currentWeek = from; currentWeek <= to; currentWeek = currentWeek.AddDays(7))
+            {
+                _loadedWeeks.Add(currentWeek);
+            }
         }
 
         private DateOnly GetMonday(DateOnly date)
@@ -51,7 +101,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
             return $"{monday:dd. MMMM} – {sunday:dd. MMMM yyyy}";
         }
 
-        private double GetLessonTop(ScheduleLesson lesson)
+        private double GetLessonTop(ScheduleLessonDTO lesson)
         {
             var lessonStartMinutes = lesson.StartTime.Hour * 60 + lesson.StartTime.Minute;
 
@@ -60,7 +110,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
             return (lessonStartMinutes - scheduleStartMinutes) * MinuteHeight;
         }
 
-        private double GetLessonHeight(ScheduleLesson lesson)
+        private double GetLessonHeight(ScheduleLessonDTO lesson)
         {
             var lessonStartMinutes = lesson.StartTime.Hour * 60 + lesson.StartTime.Minute;
 
@@ -87,7 +137,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
             return (timeMinutes - startMinutes) * MinuteHeight;
         }
 
-        private bool IsCurrentLesson(ScheduleLesson lesson)
+        private bool IsCurrentLesson(ScheduleLessonDTO lesson)
         {
             var today = DateOnly.FromDateTime(DateTime.Now);
             var now = TimeOnly.FromDateTime(DateTime.Now);
@@ -95,24 +145,42 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
             return lesson.Date == today && now >= lesson.StartTime && now < lesson.EndTime;
         }
 
-        private void PreviousWeek()
+        private async Task PreviousWeek()
         {
-            _selectedWeek = GetMonday(_selectedWeek).AddDays(-7);
+            var previousWeek = GetMonday(_selectedWeek).AddDays(-7);
+
+            _selectedWeek = previousWeek;
+
+            await EnsureWeekLoadedAsync(previousWeek);
+
+            StateHasChanged();
         }
 
-        private void NextWeek()
+        private async Task NextWeek()
         {
-            _selectedWeek = GetMonday(_selectedWeek).AddDays(7);
+            var nextWeek = GetMonday(_selectedWeek).AddDays(7);
+
+            _selectedWeek = nextWeek;
+
+            await EnsureWeekLoadedAsync(nextWeek);
+
+            StateHasChanged();
         }
 
-        private void GoToCurrentWeek()
+        private async Task GoToCurrentWeek()
         {
-            _selectedWeek = GetMonday(DateOnly.FromDateTime(DateTime.Today));
+            var currentWeek = GetMonday(DateOnly.FromDateTime(DateTime.Today));
+
+            _selectedWeek = currentWeek;
+
+            await EnsureWeekLoadedAsync(currentWeek);
+
+            StateHasChanged();
         }
 
-        private string GetLessonCardClass(ScheduleLesson lesson)
+        private string GetLessonCardClass(ScheduleLessonDTO lesson)
         {
-            var baseClass = "absolute right-2 left-2 z-10 cursor-pointer rounded-xl p-3 shadow-sm transition-all";
+            var baseClass = "absolute right-2 left-2 z-10 cursor-pointer rounded-xl p-2 shadow-sm transition-all overflow-hidden";
 
             if (IsCurrentLesson(lesson))
             {
@@ -122,7 +190,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
             return $"{baseClass} border border-amber-400/20 bg-amber-400/10 hover:bg-amber-400/15 hover:shadow-md dark:border-sky-500/20 dark:bg-sky-500/10 dark:hover:bg-sky-500/15";
         }
 
-        private void OpenLessonModal(ScheduleLesson lesson)
+        private void OpenLessonModal(ScheduleLessonDTO lesson)
         {
             _selectedLesson = lesson;
             _showLessonModal = true;
@@ -134,7 +202,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
             _selectedLesson = null;
         }
 
-        private IEnumerable<ScheduleLesson> GetLessonsForDay(DateOnly date)
+        private IEnumerable<ScheduleLessonDTO> GetLessonsForDay(DateOnly date)
         {
             return _lessons.Where(x => x.Date == date).OrderBy(x => x.StartTime);
         }

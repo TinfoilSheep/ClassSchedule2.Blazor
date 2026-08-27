@@ -9,7 +9,7 @@ namespace ClassSchedule2.Blazor.Models.Forms.StudentGroup
 
         [Required(ErrorMessage = "Navn på Hold er påkrævet.")]
         [StringLength(100, ErrorMessage = "Navnet må højst være 100 tegn.")]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         public List<MinimalUserInformationDTO> Students { get; set; } = [];
     }
