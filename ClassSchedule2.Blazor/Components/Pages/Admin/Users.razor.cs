@@ -2,6 +2,7 @@
 using ClassSchedule2.Blazor.Models.DTOs;
 using ClassSchedule2.Blazor.Models.Enums;
 using ClassSchedule2.Blazor.Models.Forms.Users;
+using ClassSchedule2.Blazor.Models.Models;
 using ClassSchedule2.Blazor.Providers;
 using Microsoft.AspNetCore.Components;
 using static ClassSchedule2.Blazor.Models.DTOs.UserLibrary;
@@ -13,6 +14,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin
         [Inject] private SchoolAuthenticationStateProvider AuthenticationProvider { get; set; } = default!;
         [Inject] private IUserService UserService { get; set; } = default!;
         [Inject] private ICurrentUserProvider CurrentUser { get; set; } = default!;
+        [Inject] private NavigationManager Navigation { get; set; } = default!;
 
         private List<GetUserInformationResponseDTO> _users = [];
         private GetUserInformationResponseDTO? _selectedUser;
@@ -71,6 +73,11 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin
             }
         }
 
+        private void ShowTargetSchedule(GetUserInformationResponseDTO user)
+        {
+            Navigation.NavigateTo($"/schedule/{user.Id}");
+        }
+
         private void OpenCreateModal()
         {
             _modalMode = UserModalMode.Create;
@@ -90,6 +97,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin
             _modalMode = UserModalMode.Delete;
             _showModal = true;
         }
+
 
         private async Task HandleUserChanged()
         {

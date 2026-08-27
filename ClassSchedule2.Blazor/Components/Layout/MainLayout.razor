@@ -143,9 +143,9 @@
                     @* TODO: @if (_userRole == "Student" || _userRole == "Teacher") *@
                     @if (_userRole == "Student" || _userRole == "Teacher" || _userRole == "Admin")
                     {
-                        <NavLink href="/schedule"
-                                 class="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/70 dark:hover:text-slate-100"
-                                 ActiveClass="bg-amber-400/10 text-amber-700 dark:bg-amber-400/10 dark:text-amber-400">
+                        <button type="button"
+                                @onclick="NavigateToSchedule"
+                                class="group flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/70 dark:hover:text-slate-100">
 
                             <svg xmlns="http://www.w3.org/2000/svg"
                                  fill="none"
@@ -153,15 +153,13 @@
                                  stroke-width="1.8"
                                  stroke="currentColor"
                                  class="h-5 w-5">
-
                                 <path stroke-linecap="round"
                                       stroke-linejoin="round"
                                       d="M6.75 3.75v2.25m10.5-2.25v2.25M4.5 9.75h15M5.25 5.25h13.5a1.5 1.5 0 011.5 1.5v12a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-12a1.5 1.5 0 011.5-1.5z" />
-
                             </svg>
 
                             <span>Skema</span>
-                        </NavLink>
+                        </button>
                     }
 
                     @if (_userRole == "Admin")

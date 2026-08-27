@@ -172,7 +172,7 @@
                 </div>
 
                 <div class="mt-0.5 text-sm font-medium text-slate-900 dark:text-slate-100">
-                    @string.Join(", ", Lesson.Teachers)
+                    @string.Join(", ", Lesson.Teachers.Select(t => t.Name))
                 </div>
             </div>
         </div>

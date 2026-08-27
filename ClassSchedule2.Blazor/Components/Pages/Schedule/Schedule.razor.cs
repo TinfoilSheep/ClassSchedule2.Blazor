@@ -7,14 +7,20 @@ using static ClassSchedule2.Blazor.Models.DTOs.UserLibrary;
 
 namespace ClassSchedule2.Blazor.Components.Pages.Schedule
 {
-    public partial class Schedule : ComponentBase
+    public partial class Schedule
     {
         [Inject]
         private IScheduleService ScheduleService { get; set; } = default!;
         [Inject]
         private ICurrentUserProvider CurrentUserProvider { get; set; } = default!;
+        [Inject]
+        private NavigationManager Navigation { get; set; } = default!;
 
-        [Parameter] public Guid? TargetUserId { get; set; } = null;
+        [Parameter]
+        public Guid? TargetId { get; set; } = default!;
+
+        [Parameter]
+        public EventCallback OnCancel { get; set; }
 
         private CurrentUserData? CurrentUser { get; set; }
 
@@ -32,18 +38,30 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
         private bool _showLessonModal;
         private bool _isLoading = true;
 
-        protected override async Task OnAfterRenderAsync(bool firstRender)
+        protected override async Task OnParametersSetAsync()
         {
-            if (!firstRender)
-                return;
+            await Load();
+        }
 
-            CurrentUser = await CurrentUserProvider.GetAsync();
-
-            if (CurrentUser is null)
+        private async Task Load()
+        {
+            _lessons = [];
+            if (TargetId.HasValue && TargetId != Guid.Empty)
             {
-                _isLoading = false;
-                StateHasChanged();
-                return;
+                UserId = TargetId.Value;
+            }
+            else
+            {
+                CurrentUser = await CurrentUserProvider.GetAsync();
+
+                if (CurrentUser == null)
+                {
+                    _isLoading = false;
+                }
+                else
+                {
+                    UserId = CurrentUser.UserId;
+                }
             }
 
             _selectedWeek = GetMonday(DateOnly.FromDateTime(DateTime.Today));
@@ -66,7 +84,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
             var to = from.AddDays(ScheduleDays - 1);
 
             var dto = new GetScheduleLessonDTO(
-                TargetId: Guid.Parse("53ecadbd-9a9b-4d03-96c9-050527f6dc8c"),
+                TargetId: UserId,
                 From: from,
                 To: to);
 
@@ -229,6 +247,11 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
                 yield return current;
                 current = current.AddMinutes(60);
             }
+        }
+
+        private async Task Cancel()
+        {
+            await OnCancel.InvokeAsync();
         }
     }
 }

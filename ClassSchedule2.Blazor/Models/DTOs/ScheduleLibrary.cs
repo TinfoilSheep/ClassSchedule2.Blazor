@@ -1,4 +1,6 @@
-﻿namespace ClassSchedule2.Blazor.Models.DTOs
+﻿using static ClassSchedule2.Blazor.Models.DTOs.UserLibrary;
+
+namespace ClassSchedule2.Blazor.Models.DTOs
 {
     public class ScheduleLibrary
     {
@@ -11,7 +13,7 @@
             string HoldName,
             string? RoomName,
             string Status,
-            List<string> Teachers);
+            List<MinimalUserInformationDTO> Teachers);
 
         public record GetScheduleLessonDTO(Guid TargetId, DateOnly From, DateOnly To);
     }

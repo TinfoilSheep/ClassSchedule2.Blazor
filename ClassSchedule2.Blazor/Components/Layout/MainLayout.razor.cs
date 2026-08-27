@@ -11,6 +11,7 @@ namespace ClassSchedule2.Blazor.Components.Layout
         [Inject] private ICurrentUserProvider CurrentUser { get; set; } = default!;
         [Inject] private IInstitutionService InstitutionService { get; set; } = default!;
         [Inject] private NavigationManager Navigation { get; set; } = default!;
+
         private string _userName = string.Empty;
         private string _userInitials = string.Empty;
         private string _userRole = string.Empty;
@@ -52,6 +53,11 @@ namespace ClassSchedule2.Blazor.Components.Layout
         private void CloseMobileMenu()
         {
             _mobileMenuOpen = false;
+        }
+
+        private void NavigateToSchedule()
+        {
+            Navigation.NavigateTo("/schedule");
         }
 
         private async Task LogoutAsync()
