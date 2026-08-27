@@ -4,9 +4,9 @@ namespace ClassSchedule2.Blazor.Models.Forms.StudentGroup
 {
     public class CreateStudentGroupFormModel
     {
-        [Required(ErrorMessage = "Navn på Klassen er påkrævet.")]
+        [Required(ErrorMessage = "Navn på Elevgruppe er påkrævet.")]
         [StringLength(100, ErrorMessage = "Navnet må højst være 100 tegn.")]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         public List<Guid> Students { get; set; } = [];
     }

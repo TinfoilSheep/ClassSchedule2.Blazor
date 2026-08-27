@@ -9,11 +9,11 @@ namespace ClassSchedule2.Blazor.Services.Data
     {
         private readonly BrowserAuthService _browserAuthService;
         private readonly IConfiguration _configuration;
-        private readonly ILogger<SubjectService> _logger;
+        private readonly ILogger<PeriodService> _logger;
 
         private const string PeriodBaseUrl = "api/Period/";
 
-        public PeriodService(BrowserAuthService browserAuthService, IConfiguration configuration, ILogger<SubjectService> logger)
+        public PeriodService(BrowserAuthService browserAuthService, IConfiguration configuration, ILogger<PeriodService> logger)
         {
             _browserAuthService = browserAuthService;
             _configuration = configuration;
@@ -24,7 +24,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), PeriodBaseUrl + "create-period").ToString();
+            var url = new Uri(new Uri(apiBase), PeriodBaseUrl + "create").ToString();
 
             try
             {
@@ -49,7 +49,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), PeriodBaseUrl + $"delete-period?id={periodId}").ToString();
+            var url = new Uri(new Uri(apiBase), PeriodBaseUrl + $"delete?id={periodId}").ToString();
 
             try
             {
@@ -74,7 +74,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), PeriodBaseUrl + "get-all-periods").ToString();
+            var url = new Uri(new Uri(apiBase), PeriodBaseUrl + "get-all").ToString();
 
             try
             {
@@ -100,7 +100,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), PeriodBaseUrl + $"get-period?id={periodId}").ToString();
+            var url = new Uri(new Uri(apiBase), PeriodBaseUrl + $"get?id={periodId}").ToString();
 
             try
             {
@@ -126,7 +126,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), PeriodBaseUrl + "update-period").ToString();
+            var url = new Uri(new Uri(apiBase), PeriodBaseUrl + "update").ToString();
 
             try
             {

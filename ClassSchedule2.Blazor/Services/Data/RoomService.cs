@@ -8,11 +8,11 @@ namespace ClassSchedule2.Blazor.Services.Data
     {
         private readonly BrowserAuthService _browserAuthService;
         private readonly IConfiguration _configuration;
-        private readonly ILogger<SubjectService> _logger;
+        private readonly ILogger<RoomService> _logger;
 
         private const string RoomBaseUrl = "api/Room/";
 
-        public RoomService(BrowserAuthService browserAuthService, IConfiguration configuration, ILogger<SubjectService> logger)
+        public RoomService(BrowserAuthService browserAuthService, IConfiguration configuration, ILogger<RoomService> logger)
         {
             _browserAuthService = browserAuthService;
             _configuration = configuration;
@@ -23,7 +23,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), RoomBaseUrl + "create-room").ToString();
+            var url = new Uri(new Uri(apiBase), RoomBaseUrl + "create").ToString();
 
             try
             {
@@ -48,7 +48,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), RoomBaseUrl + $"delete-room?id={roomId}").ToString();
+            var url = new Uri(new Uri(apiBase), RoomBaseUrl + $"delete?id={roomId}").ToString();
 
             try
             {
@@ -73,7 +73,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), RoomBaseUrl + "get-all-rooms").ToString();
+            var url = new Uri(new Uri(apiBase), RoomBaseUrl + "get-all").ToString();
 
             try
             {
@@ -99,7 +99,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), RoomBaseUrl + $"get-room?id={roomId}").ToString();
+            var url = new Uri(new Uri(apiBase), RoomBaseUrl + $"get?id={roomId}").ToString();
 
             try
             {
@@ -125,7 +125,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            var url = new Uri(new Uri(apiBase), RoomBaseUrl + "update-room").ToString();
+            var url = new Uri(new Uri(apiBase), RoomBaseUrl + "update").ToString();
 
             try
             {

@@ -47,7 +47,7 @@ public partial class AddUser
                 Role = _form.Role
             };
 
-            var success = await UserService.AddUserAsync(dto);
+            var success = await UserService.CreateUserAsync(dto);
 
             if (!success)
             {

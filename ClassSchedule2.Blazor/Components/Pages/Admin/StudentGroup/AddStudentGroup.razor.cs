@@ -30,6 +30,8 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.StudentGroup
         private bool _isSubmitting;
         private string? _errorMessage;
         private bool _isLoading;
+        private string _studentSearchText = "";
+        private string _selectedStudentSearchText = "";
 
         private List<MinimalUserInformationDTO> _allStudents = [];
         private List<MinimalUserInformationDTO> _selectedStudents = [];
@@ -78,6 +80,16 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.StudentGroup
             _allStudents.Add(student);
         }
 
+        private void ClearStudentSearch()
+        {
+            _studentSearchText = "";
+        }
+
+        private void ClearSelectedStudentSearch()
+        {
+            _selectedStudentSearchText = "";
+        }
+
         private async Task HandleSubmitAsync()
         {
             if (_isSubmitting || _isLoading)
@@ -96,7 +108,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.StudentGroup
 
                 if (!result)
                 {
-                    _errorMessage = "Klassen kunne ikke oprettes. Prøv igen.";
+                    _errorMessage = "Elevgruppen kunne ikke oprettes. Prøv igen.";
                     return;
                 }
 
@@ -105,7 +117,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.StudentGroup
             }
             catch (Exception)
             {
-                _errorMessage = "Der opstod en fejl under oprettelsen af Klassen.";
+                _errorMessage = "Der opstod en fejl under oprettelsen af Elevgruppen.";
             }
             finally
             {
@@ -122,6 +134,38 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.StudentGroup
             }
 
             await OnCancel.InvokeAsync();
+        }
+
+        private IEnumerable<MinimalUserInformationDTO> FilteredStudents
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(_studentSearchText))
+                {
+                    return _allStudents;
+                }
+
+                var search = _studentSearchText.Trim();
+
+                return _allStudents.Where(student =>
+                    student.Name.Contains(search, StringComparison.OrdinalIgnoreCase));
+            }
+        }
+
+        private IEnumerable<MinimalUserInformationDTO> FilteredSelectedStudents
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(_selectedStudentSearchText))
+                {
+                    return _selectedStudents;
+                }
+
+                var search = _selectedStudentSearchText.Trim();
+
+                return _selectedStudents.Where(student =>
+                    student.Name.Contains(search, StringComparison.OrdinalIgnoreCase));
+            }
         }
     }
 }

@@ -1,0 +1,118 @@
+﻿<div class="overflow-hidden rounded-2xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
+
+    <!-- Header -->
+    <div class="flex items-start justify-between border-b border-slate-200 px-5 py-4 dark:border-slate-800">
+
+        <div class="flex items-center gap-3">
+
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-amber-500/20 bg-amber-400/10 text-amber-600 dark:border-slate-800 dark:bg-slate-950 dark:text-amber-400">
+
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke-width="1.8"
+                     stroke="currentColor"
+                     class="h-5 w-5">
+
+                    <path stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M12 3v3m0 12v3M3 12h3m12 0h3M5.636 5.636l2.121 2.121m8.486 8.486l2.121 2.121m0-12.728l-2.121 2.121m-8.486 8.486l-2.121 2.121" />
+                </svg>
+            </div>
+
+            <div>
+                <h2 class="text-sm font-bold text-slate-900 dark:text-slate-100">
+                    Generér skema
+                </h2>
+
+                <p class="mt-0.5 text-[11px] text-slate-500 dark:text-slate-400">
+                    Generér lektioner ud fra lektionsplanerne
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="p-5">
+
+        @if (_isLoading)
+        {
+            <LoadingSpinner Visible="_isLoading"
+                            Message="Indlæser termer..."
+                            FullScreen="false" />
+        }
+        else
+        {
+            <div class="space-y-4">
+
+                @if (!string.IsNullOrWhiteSpace(_errorMessage))
+                {
+                    <div class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-400">
+                        @_errorMessage
+                    </div>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(_successMessage))
+                {
+                    <div class="rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700 dark:border-green-900/50 dark:bg-green-950/30 dark:text-green-400">
+                        @_successMessage
+                    </div>
+                }
+
+                <div>
+                    <label class="mb-1.5 block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                        Term
+                    </label>
+
+                    <InputSelect @bind-Value="_selectedTermId"
+                                 disabled="@_isGenerating"
+                                 class="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 transition outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 disabled:cursor-not-allowed disabled:opacity-60 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100">
+
+                        <option value="@Guid.Empty">
+                            Vælg en term...
+                        </option>
+
+                        @foreach (var term in _terms)
+                        {
+                            <option value="@term.Id">
+                                @term.Name
+                            </option>
+                        }
+
+                    </InputSelect>
+                </div>
+
+                <div class="flex justify-end">
+
+                    <button type="button"
+                            @onclick="GenerateLessonsAsync"
+                            disabled="@(_isGenerating || _selectedTermId == Guid.Empty || !_terms.Any())"
+                            class="inline-flex min-w-36 cursor-pointer items-center justify-center gap-2 rounded-xl bg-amber-400 px-4 py-2.5 text-xs font-semibold text-slate-950 shadow-sm transition-colors hover:bg-amber-300 disabled:cursor-not-allowed disabled:opacity-60">
+
+                        @if (_isGenerating)
+                        {
+                            <LoadingSpinner Visible="_isGenerating"
+                                            Message="Genererer..."
+                                            FullScreen="false" />
+                        }
+                        else
+                        {
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke-width="1.8"
+                                 stroke="currentColor"
+                                 class="h-4 w-4">
+
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M12 3v18m9-9H3" />
+                            </svg>
+
+                            <span>Generér skema</span>
+                        }
+                    </button>
+                </div>
+            </div>        }
+    </div>
+</div>

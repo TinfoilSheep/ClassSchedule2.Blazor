@@ -8,11 +8,11 @@ namespace ClassSchedule2.Blazor.Services.Data
     {
         private readonly BrowserAuthService _browserAuthService;
         private readonly IConfiguration _configuration;
-        private readonly ILogger<InstitutionService> _logger;
+        private readonly ILogger<StudentGroupMemberService> _logger;
         private readonly string _StudentGroupBaseUrl = "api/StudentGroup/";
         private readonly string _ApiBase;
 
-        public StudentGroupMemberService(IConfiguration configuration, ILogger<InstitutionService> logger, BrowserAuthService browserAuthService)
+        public StudentGroupMemberService(IConfiguration configuration, ILogger<StudentGroupMemberService> logger, BrowserAuthService browserAuthService)
         {
             _configuration = configuration;
             _logger = logger;
@@ -21,7 +21,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         }
         public async Task<List<MinimalUserInformationDTO>> GetStudentsAsync(Guid studentGroupId)
         {
-            string url = new Uri(new Uri(_ApiBase), _StudentGroupBaseUrl + $"{studentGroupId}/Get-Students").ToString();
+            string url = new Uri(new Uri(_ApiBase), _StudentGroupBaseUrl + $"{studentGroupId}/get-students").ToString();
 
             try
             {

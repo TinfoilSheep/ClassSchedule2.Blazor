@@ -10,11 +10,11 @@ namespace ClassSchedule2.Blazor.Services.Data
     {
         private readonly BrowserAuthService _browserAuthService;
         private readonly IConfiguration _configuration;
-        private readonly ILogger<InstitutionService> _logger;
+        private readonly ILogger<StudentGroupService> _logger;
         private readonly string _StudentGroupBaseUrl = "api/StudentGroup/";
         private readonly string _ApiBase;
 
-        public StudentGroupService(IConfiguration configuration, ILogger<InstitutionService> logger, BrowserAuthService browserAuthService)
+        public StudentGroupService(IConfiguration configuration, ILogger<StudentGroupService> logger, BrowserAuthService browserAuthService)
         {
             _configuration = configuration;
             _logger = logger;
@@ -24,7 +24,7 @@ namespace ClassSchedule2.Blazor.Services.Data
 
         public async Task<bool> Create(CreateStudentGroupDTO dto)
         {
-            string? url = new Uri(new Uri(_ApiBase), _StudentGroupBaseUrl + "Add").ToString();
+            string? url = new Uri(new Uri(_ApiBase), _StudentGroupBaseUrl + "create").ToString();
 
             try
             {
@@ -40,14 +40,14 @@ namespace ClassSchedule2.Blazor.Services.Data
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Fejl ved oprettelse af Klassen.");
+                _logger.LogError(ex, "Fejl ved oprettelse af Elevgruppen.");
                 return false;
             }
         }
 
         public async Task<bool> Update(EditStudentGroupDTO dto)
         {
-            string? url = new Uri(new Uri(_ApiBase), _StudentGroupBaseUrl + "Update").ToString();
+            string? url = new Uri(new Uri(_ApiBase), _StudentGroupBaseUrl + "update").ToString();
 
             try
             {
@@ -63,14 +63,14 @@ namespace ClassSchedule2.Blazor.Services.Data
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Fejl ved opdatering af Klassen {studentGroupId}.", dto.Id);
+                _logger.LogError(ex, "Fejl ved opdatering af Elevgruppen {studentGroupId}.", dto.Id);
                 return false;
             }
         }
 
         public async Task<bool> Delete(Guid studentGroupId)
         {
-            string url = new Uri(new Uri(_ApiBase), _StudentGroupBaseUrl + $"Delete?id={studentGroupId}").ToString();
+            string url = new Uri(new Uri(_ApiBase), _StudentGroupBaseUrl + $"delete?id={studentGroupId}").ToString();
 
             try
             {
@@ -86,14 +86,14 @@ namespace ClassSchedule2.Blazor.Services.Data
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Fejl ved sletning af Klassen {studentGroupId}.", studentGroupId);
+                _logger.LogError(ex, "Fejl ved sletning af Elevgruppen {studentGroupId}.", studentGroupId);
                 return false;
             }
         }
 
         public async Task<StudentGroupDTO?> Get(Guid studentGroupId)
         {
-            string url = new Uri(new Uri(_ApiBase), _StudentGroupBaseUrl + $"Get?id={studentGroupId}").ToString();
+            string url = new Uri(new Uri(_ApiBase), _StudentGroupBaseUrl + $"get?id={studentGroupId}").ToString();
 
             try
             {
@@ -101,7 +101,7 @@ namespace ClassSchedule2.Blazor.Services.Data
 
                 if (!result.Success)
                 {
-                    _logger.LogWarning("Kunne ikke hente Klassen. Status: {Status}", result.Status);
+                    _logger.LogWarning("Kunne ikke hente Elevgruppen. Status: {Status}", result.Status);
                     return null;
                 }
 
@@ -109,14 +109,14 @@ namespace ClassSchedule2.Blazor.Services.Data
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Fejl ved hetning af Klassen {studentGroupId}.", studentGroupId);
+                _logger.LogError(ex, "Fejl ved hetning af Elevgruppen {studentGroupId}.", studentGroupId);
                 return null;
             }
         }
 
         public async Task<List<StudentGroupDTO>> GetAll()
         {
-            string url = new Uri(new Uri(_ApiBase), _StudentGroupBaseUrl + $"Get-All").ToString();
+            string url = new Uri(new Uri(_ApiBase), _StudentGroupBaseUrl + $"get-all").ToString();
 
             try
             {
@@ -124,7 +124,7 @@ namespace ClassSchedule2.Blazor.Services.Data
 
                 if (!result.Success)
                 {
-                    _logger.LogWarning("Kunne ikke hente alle Klasser. Status: {Status}", result.Status);
+                    _logger.LogWarning("Kunne ikke hente alle Elevgrupper. Status: {Status}", result.Status);
                     return [];
                 }
 
@@ -132,7 +132,7 @@ namespace ClassSchedule2.Blazor.Services.Data
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Fejl ved hetning af alle Klasser");
+                _logger.LogError(ex, "Fejl ved hetning af alle Elevgrupper");
                 return [];
             }
         }

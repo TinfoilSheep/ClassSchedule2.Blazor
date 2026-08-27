@@ -385,6 +385,9 @@
   .table {
     display: table;
   }
+  .h-1 {
+    height: var(--spacing);
+  }
   .h-3 {
     height: calc(var(--spacing) * 3);
   }
@@ -427,11 +430,35 @@
   .h-28 {
     height: calc(var(--spacing) * 28);
   }
+  .h-64 {
+    height: calc(var(--spacing) * 64);
+  }
   .h-\[calc\(100vh-4rem\)\] {
     height: calc(100vh - 4rem);
   }
   .h-full {
     height: 100%;
+  }
+  .max-h-1 {
+    max-height: var(--spacing);
+  }
+  .max-h-6 {
+    max-height: calc(var(--spacing) * 6);
+  }
+  .max-h-10 {
+    max-height: calc(var(--spacing) * 10);
+  }
+  .max-h-36 {
+    max-height: calc(var(--spacing) * 36);
+  }
+  .max-h-40 {
+    max-height: calc(var(--spacing) * 40);
+  }
+  .max-h-48 {
+    max-height: calc(var(--spacing) * 48);
+  }
+  .max-h-64 {
+    max-height: calc(var(--spacing) * 64);
   }
   .max-h-72 {
     max-height: calc(var(--spacing) * 72);
@@ -677,6 +704,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+  .overflow-auto {
+    overflow: auto;
   }
   .overflow-hidden {
     overflow: hidden;
@@ -1103,6 +1133,9 @@
   .text-amber-700 {
     color: var(--color-amber-700);
   }
+  .text-red-400 {
+    color: var(--color-red-400);
+  }
   .text-red-500 {
     color: var(--color-red-500);
   }
@@ -1297,6 +1330,9 @@
     }
     .hover\:border-sky-300:hover {
       border-color: var(--color-sky-300);
+    }
+    .hover\:bg-amber-50:hover {
+      background-color: var(--color-amber-50);
     }
     .hover\:bg-amber-50\/50:hover {
       background-color: color-mix(in srgb, oklch(98.7% 0.022 95.277) 50%, transparent);

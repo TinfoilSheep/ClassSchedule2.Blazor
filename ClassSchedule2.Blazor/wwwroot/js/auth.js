@@ -54,6 +54,24 @@ window.authPost = async function (url, payload) {
     };
 };
 
+window.authPostNoBody = async function (url) {
+    const res = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+    });
+
+    const text = await res.text();
+
+    return {
+        ok: res.ok,
+        status: res.status,
+        text: text
+    };
+};
+
 window.authDelete = async function (url, payload) {
     const res = await fetch(url, {
         method: 'DELETE',

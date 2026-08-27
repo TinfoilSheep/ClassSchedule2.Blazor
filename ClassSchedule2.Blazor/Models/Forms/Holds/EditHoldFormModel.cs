@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using static ClassSchedule2.Blazor.Models.DTOs.SubjectLibrary;
 using static ClassSchedule2.Blazor.Models.DTOs.TermLibrary;
+using static ClassSchedule2.Blazor.Models.DTOs.UserLibrary;
 
 namespace ClassSchedule2.Blazor.Models.Forms.Holds
 {
@@ -11,7 +12,7 @@ namespace ClassSchedule2.Blazor.Models.Forms.Holds
 
         [Required(ErrorMessage = "Navn på Hold er påkrævet.")]
         [StringLength(100, ErrorMessage = "Navnet må højst være 100 tegn.")]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Fag Id på Hold er påkrævet")]
         public Guid SubjectId { get; set; }
@@ -21,7 +22,7 @@ namespace ClassSchedule2.Blazor.Models.Forms.Holds
         public Guid TermId { get; set; }
         public string TermName { get; set; } = string.Empty;
 
-        public List<Guid> Teachers = [];
-        public List<Guid> Students = [];
+        public List<MinimalUserInformationDTO> Teachers = [];
+        public List<MinimalUserInformationDTO> Students = [];
     }
 }
