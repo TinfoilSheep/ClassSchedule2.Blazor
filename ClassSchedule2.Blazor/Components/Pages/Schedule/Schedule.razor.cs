@@ -1,6 +1,7 @@
 ﻿using ClassSchedule2.Blazor.Interfaces;
 using ClassSchedule2.Blazor.Models.Enums;
 using ClassSchedule2.Blazor.Models.Models;
+using ClassSchedule2.Blazor.Providers;
 using Microsoft.AspNetCore.Components;
 using static ClassSchedule2.Blazor.Models.DTOs.ScheduleLibrary;
 using static ClassSchedule2.Blazor.Models.DTOs.UserLibrary;
@@ -13,6 +14,8 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
         private IScheduleService ScheduleService { get; set; } = default!;
         [Inject]
         private ICurrentUserProvider CurrentUserProvider { get; set; } = default!;
+        [Inject] 
+        private SchoolAuthenticationStateProvider AuthenticationProvider { get; set; } = default!;
         [Inject]
         private NavigationManager Navigation { get; set; } = default!;
 
@@ -45,7 +48,9 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
 
         private async Task Load()
         {
-            _lessons = [];
+
+            await AuthenticationProvider.InitializeAsync();
+            
             if (TargetId.HasValue && TargetId != Guid.Empty)
             {
                 UserId = TargetId.Value;

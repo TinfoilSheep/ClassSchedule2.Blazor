@@ -13,7 +13,8 @@ namespace ClassSchedule2.Blazor.Models.DTOs
             string HoldName,
             string? RoomName,
             string Status,
-            List<MinimalUserInformationDTO> Teachers);
+            List<string> Teachers);
+            //List<MinimalUserInformationDTO> Teachers);
 
         public record GetScheduleLessonDTO(Guid TargetId, DateOnly From, DateOnly To);
     }
