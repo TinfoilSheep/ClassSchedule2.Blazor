@@ -1,6 +1,6 @@
 ﻿using ClassSchedule2.Blazor.Interfaces;
 using Newtonsoft.Json;
-using static ClassSchedule2.Blazor.Models.DTOs.ScheduleLibrary;
+using static ClassSchedule2.Blazor.Models.DTOs.LessonLibrary;
 
 namespace ClassSchedule2.Blazor.Services.Data
 {
@@ -18,7 +18,7 @@ namespace ClassSchedule2.Blazor.Services.Data
             _browserAuthService = browserAuthService;
         }
 
-        public async Task<List<ScheduleLessonDTO>> GetScheduleAsync(GetScheduleLessonDTO dto)
+        public async Task<List<LessonDTO>> GetScheduleAsync(GetLessonDTO dto)
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
@@ -35,7 +35,7 @@ namespace ClassSchedule2.Blazor.Services.Data
                     return [];
                 }
 
-                return JsonConvert.DeserializeObject<List<ScheduleLessonDTO>>(result.ResponseText ?? string.Empty) ?? [];
+                return JsonConvert.DeserializeObject<List<LessonDTO>>(result.ResponseText ?? string.Empty) ?? [];
             }
             catch (Exception ex)
             {

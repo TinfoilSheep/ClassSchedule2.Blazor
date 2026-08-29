@@ -3,7 +3,7 @@ using ClassSchedule2.Blazor.Models.Enums;
 using ClassSchedule2.Blazor.Models.Models;
 using ClassSchedule2.Blazor.Providers;
 using Microsoft.AspNetCore.Components;
-using static ClassSchedule2.Blazor.Models.DTOs.ScheduleLibrary;
+using static ClassSchedule2.Blazor.Models.DTOs.LessonLibrary;
 using static ClassSchedule2.Blazor.Models.DTOs.UserLibrary;
 
 namespace ClassSchedule2.Blazor.Components.Pages.Schedule
@@ -30,8 +30,8 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
         private Guid UserId { get; set; }
         private string DisplayName { get; set; }
 
-        private List<ScheduleLessonDTO> _lessons = [];
-        private ScheduleLessonDTO? _selectedLesson;
+        private List<LessonDTO> _lessons = [];
+        private LessonDTO? _selectedLesson;
 
         private readonly HashSet<DateOnly> _loadedWeeks = [];
         private DateOnly _selectedWeek = new();
@@ -94,7 +94,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
             var from = week;
             var to = from.AddDays(ScheduleDays - 1);
 
-            var dto = new GetScheduleLessonDTO(
+            var dto = new GetLessonDTO(
                 TargetId: UserId,
                 From: from,
                 To: to);
@@ -136,7 +136,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
             return $"{monday:dd. MMMM} – {sunday:dd. MMMM yyyy}";
         }
 
-        private double GetLessonTop(ScheduleLessonDTO lesson)
+        private double GetLessonTop(LessonDTO lesson)
         {
             var lessonStartMinutes = lesson.StartTime.Hour * 60 + lesson.StartTime.Minute;
 
@@ -145,7 +145,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
             return (lessonStartMinutes - scheduleStartMinutes) * MinuteHeight;
         }
 
-        private double GetLessonHeight(ScheduleLessonDTO lesson)
+        private double GetLessonHeight(LessonDTO lesson)
         {
             var lessonStartMinutes = lesson.StartTime.Hour * 60 + lesson.StartTime.Minute;
 
@@ -172,7 +172,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
             return (timeMinutes - startMinutes) * MinuteHeight;
         }
 
-        private bool IsCurrentLesson(ScheduleLessonDTO lesson)
+        private bool IsCurrentLesson(LessonDTO lesson)
         {
             var today = DateOnly.FromDateTime(DateTime.Now);
             var now = TimeOnly.FromDateTime(DateTime.Now);
@@ -213,7 +213,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
             StateHasChanged();
         }
 
-        private string GetLessonCardClass(ScheduleLessonDTO lesson)
+        private string GetLessonCardClass(LessonDTO lesson)
         {
             var baseClass = "absolute right-2 left-2 z-10 cursor-pointer rounded-xl p-2 shadow-sm transition-all overflow-hidden";
 
@@ -225,7 +225,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
             return $"{baseClass} border border-amber-400/20 bg-amber-400/10 hover:bg-amber-400/15 hover:shadow-md dark:border-sky-500/20 dark:bg-sky-500/10 dark:hover:bg-sky-500/15";
         }
 
-        private void OpenLessonModal(ScheduleLessonDTO lesson)
+        private void OpenLessonModal(LessonDTO lesson)
         {
             _selectedLesson = lesson;
             _showLessonModal = true;
@@ -237,7 +237,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
             _selectedLesson = null;
         }
 
-        private IEnumerable<ScheduleLessonDTO> GetLessonsForDay(DateOnly date)
+        private IEnumerable<LessonDTO> GetLessonsForDay(DateOnly date)
         {
             return _lessons.Where(x => x.Date == date).OrderBy(x => x.StartTime);
         }
