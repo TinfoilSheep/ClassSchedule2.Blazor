@@ -10,7 +10,7 @@ namespace ClassSchedule2.Blazor.Models.Forms.Holds
     {
         [Required(ErrorMessage = "Navn på Hold er påkrævet.")]
         [StringLength(100, ErrorMessage = "Navnet må højst være 100 tegn.")]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Fag Id på Hold er påkrævet")]
         public Guid SubjectId { get; set; }

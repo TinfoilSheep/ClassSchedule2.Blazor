@@ -1,0 +1,120 @@
+﻿<div class="flex max-h-[80vh] w-full max-w-lg flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-slate-800 dark:bg-slate-900">
+
+    <!-- Header -->
+    <div class="flex items-start justify-between border-b border-slate-200 px-6 py-5 dark:border-slate-800">
+
+        <div class="flex items-center gap-3">
+
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-amber-400/20 bg-amber-400/10 text-amber-600 dark:border-sky-500/20 dark:bg-sky-500/10 dark:text-sky-400">
+
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke-width="1.8"
+                     stroke="currentColor"
+                     class="h-5 w-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+                </svg>
+            </div>
+
+            <div class="min-w-0">
+
+                <h2 class="truncate text-lg font-bold text-slate-900 dark:text-slate-100">
+                    Elever
+                </h2>
+            </div>
+        </div>
+
+        <!-- Close -->
+        <button type="button"
+                @onclick="OnCancel"
+                class="ml-4 shrink-0 cursor-pointer rounded-lg p-2 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200">
+
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 fill="none"
+                 viewBox="0 0 24 24"
+                 stroke-width="2"
+                 stroke="currentColor"
+                 class="h-5 w-5">
+
+                <path stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+    </div>
+
+    <!-- Content (scrollable list) -->
+    <div class="min-h-0 max-h-72 flex-1 overflow-y-auto px-3 py-3">
+        @if (Students.Count == 0)
+        {
+            <div class="px-3 py-8 text-center text-sm text-slate-500 dark:text-slate-400">
+                Ingen elever fundet.
+            </div>
+        }
+        else
+        {
+            <ul class="space-y-1">
+                @foreach (var student in Students)
+                {
+                    <li class="flex items-center gap-3 rounded-lg px-3 py-2.5 transition-colors hover:bg-slate-50/70 dark:hover:bg-slate-800/30">
+
+                        <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 font-bold text-[11px] text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+                            @{
+                                var parts = student.Name.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                                var initials = parts.Length == 0
+                                    ? ""
+                                    : parts.Length == 1
+                                        ? parts[0][0].ToString().ToUpper()
+                                        : $"{char.ToUpper(parts[0][0])}{char.ToUpper(parts[^1][0])}";
+                            }
+                            @initials
+                        </div>
+
+                        <div class="min-w-0 flex-1">
+                            <div class="truncate font-semibold text-slate-900 dark:text-slate-100">
+                                @student.Name
+                            </div>
+                        </div>
+
+                        <!-- View button -->
+                        <button type="button"
+                                @onclick="OnCancel"
+                                class="shrink-0 cursor-pointer flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-200">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke-width="1.8"
+                                 stroke="currentColor"
+                                 class="h-4 w-4">
+
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </button>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+
+    <!-- Footer -->
+    <div class="border-t border-slate-200 px-6 py-4 dark:border-slate-800">
+
+        <div class="flex items-center justify-between">
+
+            <span class="text-xs font-semibold tracking-wide text-slate-400 uppercase">
+                Elever
+            </span>
+
+            <span class="inline-flex items-center rounded-lg border border-amber-400/20 bg-amber-400/10 px-2.5 py-1 font-semibold text-[11px] text-amber-700 dark:border-sky-500/20 dark:bg-sky-500/10 dark:text-sky-400">
+                @Students.Count elever
+            </span>
+        </div>
+    </div>
+</div>

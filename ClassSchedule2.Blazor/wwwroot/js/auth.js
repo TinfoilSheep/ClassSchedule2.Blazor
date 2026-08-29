@@ -13,7 +13,7 @@
 window.authGet = async function (url) {
     const res = await fetch(url, {
         method: 'GET',
-        credentials: 'include'
+        credentials: 'include',
     });
 
     const text = await res.text();

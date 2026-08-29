@@ -1,28 +1,28 @@
 ﻿using ClassSchedule2.Blazor.Interfaces;
 using Newtonsoft.Json;
-using static ClassSchedule2.Blazor.Models.DTOs.ScheduleLessonLibrary;
+using static ClassSchedule2.Blazor.Models.DTOs.LessonLibrary;
 
 namespace ClassSchedule2.Blazor.Services.Data
 {
-    public class ScheduleLessonService : IScheduleService
+    public class ScheduleService : IScheduleService
     {
         private readonly IConfiguration _configuration;
-        private readonly ILogger<ScheduleLessonService> _logger;
+        private readonly ILogger<ScheduleService> _logger;
         private readonly BrowserAuthService _browserAuthService;
         private readonly string _userBaseUrl = "api/Schedule/";
 
-        public ScheduleLessonService(IConfiguration configuration, ILogger<ScheduleLessonService> logger, BrowserAuthService browserAuthService)
+        public ScheduleService(IConfiguration configuration, ILogger<ScheduleService> logger, BrowserAuthService browserAuthService)
         {
             _configuration = configuration;
             _logger = logger;
             _browserAuthService = browserAuthService;
         }
 
-        public async Task<List<ScheduleLessonDTO>> GetScheduleAsync(GetScheduleLessonDTO dto)
+        public async Task<List<LessonDTO>> GetScheduleAsync(GetLessonDTO dto)
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            string url = new Uri(new Uri(apiBase), _userBaseUrl + "get").ToString();
+            var url = new Uri(new Uri(apiBase), $"{_userBaseUrl}get?targetUserId={dto.TargetId}&from={dto.From:yyyy-MM-dd}&to={dto.To:yyyy-MM-dd}").ToString();
 
             try
             {
@@ -35,7 +35,7 @@ namespace ClassSchedule2.Blazor.Services.Data
                     return [];
                 }
 
-                return JsonConvert.DeserializeObject<List<ScheduleLessonDTO>>(result.ResponseText ?? string.Empty) ?? [];
+                return JsonConvert.DeserializeObject<List<LessonDTO>>(result.ResponseText ?? string.Empty) ?? [];
             }
             catch (Exception ex)
             {

@@ -84,14 +84,12 @@ namespace ClassSchedule2.Blazor.Components.Pages
                 {
                     ErrorMessage = result.Status switch
                     {
-                        403 => "Ugyldigt brugernavn eller adgangskode.",
-                        _ => result.ResponseText ?? "Login mislykkedes."
+                        403 => "Ugyldigt brugernavn eller adgangskode.", _ => result.ResponseText ?? "Login mislykkedes."
                     };
 
                     return;
                 }
 
-                // TODO Tjek efter brugerens rolle da det nok kun er administrator der har et Dashboard.
                 Navigation.NavigateTo("/dashboard");
             }
             catch (Exception ex)

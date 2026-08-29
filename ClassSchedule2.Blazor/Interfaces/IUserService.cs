@@ -7,7 +7,7 @@ namespace ClassSchedule2.Blazor.Interfaces
     {
         public Task<bool> CreateUserAsync(CreateUserRequestDTO dto);
         public Task<bool> DeleteUserAsync(Guid userId);
-        public Task<GetUserInformationResponseDTO?> GetUserInformationAsync(GetUserInformationRequestDTO dto);
+        public Task<GetUserInformationResponseDTO?> GetUserInformationAsync(Guid id);
         public Task<List<GetUserInformationResponseDTO>> GetAllUsersListAsync(UserRoles? role = null);
     }
 }

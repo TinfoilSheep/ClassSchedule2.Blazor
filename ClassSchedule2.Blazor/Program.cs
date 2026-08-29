@@ -1,5 +1,6 @@
 using ClassSchedule2.Blazor.Components;
 using ClassSchedule2.Blazor.Interfaces;
+using ClassSchedule2.Blazor.Models.Models;
 using ClassSchedule2.Blazor.Providers;
 using ClassSchedule2.Blazor.Services.Data;
 using ClassSchedule2.Blazor.Services.UI;
@@ -33,8 +34,11 @@ builder.Services.AddScoped<IStudentGroupService, StudentGroupService>();
 builder.Services.AddScoped<IStudentGroupMemberService, StudentGroupMemberService>();
 builder.Services.AddScoped<ILessonTemplateService, LessonTemplateService>();
 builder.Services.AddScoped<ILessonGenerationService, LessonGenerationService>();
+builder.Services.AddScoped<IScheduleService, ScheduleService>();
+builder.Services.AddScoped<ILessonService, LessonService>();
 builder.Services.AddScoped<ThemeService>();
 builder.Services.AddScoped<BrowserAuthService>();
+builder.Services.AddScoped<UserStateContainer>();
 
 var app = builder.Build();
 
