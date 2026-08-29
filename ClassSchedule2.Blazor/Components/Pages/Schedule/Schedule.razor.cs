@@ -14,10 +14,10 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
         private IScheduleService ScheduleService { get; set; } = default!;
         [Inject]
         private ICurrentUserProvider CurrentUserProvider { get; set; } = default!;
+        [Inject]
+        private IUserService UserService { get; set; } = default!;
         [Inject] 
         private SchoolAuthenticationStateProvider AuthenticationProvider { get; set; } = default!;
-        [Inject]
-        private NavigationManager Navigation { get; set; } = default!;
 
         [Parameter]
         public Guid? TargetId { get; set; } = default!;
@@ -28,6 +28,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
         private CurrentUserData? CurrentUser { get; set; }
 
         private Guid UserId { get; set; }
+        private string DisplayName { get; set; }
 
         private List<ScheduleLessonDTO> _lessons = [];
         private ScheduleLessonDTO? _selectedLesson;
@@ -50,10 +51,14 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
         {
 
             await AuthenticationProvider.InitializeAsync();
+            _lessons = [];
             
             if (TargetId.HasValue && TargetId != Guid.Empty)
             {
+                var targetUser = await UserService.GetUserInformationAsync(TargetId.Value);
+                if (targetUser == null) return;
                 UserId = TargetId.Value;
+                DisplayName = $"{targetUser.FirstName} {targetUser.LastName}";
             }
             else
             {
@@ -66,6 +71,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
                 else
                 {
                     UserId = CurrentUser.UserId;
+                    DisplayName = $"{CurrentUser.FirstName} {CurrentUser.LastName}";
                 }
             }
 
@@ -252,11 +258,6 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
                 yield return current;
                 current = current.AddMinutes(60);
             }
-        }
-
-        private async Task Cancel()
-        {
-            await OnCancel.InvokeAsync();
         }
     }
 }
