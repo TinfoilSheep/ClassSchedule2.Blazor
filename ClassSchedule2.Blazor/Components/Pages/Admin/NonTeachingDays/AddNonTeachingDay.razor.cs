@@ -34,7 +34,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.NonTeachingDays
                 var dto = new CreateNonTeachingDayDTO(Reason: _form.Reason, StartDate: _form.StartDate, EndDate: _form.EndDate);
                 var result = await _nonTeachingDayService.CreateNonTeachingDayAsync(dto);
 
-                if (result is null)
+                if (!result)
                 {
                     _errorMessage = "Fridagen kunne ikke oprettes. Prøv igen.";
                     return;

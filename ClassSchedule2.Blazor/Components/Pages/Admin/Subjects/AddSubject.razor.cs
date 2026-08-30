@@ -34,7 +34,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Subjects
                 var dto = new CreateSubjectDTO(Name: _form.Name);
                 var result = await _subjectService.CreateSubjectAsync(dto);
 
-                if (result is null)
+                if (!result)
                 {
                     _errorMessage = "Faget kunne ikke oprettes. Prøv igen.";
                     return;

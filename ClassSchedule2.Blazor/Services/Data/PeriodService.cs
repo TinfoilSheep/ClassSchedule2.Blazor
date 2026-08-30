@@ -20,7 +20,7 @@ namespace ClassSchedule2.Blazor.Services.Data
             _logger = logger;
         }
 
-        public async Task<PeriodDTO?> CreatePeriodAsync(CreatePeriodDTO dto)
+        public async Task<bool> CreatePeriodAsync(CreatePeriodDTO dto)
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
@@ -33,15 +33,15 @@ namespace ClassSchedule2.Blazor.Services.Data
                 if (!result.Success)
                 {
                     _logger.LogWarning("Fejl ved oprettelse. Status: {Status}", result.Status);
-                    return null;
+                    return result.Success;
                 }
 
-                return JsonConvert.DeserializeObject<PeriodDTO>(result.ResponseText ?? string.Empty);
+                return result.Success;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Fejl ved oprettelse af periode.");
-                return null;
+                return false;
             }
         }
 
@@ -122,7 +122,7 @@ namespace ClassSchedule2.Blazor.Services.Data
             }
         }
 
-        public async Task<PeriodDTO?> UpdatePeriodAsync(PeriodDTO dto)
+        public async Task<bool> UpdatePeriodAsync(PeriodDTO dto)
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
@@ -136,15 +136,15 @@ namespace ClassSchedule2.Blazor.Services.Data
                 {
                     _logger.LogWarning("Kunne ikke opdatere periode. Status: {Status}", result.Status);
 
-                    return null;
+                    return result.Success;
                 }
 
-                return JsonConvert.DeserializeObject<PeriodDTO>(result.ResponseText ?? string.Empty);
+                return result.Success;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Fejl ved opdatering af periode.");
-                return null;
+                return false;
             }
         }
     }

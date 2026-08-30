@@ -52,7 +52,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Rooms
                 var dto = new RoomDTO(Id: _form.Id, Name: _form.Name, Capacity: _form.Capacity);
                 var result = await _roomService.UpdateRoomAsync(dto);
 
-                if (result is null)
+                if (!result)
                 {
                     _errorMessage = "Lokale kunne ikke opdateres. Prøv igen.";
                     return;

@@ -19,7 +19,7 @@ namespace ClassSchedule2.Blazor.Services.Data
             _logger = logger;
         }
 
-        public async Task<NonTeachingDayDTO?> CreateNonTeachingDayAsync(CreateNonTeachingDayDTO dto)
+        public async Task<bool> CreateNonTeachingDayAsync(CreateNonTeachingDayDTO dto)
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
@@ -32,15 +32,15 @@ namespace ClassSchedule2.Blazor.Services.Data
                 if (!result.Success)
                 {
                     _logger.LogWarning("Fejl ved oprettelse. Status: {Status}", result.Status);
-                    return null;
+                    return result.Success;
                 }
 
-                return JsonConvert.DeserializeObject<NonTeachingDayDTO>(result.ResponseText ?? string.Empty);
+                return result.Success;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Fejl ved oprettelse af ikke undervisningsdag.");
-                return null;
+                return false;
             }
         }
 
@@ -121,7 +121,7 @@ namespace ClassSchedule2.Blazor.Services.Data
             }
         }
 
-        public async Task<NonTeachingDayDTO?> UpdateNonTeachingDayAsync(NonTeachingDayDTO dto)
+        public async Task<bool> UpdateNonTeachingDayAsync(NonTeachingDayDTO dto)
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
@@ -135,15 +135,15 @@ namespace ClassSchedule2.Blazor.Services.Data
                 {
                     _logger.LogWarning("Kunne ikke opdatere ikke undervisningsdag. Status: {Status}", result.Status);
 
-                    return null;
+                    return result.Success;
                 }
 
-                return JsonConvert.DeserializeObject<NonTeachingDayDTO>(result.ResponseText ?? string.Empty);
+                return result.Success;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Fejl ved opdatering af ikke undervisningsdag.");
-                return null;
+                return false;
             }
         }
     }

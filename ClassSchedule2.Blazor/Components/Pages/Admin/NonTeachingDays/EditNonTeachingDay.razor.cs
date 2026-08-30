@@ -53,7 +53,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.NonTeachingDays
                 var dto = new NonTeachingDayDTO(Id: _form.Id, Reason: _form.Reason, StartDate: _form.StartDate, EndDate: _form.EndDate);
                 var result = await _nonTeachingDayService.UpdateNonTeachingDayAsync(dto);
 
-                if (result is null)
+                if (!result)
                 {
                     _errorMessage = "Fridagen kunne ikke opdateres. Prøv igen.";
                     return;

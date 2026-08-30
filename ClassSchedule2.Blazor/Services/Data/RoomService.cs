@@ -19,7 +19,7 @@ namespace ClassSchedule2.Blazor.Services.Data
             _logger = logger;
         }
 
-        public async Task<RoomDTO?> CreateRoomAsync(CreateRoomDTO dto)
+        public async Task<bool> CreateRoomAsync(CreateRoomDTO dto)
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
@@ -32,15 +32,15 @@ namespace ClassSchedule2.Blazor.Services.Data
                 if (!result.Success)
                 {
                     _logger.LogWarning("Fejl ved oprettelse. Status: {Status}", result.Status);
-                    return null;
+                    return result.Success;
                 }
 
-                return JsonConvert.DeserializeObject<RoomDTO>(result.ResponseText ?? string.Empty);
+                return result.Success;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Fejl ved oprettelse af lokale.");
-                return null;
+                return false;
             }
         }
 
@@ -121,7 +121,7 @@ namespace ClassSchedule2.Blazor.Services.Data
             }
         }
 
-        public async Task<RoomDTO?> UpdateRoomAsync(RoomDTO dto)
+        public async Task<bool> UpdateRoomAsync(RoomDTO dto)
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
@@ -135,15 +135,15 @@ namespace ClassSchedule2.Blazor.Services.Data
                 {
                     _logger.LogWarning("Kunne ikke opdatere lokale. Status: {Status}", result.Status);
 
-                    return null;
+                    return result.Success;
                 }
 
-                return JsonConvert.DeserializeObject<RoomDTO>(result.ResponseText ?? string.Empty);
+                return result.Success;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Fejl ved opdatering af lokale.");
-                return null;
+                return false;
             }
         }
     }
