@@ -34,7 +34,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Terms
                 var dto = new CreateTermDTO(Name: _form.Name, StartDate: _form.StartDate, EndDate: _form.EndDate);
                 var result = await _termService.CreateTermAsync(dto);
 
-                if (result is null)
+                if (!result)
                 {
                     _errorMessage = "Terminen kunne ikke oprettes. Prøv igen.";
                     return;

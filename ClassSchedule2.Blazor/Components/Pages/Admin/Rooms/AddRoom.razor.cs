@@ -34,7 +34,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Rooms
                 var dto = new CreateRoomDTO(Name: _form.Name, Capacity: _form.Capacity);
                 var result = await _roomService.CreateRoomAsync(dto); 
 
-                if (result is null)
+                if (!result)
                 {
                     _errorMessage = "lokalet kunne ikke oprettes. Prøv igen.";
                     return;

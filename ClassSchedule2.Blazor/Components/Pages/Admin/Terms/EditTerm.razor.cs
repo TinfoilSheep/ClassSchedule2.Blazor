@@ -53,7 +53,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Terms
                 var dto = new TermDTO(Id: _form.Id, Name: _form.Name, StartDate: _form.StartDate, EndDate: _form.EndDate);
                 var result = await _termService.UpdateTermAsync(dto);
 
-                if (result is null)
+                if (!result)
                 {
                     _errorMessage = "Terminen kunne ikke opdateres. Prøv igen.";
                     return;

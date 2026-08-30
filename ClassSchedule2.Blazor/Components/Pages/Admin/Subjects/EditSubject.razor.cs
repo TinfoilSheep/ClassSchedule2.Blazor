@@ -51,7 +51,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Subjects
                 var dto = new SubjectDTO(Id: _form.Id, Name: _form.Name);
                 var result = await _subjectService.UpdateSubjectAsync(dto);
 
-                if (result is null)
+                if (!result)
                 {
                     _errorMessage = "Faget kunne ikke opdateres. Prøv igen.";
                     return;

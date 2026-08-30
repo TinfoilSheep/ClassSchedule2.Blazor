@@ -6,8 +6,8 @@ namespace ClassSchedule2.Blazor.Interfaces
     {
         public Task<List<TermDTO>> GetAllTermsAsync();
         public Task<TermDTO?> GetTermByIdAsync(Guid termId);
-        public Task<TermDTO?> CreateTermAsync(CreateTermDTO dto);
-        public Task<TermDTO?> UpdateTermAsync(TermDTO dto);
+        public Task<bool> CreateTermAsync(CreateTermDTO dto);
+        public Task<bool> UpdateTermAsync(TermDTO dto);
         public Task<bool> DeleteTermAsync(Guid termId);
     }
 }

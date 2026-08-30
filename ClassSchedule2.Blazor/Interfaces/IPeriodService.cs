@@ -6,8 +6,8 @@ namespace ClassSchedule2.Blazor.Interfaces
     {
         public Task<List<PeriodDTO>> GetAllPeriodsAsync();
         public Task<PeriodDTO?> GetPeriodByIdAsync(Guid PeriodId);
-        public Task<PeriodDTO?> CreatePeriodAsync(CreatePeriodDTO dto);
-        public Task<PeriodDTO?> UpdatePeriodAsync(PeriodDTO dto);
+        public Task<bool> CreatePeriodAsync(CreatePeriodDTO dto);
+        public Task<bool> UpdatePeriodAsync(PeriodDTO dto);
         public Task<bool> DeletePeriodAsync(Guid PeriodId);
     }
 }

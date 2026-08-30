@@ -53,7 +53,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.Periods
                 var dto = new PeriodDTO(Id: _form.Id, Name: _form.Name, StartTime: _form.StartTime, EndTime: _form.EndTime);
                 var result = await _periodService.UpdatePeriodAsync(dto);
 
-                if (result is null)
+                if (!result)
                 {
                     _errorMessage = "Perioden kunne ikke opdateres. Prøv igen.";
                     return;

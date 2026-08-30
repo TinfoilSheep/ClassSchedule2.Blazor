@@ -6,8 +6,8 @@ namespace ClassSchedule2.Blazor.Interfaces
     {
         public Task<List<RoomDTO>> GetAllRoomsAsync();
         public Task<RoomDTO?> GetRoomByIdAsync(Guid roomId);
-        public Task<RoomDTO?> CreateRoomAsync(CreateRoomDTO dto);
-        public Task<RoomDTO?> UpdateRoomAsync(RoomDTO dto);
+        public Task<bool> CreateRoomAsync(CreateRoomDTO dto);
+        public Task<bool> UpdateRoomAsync(RoomDTO dto);
         public Task<bool> DeleteRoomAsync(Guid roomId);
     }
 }
