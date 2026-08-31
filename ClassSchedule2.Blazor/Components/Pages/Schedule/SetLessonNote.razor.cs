@@ -19,6 +19,29 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
         private string _content = string.Empty;
         private bool _isSubmitting;
 
+        private string _submitButtonText
+        {
+            get
+            {
+                if (_isSubmitting)
+                    return "Gemmer...";
+
+                bool hasExistingNote = Lesson?.Note != null;
+                bool hasText = !string.IsNullOrWhiteSpace(_content);
+
+                if (hasExistingNote && hasText)
+                {
+                    return "Gem note";
+                }
+                if (hasExistingNote && !hasText)
+                {
+                    return "Slet note";
+                }
+
+                return "Opret note";
+            }
+        }
+
         protected override void OnInitialized()
         {
             if (Lesson.Note != null && !string.IsNullOrEmpty(Lesson.Note.Content)) _content = Lesson.Note.Content;
@@ -30,21 +53,21 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
             try
             {
                 bool result = false;
-                if (Lesson.Note == null && string.IsNullOrEmpty(_content))
+                if (Lesson.Note == null && string.IsNullOrWhiteSpace(_content))
                 {
                     await OnCancel.InvokeAsync();
                 }
-                else if (Lesson.Note == null && !string.IsNullOrEmpty(_content))
+                else if (Lesson.Note == null && !string.IsNullOrWhiteSpace(_content))
                 {
                     CreateLessonNoteDTO dto = new(Lesson.Id, _content);
                     result = await NoteService.AddNote(dto);
                 }
-                else if (Lesson.Note != null && !string.IsNullOrEmpty(_content))
+                else if (Lesson.Note != null && !string.IsNullOrWhiteSpace(_content))
                 {
                     UpdateLessonNoteDTO dto = new(Lesson.Note.Id, _content);
                     result = await NoteService.UpdateNote(dto);
                 }
-                else if (Lesson.Note != null && string.IsNullOrEmpty(_content))
+                else if (Lesson.Note != null && string.IsNullOrWhiteSpace(_content))
                 {
                     await NoteService.DeleteNote(Lesson.Note.Id);
                     await OnSaved.InvokeAsync();
