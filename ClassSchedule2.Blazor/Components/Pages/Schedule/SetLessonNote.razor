@@ -93,9 +93,17 @@
             {
                 <span>Gemmer...</span>
             }
-            else
+            else if (!_isSubmitting && _content.Length > 0 && Lesson.Note != null)
             {
                 <span>Gem note</span>
+            }
+            else if (!_isSubmitting && _content.Length == 0 && Lesson.Note != null)
+            {
+                <span>Slet note</span>
+            }
+            else
+            {
+                <span>Opret note</span>
             }
         </button>
     </div>
