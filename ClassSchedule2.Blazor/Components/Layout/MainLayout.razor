@@ -87,8 +87,28 @@
 
                 <ThemeToggle />
 
-                <!-- Bruger -->
-                <div class="hidden items-center gap-3 border-l border-slate-200 pl-3 sm:flex dark:border-slate-800">
+                <!-- Bruger / Profil -->
+                <NavLink href="/profile"
+                         class="hidden items-center gap-3 rounded-xl border border-transparent px-3 py-1.5 shadow-sm transition-colors hover:border-slate-200 hover:bg-slate-50 sm:flex dark:hover:border-slate-700 dark:hover:bg-slate-800/70">
+
+                    <!-- Profile icon -->
+                    <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke-width="1.8"
+                             stroke="currentColor"
+                             class="h-4 w-4">
+
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M15.75 6.75a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a7.5 7.5 0 0115 0" />
+
+                        </svg>
+                    </div>
+
+                    <!-- User information -->
                     <div class="text-right">
                         <div class="text-xs font-semibold text-slate-900 dark:text-slate-100">
                             @_userName
@@ -99,10 +119,25 @@
                         </div>
                     </div>
 
+                    <!-- Initials -->
                     <div class="flex h-9 w-9 items-center justify-center rounded-xl border border-amber-500/20 bg-amber-400/10 text-xs font-bold text-amber-700 dark:border-slate-800 dark:bg-slate-900 dark:text-amber-400">
                         @_userInitials
                     </div>
-                </div>
+
+                    <!-- Arrow -->
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         stroke-width="1.8"
+                         stroke="currentColor"
+                         class="h-4 w-4 shrink-0 text-slate-400 transition-transform group-hover:translate-x-0.5 group-hover:text-slate-600 dark:text-slate-500 dark:group-hover:text-slate-300">
+
+                        <path stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M9 5l7 7-7 7" />
+
+                    </svg>
+                </NavLink>
             </div>
         </div>
     </header>
@@ -140,7 +175,7 @@
                         <span>Dashboard</span>
                     </NavLink>
 
-                    @* TODO: @if (_userRole == "Student" || _userRole == "Teacher") *@
+                    <!-- Schedule -->
                     @if (_userRole == "Student" || _userRole == "Teacher" || _userRole == "Admin")
                     {
                         <button type="button"
@@ -292,8 +327,65 @@
                     </button>
                 </div>
 
+                <!-- User / Profile -->
+                <div class="border-b border-slate-200 p-4 dark:border-slate-800">
+
+                    <NavLink href="/profile"
+                             @onclick="CloseMobileMenu"
+                             class="group flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-3 py-3 transition-colors hover:border-amber-300 hover:bg-amber-50 dark:border-slate-700 dark:bg-slate-800/60 dark:hover:border-sky-500/50 dark:hover:bg-slate-800">
+
+                        <!-- Profile icon -->
+                        <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-200 text-slate-500 dark:bg-slate-700 dark:text-slate-300">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke-width="1.8"
+                                 stroke="currentColor"
+                                 class="h-5 w-5">
+
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M15.75 6.75a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a7.5 7.5 0 0115 0" />
+
+                            </svg>
+                        </div>
+
+                        <!-- User information -->
+                        <div class="min-w-0 flex-1">
+
+                            <div class="truncate text-xs font-semibold text-slate-900 dark:text-slate-100">
+                                @_userName
+                            </div>
+
+                            <div class="mt-0.5 text-[11px] text-slate-500 dark:text-slate-400">
+                                @_userRole
+                            </div>
+                        </div>
+
+                        <!-- Arrow -->
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke-width="1.8"
+                             stroke="currentColor"
+                             class="h-4 w-4 shrink-0 text-slate-400 transition-transform group-hover:translate-x-0.5 group-hover:text-slate-600 dark:text-slate-500 dark:group-hover:text-slate-300">
+
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M9 5l7 7-7 7" />
+
+                        </svg>
+
+                    </NavLink>
+                </div>
+
                 <!-- Navigation -->
                 <nav class="flex-1 space-y-1 overflow-y-auto p-4">
+
+                    <div class="mb-2 px-3 font-bold tracking-wider text-[10px] text-slate-400 uppercase dark:text-slate-500">
+                        @_institutionName
+                    </div>
 
                     <NavLink href="/dashboard"
                              Match="NavLinkMatch.All"
@@ -314,6 +406,28 @@
 
                         <span>Dashboard</span>
                     </NavLink>
+
+                    <!-- Schedule -->
+                    @if (_userRole == "Student" || _userRole == "Teacher" || _userRole == "Admin")
+                    {
+                        <button type="button"
+                                @onclick="NavigateToSchedule"
+                                class="group flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/70 dark:hover:text-slate-100">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke-width="1.8"
+                                 stroke="currentColor"
+                                 class="h-5 w-5">
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M6.75 3.75v2.25m10.5-2.25v2.25M4.5 9.75h15M5.25 5.25h13.5a1.5 1.5 0 011.5 1.5v12a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-12a1.5 1.5 0 011.5-1.5z" />
+                            </svg>
+
+                            <span>Skema</span>
+                        </button>
+                    }
 
                     @if(_userRole == "Student" || _userRole == "Teacher")
                     {

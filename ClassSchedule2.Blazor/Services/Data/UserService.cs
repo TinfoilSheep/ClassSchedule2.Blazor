@@ -81,7 +81,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            string url = new Uri(new Uri(apiBase), $"api/User/get-all?role={role}").ToString();
+            string url = new Uri(new Uri(apiBase), _userBaseUrl + $"get-all?role={role}").ToString();
 
             try
             {
@@ -108,7 +108,7 @@ namespace ClassSchedule2.Blazor.Services.Data
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
-            string url = new Uri(new Uri(apiBase), $"api/User/get?id={id}").ToString();
+            string url = new Uri(new Uri(apiBase), _userBaseUrl + $"get?id={id}").ToString();
 
             try
             {
@@ -128,6 +128,94 @@ namespace ClassSchedule2.Blazor.Services.Data
                 _logger.LogError(ex, "Fejl ved hentning af bruger.");
 
                 return null;
+            }
+        }
+
+        public async Task<GetUserInformationResponseDTO?> GetCurrentUserInformationAsync()
+        {
+            var currentUserId = await _browserAuthService.GetCurrentUserIdAsync();
+
+            return await GetUserInformationAsync(currentUserId ?? Guid.Empty);
+        }
+
+        public async Task<GetUserInformationResponseDTO?> UpdateUserAsync(UpdateUserInformationDTO dto)
+        {
+            var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
+
+            string url = new Uri(new Uri(apiBase), _userBaseUrl + "update").ToString();
+
+            try
+            {
+                var result = await _browserAuthService.PatchAsync(url, dto);
+
+                if (!result.Success)
+                {
+                    _logger.LogWarning("Opdatering af bruger fejlede. StatusCode: {StatusCode}", result.Status);
+
+                    return null;
+                }
+
+                return JsonConvert.DeserializeObject<GetUserInformationResponseDTO>(result.ResponseText ?? string.Empty);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Fejl ved opdatering af bruger.");
+
+                return null;
+            }
+        }
+
+        public async Task<bool> ChangeUserCredentialsAsync(ChangeUserCredentialsDTO dto)
+        {
+            var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
+
+            string url = new Uri(new Uri(apiBase), _userBaseUrl + "change-user-credentials").ToString();
+
+            try
+            {
+                var result = await _browserAuthService.PatchAsync(url, dto);
+
+                if (!result.Success)
+                {
+                    _logger.LogWarning("Ændring af login oplysninger fejlede. StatusCode: {StatusCode}", result.Status);
+
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Fejl ved ændring af login oplysninger.");
+
+                return false;
+            }
+        }
+
+        public async Task<bool> CheckUsernameIsAvailableAsync(string userName)
+        {
+            var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
+
+            string url = new Uri(new Uri(apiBase), _userBaseUrl + $"Check-Username-Is-Available?username={Uri.EscapeDataString(userName)}").ToString();
+
+            try
+            {
+                var result = await _browserAuthService.GetAsync(url);
+
+                if (!result.Success)
+                {
+                    _logger.LogWarning("Tjek af brugernavn fejlede. StatusCode: {StatusCode}", result.Status);
+
+                    return false;
+                }
+
+                return bool.TryParse(result.ResponseText ?? string.Empty, out var isAvailable) && isAvailable;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Fejl ved tjek af brugernavn.");
+
+                return false;
             }
         }
     }

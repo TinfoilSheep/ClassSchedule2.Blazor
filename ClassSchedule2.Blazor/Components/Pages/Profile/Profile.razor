@@ -1,0 +1,242 @@
+﻿@page "/{TargetUserId:guid}/profile"
+@page "/profile"
+@layout MainLayout
+
+<AuthenticationGuard>
+    <PageTitle>Profil - Skoleportalen</PageTitle>
+
+    <main class="mx-auto w-full max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
+
+        <!-- Header -->
+        <div class="mb-8 text-center">
+
+            <h1 class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100">
+                Profil
+            </h1>
+
+            <p class="mx-auto mt-2 max-w-2xl text-xs text-slate-500 dark:text-slate-400">
+                Se dine brugeroplysninger og administrer dine personlige oplysninger.
+            </p>
+        </div>
+
+        @if (_isLoading)
+        {
+            <div class="flex justify-center py-12">
+                <LoadingSpinner Visible="true"
+                                Message="Henter profil..."
+                                FullScreen="false" />
+            </div>
+        }
+        else if (_user is null)
+        {
+            <div class="rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm dark:border-slate-800 dark:bg-slate-900">
+
+                <div class="text-sm font-semibold text-slate-900 dark:text-slate-100">
+                    Profilen kunne ikke indlæses
+                </div>
+
+                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                    Der opstod en fejl under hentningen af brugeroplysningerne.
+                </p>
+            </div>
+        }
+        else
+        {
+            <div class="success-message-wrapper @(_showSuccessMessage ? "success-visible" : "success-hidden")">
+
+                @if (!string.IsNullOrWhiteSpace(_successMessage))
+                {
+                    <div class="success-message flex items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700 dark:border-emerald-900/50 dark:bg-emerald-950/30 dark:text-emerald-400">
+
+                        <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke-width="2"
+                                 stroke="currentColor"
+                                 class="h-4 w-4">
+
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M4.5 12.75l6 6 9-13.5" />
+                            </svg>
+                        </div>
+
+                        <span class="font-medium">
+                            @_successMessage
+                        </span>
+                    </div>
+                }
+            </div>
+
+            <!-- Profile header -->
+            <section class="mb-6 rounded-2xl border border-slate-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+
+                <div class="flex flex-col items-center gap-4 px-6 py-8 sm:flex-row">
+
+                    <!-- Initials -->
+                    <div class="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-amber-400 text-xl font-bold text-slate-950 shadow-sm dark:bg-sky-500 dark:text-white">
+                        @GetInitials()
+                    </div>
+
+                    <!-- Name -->
+                    <div class="min-w-0 text-center sm:text-left">
+
+                        <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100">
+                            @_user.FirstName @_user.LastName
+                        </h2>
+
+                        <div class="mt-2 flex flex-wrap justify-center gap-2 sm:justify-start">
+
+                            <span class="inline-flex items-center rounded-lg border border-amber-400/20 bg-amber-400/10 px-2.5 py-1 font-semibold text-[11px] text-amber-700 dark:border-sky-500/20 dark:bg-sky-500/10 dark:text-sky-400">
+                                @_user.Role
+                            </span>
+
+                            <span class="inline-flex items-center rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 font-semibold text-[11px] text-slate-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">
+                                @_user.InstitutionName
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Personal information -->
+            <section class="mb-6 rounded-2xl border border-slate-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+
+                <!-- Section header -->
+                <div class="flex items-center justify-between border-b border-slate-200 px-6 py-5 dark:border-slate-800">
+
+                    <div>
+                        <h2 class="text-base font-bold text-slate-900 dark:text-slate-100">
+                            Personlige oplysninger
+                        </h2>
+
+                        <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                            Oplysninger om dig som bruger.
+                        </p>
+                    </div>
+
+                    @if (CanEdit)
+                    {
+                        <button type="button"
+                                @onclick="OpenEditUserModal"
+                                class="cursor-pointer rounded-xl bg-amber-400 px-4 py-2.5 text-xs font-semibold text-slate-950 shadow-sm transition-colors hover:bg-amber-300">
+                            Rediger
+                        </button>
+                    }
+                </div>
+
+                <div class="grid grid-cols-1 gap-x-8 gap-y-6 px-6 py-6 sm:grid-cols-2">
+
+                    <!-- First name -->
+                    <div>
+                        <div class="text-xs font-semibold tracking-wide text-slate-400 uppercase">
+                            Fornavn
+                        </div>
+
+                        <div class="mt-1 text-sm font-medium text-slate-900 dark:text-slate-100">
+                            @_user.FirstName
+                        </div>
+                    </div>
+
+                    <!-- Last name -->
+                    <div>
+                        <div class="text-xs font-semibold tracking-wide text-slate-400 uppercase">
+                            Efternavn
+                        </div>
+
+                        <div class="mt-1 text-sm font-medium text-slate-900 dark:text-slate-100">
+                            @_user.LastName
+                        </div>
+                    </div>
+
+                    <!-- Date of birth -->
+                    <div>
+                        <div class="text-xs font-semibold tracking-wide text-slate-400 uppercase">
+                            Fødselsdato
+                        </div>
+
+                        <div class="mt-1 text-sm font-medium text-slate-900 dark:text-slate-100">
+                            @_user.DateOfBirth.ToString("dd. MMMM yyyy")
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div>
+                        <div class="text-xs font-semibold tracking-wide text-slate-400 uppercase">
+                            E-mail
+                        </div>
+
+                        <div class="mt-1 text-sm font-medium text-slate-900 dark:text-slate-100">
+                            @_user.Email
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Login information -->
+            <section class="rounded-2xl border border-slate-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+
+                <!-- Section header -->
+                <div class="flex items-center justify-between border-b border-slate-200 px-6 py-5 dark:border-slate-800">
+
+                    <div>
+                        <h2 class="text-base font-bold text-slate-900 dark:text-slate-100">
+                            Login oplysninger
+                        </h2>
+
+                        <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                            Oplysninger, der bruges til at logge ind på Skoleportalen.
+                        </p>
+                    </div>
+
+                    @if (CanEdit)
+                    {
+                        <button type="button"
+                                @onclick="OpenEditCredentialsModal"
+                                class="cursor-pointer rounded-xl bg-amber-400 px-4 py-2.5 text-xs font-semibold text-slate-950 shadow-sm transition-colors hover:bg-amber-300">
+                            Rediger
+                        </button>
+                    }
+                </div>
+
+                <div class="grid grid-cols-1 gap-x-8 gap-y-6 px-6 py-6 sm:grid-cols-2">
+
+                    <!-- Username -->
+                    <div>
+                        <div class="text-xs font-semibold tracking-wide text-slate-400 uppercase">
+                            Brugernavn
+                        </div>
+
+                        <div class="mt-1 text-sm font-medium text-slate-900 dark:text-slate-100">
+                            @_user.Username
+                        </div>
+                    </div>
+                </div>
+            </section>
+        }
+
+        <!-- Edit Profile Modal -->
+        @if (_modalMode == ProfileModalMode.EditProfile && _user is not null)
+        {
+            <div class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/30 p-4 backdrop-blur-sm">
+                <EditProfile User="@_user"
+                             OnSaved="HandleSaved"
+                             OnCancel="CloseModals" />
+            </div>
+        }
+
+        <!-- Edit Credentials Modal -->
+        @if (_modalMode == ProfileModalMode.EditCredentials && _user is not null)
+        {
+            <div class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/30 p-4 backdrop-blur-sm">
+                <EditCredentials User="@_user"
+                                 OnSaved="HandleSaved"
+                                 OnCancel="CloseModals" />
+            </div>
+        }
+
+    </main>
+</AuthenticationGuard>

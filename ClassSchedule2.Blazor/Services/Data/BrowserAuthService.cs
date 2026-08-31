@@ -1,4 +1,5 @@
-﻿using Microsoft.JSInterop;
+﻿using ClassSchedule2.Blazor.Components.Pages.Admin;
+using Microsoft.JSInterop;
 using System.Text.Json;
 using static ClassSchedule2.Blazor.Models.DTOs.AuthLibrary;
 
@@ -80,6 +81,11 @@ namespace ClassSchedule2.Blazor.Services.Data
                 {
                     PropertyNameCaseInsensitive = true
                 });
+        }
+
+        public async Task<Guid?> GetCurrentUserIdAsync()
+        {
+            return await _js.InvokeAsync<Guid?>("localStorage.getItem", "SchoolUserId");
         }
 
         public async Task<bool> LogoutAsync()

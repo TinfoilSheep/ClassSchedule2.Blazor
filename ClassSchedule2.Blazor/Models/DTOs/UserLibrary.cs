@@ -1,4 +1,5 @@
 ﻿using ClassSchedule2.Blazor.Models.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ClassSchedule2.Blazor.Models.DTOs
 {
@@ -35,5 +36,17 @@ namespace ClassSchedule2.Blazor.Models.DTOs
         }
 
         public record MinimalUserInformationDTO(string Name, Guid UserId);
+
+        public record UpdateUserInformationDTO(
+            string FirstName,
+            string LastName,
+            DateOnly DateOfBirth,
+            [EmailAddress] string Email);
+
+        public record ChangeUserCredentialsDTO(
+            string Username,
+            string OldPassword,
+            string NewPassword
+        );
     }
 }
