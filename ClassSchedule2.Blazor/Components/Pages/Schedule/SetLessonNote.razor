@@ -58,11 +58,18 @@
     <!-- Content -->
     <div class="space-y-5 px-6 py-6">
         <div>
-            <label class="mb-2 block text-xs font-semibold tracking-wide text-slate-500 uppercase dark:text-slate-400">
+            <label class="mb-2 block text-sm font-semibold tracking-wide text-slate-500 uppercase dark:text-slate-400">
                 Note
             </label>
+            @if (Lesson.Note != null)
+            {
+                <p class="mb-2 text-xs text-slate-400 dark:text-slate-500">
+                    Lad den være tom for at slette noten
+                </p>                
+            }
 
             <textarea @bind="_content"
+                      @bind:event="oninput"
                       rows="6"
                       placeholder="Skriv en note til lektionen..."
                       class="w-full resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 transition outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-500">
@@ -89,22 +96,7 @@
                 disabled="@_isSubmitting"
                 class="cursor-pointer rounded-xl bg-amber-400 px-5 py-2.5 text-sm font-semibold text-slate-900 shadow-sm transition hover:bg-amber-300 disabled:cursor-not-allowed disabled:opacity-50">
 
-            @if (_isSubmitting)
-            {
-                <span>Gemmer...</span>
-            }
-            else if (!_isSubmitting && _content.Length > 0 && Lesson.Note != null)
-            {
-                <span>Gem note</span>
-            }
-            else if (!_isSubmitting && _content.Length == 0 && Lesson.Note != null)
-            {
-                <span>Slet note</span>
-            }
-            else
-            {
-                <span>Opret note</span>
-            }
+                @_submitButtonText
         </button>
     </div>
 </div>
