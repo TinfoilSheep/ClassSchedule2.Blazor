@@ -37,30 +37,37 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
             StudentsCount = Students.Count;
         }
 
-        private void OpenStudentListModal()
+        private async Task OpenStudentListModal()
         {
             _modalMode = LessonInfoModalMode.Students;
         }
-        private void OpenNoteModal()
+        private async Task OpenNoteModal()
         {
             _modalMode = LessonInfoModalMode.Note;
         }
 
-        private void OpenAbsenceModal()
+        private async Task OpenAbsenceModal()
         {
             _modalMode = LessonInfoModalMode.Absence;
         }
 
-        private void CloseModals()
+        private async Task CloseModals()
         {
+            await RefreshDataAsync();
             _modalMode = LessonInfoModalMode.None;
         }
 
         private async Task HandleSaved()
         {
-            CloseModals();
+            await CloseModals();
             await Load();
             StateHasChanged();
+        }
+
+        private async Task RefreshDataAsync()
+        {
+            LessonDTO? dto = await LessonService.GetLesson(Lesson.Id);
+            if (dto != null) Lesson = dto;
         }
     }
 }

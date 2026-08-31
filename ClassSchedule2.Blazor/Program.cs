@@ -36,6 +36,7 @@ builder.Services.AddScoped<ILessonTemplateService, LessonTemplateService>();
 builder.Services.AddScoped<ILessonGenerationService, LessonGenerationService>();
 builder.Services.AddScoped<IScheduleService, ScheduleService>();
 builder.Services.AddScoped<ILessonService, LessonService>();
+builder.Services.AddScoped<ILessonNoteService, LessonNoteService>();
 builder.Services.AddScoped<ThemeService>();
 builder.Services.AddScoped<BrowserAuthService>();
 builder.Services.AddScoped<UserStateContainer>();

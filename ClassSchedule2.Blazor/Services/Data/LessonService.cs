@@ -1,5 +1,6 @@
 ﻿using ClassSchedule2.Blazor.Interfaces;
 using Newtonsoft.Json;
+using static ClassSchedule2.Blazor.Models.DTOs.LessonLibrary;
 using static ClassSchedule2.Blazor.Models.DTOs.PeriodLibrary;
 using static ClassSchedule2.Blazor.Models.DTOs.UserLibrary;
 
@@ -18,6 +19,32 @@ namespace ClassSchedule2.Blazor.Services.Data
             _browserAuthService = browserAuthService;
             _configuration = configuration;
             _logger = logger;
+        }
+
+        public async Task<LessonDTO?> GetLesson(Guid lessonId)
+        {
+            var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
+
+            var url = new Uri(new Uri(apiBase), LessonBaseUrl + $"get?lessonId={lessonId}").ToString();
+
+            try
+            {
+                var result = await _browserAuthService.GetAsync(url);
+
+                if (!result.Success)
+                {
+                    _logger.LogWarning("Kunne ikke hente lektionen. Status: {Status}", result.Status);
+
+                    return null;
+                }
+
+                return JsonConvert.DeserializeObject<LessonDTO>(result.ResponseText ?? string.Empty);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Fejl ved hentning af lektionen.");
+                return null;
+            }
         }
 
         public async Task<List<MinimalUserInformationDTO>> GetAllStudents(Guid lessonId)
