@@ -388,6 +388,7 @@
 {
     <div class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/30 p-4 backdrop-blur-sm">
         <AddLessonNote Lesson="@Lesson"
+                       OnSaved="HandleSaved"
                        OnCancel="CloseModals" />
     </div>
 }
@@ -396,6 +397,7 @@
 {
     <div class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/30 p-4 backdrop-blur-sm">
         <RegisterLessonAbsence Lesson="@Lesson"
+                               OnSaved="HandleSaved"
                                OnCancel="CloseModals" />
     </div>
 }
