@@ -1,0 +1,181 @@
+﻿@using static ClassSchedule2.Blazor.Models.DTOs.LessonLibrary
+@using static ClassSchedule2.Blazor.Models.DTOs.UserLibrary
+
+<div class="w-full max-w-lg overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-slate-800 dark:bg-slate-900">
+
+    <!-- Header -->
+    <div class="flex items-start justify-between border-b border-slate-200 px-6 py-5 dark:border-slate-800">
+
+        <div class="flex min-w-0 items-center gap-3">
+
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-red-400/20 bg-red-400/10 text-red-600 dark:border-red-500/20 dark:bg-red-500/10 dark:text-red-400">
+
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke-width="1.8"
+                     stroke="currentColor"
+                     class="h-5 w-5">
+
+                    <path stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M18 18.72a9.094 9.094 0 003.742-.479 3 3 0 00-4.742-2.724M18 18.72a9.094 9.094 0 01-3.742-.479 3 3 0 01-4.742 2.724M18 18.72a9.094 9.094 0 01-3.742-.479M15 11.25a3 3 0 11-6 0 3 3 0 016 0z" />
+
+                </svg>
+
+            </div>
+
+            <div class="min-w-0">
+
+                <h2 class="truncate text-lg font-bold text-slate-900 dark:text-slate-100">
+                    Registrer fravær
+                </h2>
+
+                <p class="mt-0.5 truncate text-xs text-slate-500 dark:text-slate-400">
+                    @Lesson.SubjectName · @Lesson.HoldName
+                </p>
+
+            </div>
+        </div>
+
+        <button type="button"
+                @onclick="OnCancel"
+                class="ml-4 shrink-0 cursor-pointer rounded-lg p-2 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200"
+                aria-label="Luk">
+
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 fill="none"
+                 viewBox="0 0 24 24"
+                 stroke-width="2"
+                 stroke="currentColor"
+                 class="h-5 w-5">
+
+                <path stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M6 18L18 6M6 6l12 12" />
+
+            </svg>
+
+        </button>
+
+    </div>
+
+    <!-- Content -->
+    @* <div class="px-6 py-5">
+
+        <!-- Search -->
+        <div class="relative">
+
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 fill="none"
+                 viewBox="0 0 24 24"
+                 stroke-width="1.8"
+                 stroke="currentColor"
+                 class="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400">
+
+                <path stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="m21 21-4.35-4.35m0 0A7.5 7.5 0 1010.5 3a7.5 7.5 0 006.15 13.65z" />
+
+            </svg>
+
+            <input type="text"
+                   @bind="_searchText"
+                   @bind:event="oninput"
+                   placeholder="Søg efter elev..."
+                   class="w-full rounded-xl border border-slate-200 bg-white py-2.5 pr-4 pl-10 text-sm text-slate-900 transition outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-500" />
+
+        </div>
+
+        <!-- Summary -->
+        <div class="mt-4 flex items-center justify-between">
+
+            <span class="text-xs font-semibold tracking-wide text-slate-400 uppercase">
+                Elever
+            </span>
+
+            <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                @_selectedStudentIds.Count / @Students.Count fraværende
+            </span>
+
+        </div>
+
+        <!-- Students -->
+        <div class="mt-2 max-h-80 overflow-y-auto rounded-xl border border-slate-200 dark:border-slate-800">
+
+            @foreach (var student in FilteredStudents)
+            {
+                var selected = _selectedStudentIds.Contains(student.Id);
+
+                <button type="button"
+                        @onclick="() => ToggleStudent(student.Id)"
+                        class="@GetStudentClass(selected)">
+
+                    <div class="flex min-w-0 items-center gap-3">
+
+                        <div class="@GetCheckboxClass(selected)">
+
+                            @if (selected)
+                            {
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     fill="none"
+                                     viewBox="0 0 24 24"
+                                     stroke-width="2"
+                                     stroke="currentColor"
+                                     class="h-4 w-4">
+
+                                    <path stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          d="m5 12 4 4L19 6" />
+
+                                </svg>
+                            }
+
+                        </div>
+
+                        <span class="truncate text-sm font-medium text-slate-700 dark:text-slate-200">
+                            @student.Name
+                        </span>
+
+                    </div>
+
+                </button>
+            }
+
+        </div>
+
+    </div> *@
+
+    <!-- Footer -->
+    <div class="flex items-center justify-between border-t border-slate-200 px-6 py-4 dark:border-slate-800">
+
+        @* <span class="text-sm text-slate-500 dark:text-slate-400">
+            @_selectedStudentIds.Count @( _selectedStudentIds.Count == 1 ? "elev" : "elever")
+        </span> *@
+
+        <div class="flex gap-3">
+
+            <button type="button"
+                    @onclick="OnCancel"
+                    class="cursor-pointer rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100">
+
+                Annuller
+            </button>
+
+            <button type="button"
+                    @onclick="HandleSubmitAsync"
+                    disabled="@_isSubmitting"
+                    class="cursor-pointer rounded-xl bg-amber-400 px-5 py-2.5 text-sm font-semibold text-slate-900 shadow-sm transition hover:bg-amber-300 disabled:cursor-not-allowed disabled:opacity-50">
+
+                @if (_isSubmitting)
+                {
+                    <span>Gemmer...</span>
+                }
+                else
+                {
+                    <span>Gem fravær</span>
+                }
+            </button>
+        </div>
+    </div>
+</div>

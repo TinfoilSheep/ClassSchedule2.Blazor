@@ -14,7 +14,7 @@ namespace ClassSchedule2.Blazor.Models.DTOs
             string HoldName,
             string? RoomName,
             string Status,
-            LessonNoteDTO Note,
+            LessonNoteDTO? Note,
             List<MinimalUserInformationDTO> Absences,
             List<MinimalUserInformationDTO> Teachers);
 
