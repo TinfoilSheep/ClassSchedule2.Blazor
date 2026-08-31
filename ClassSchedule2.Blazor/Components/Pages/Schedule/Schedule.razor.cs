@@ -52,6 +52,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
 
             await AuthenticationProvider.InitializeAsync();
             _lessons = [];
+            _loadedWeeks.Clear();
             
             if (TargetId.HasValue && TargetId != Guid.Empty)
             {
@@ -75,7 +76,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
                 }
             }
 
-            _selectedWeek = GetMonday(DateOnly.FromDateTime(DateTime.Today));
+            if (_selectedWeek == DateOnly.MinValue) _selectedWeek = GetMonday(DateOnly.FromDateTime(DateTime.Today));
 
             await EnsureWeekLoadedAsync(_selectedWeek);
 
@@ -231,10 +232,11 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
             _showLessonModal = true;
         }
 
-        private void CloseLessonModal()
+        private async Task CloseLessonModal()
         {
             _showLessonModal = false;
             _selectedLesson = null;
+            await Load(); // Refreshes any data that might've changed
         }
 
         private IEnumerable<LessonDTO> GetLessonsForDay(DateOnly date)
