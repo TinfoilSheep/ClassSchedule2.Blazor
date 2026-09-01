@@ -127,3 +127,22 @@ window.authPatch = async function (url, payload) {
         text: text
     };
 };
+
+window.authPut = async function (url, payload) {
+    const res = await fetch(url, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload),
+        credentials: 'include'
+    });
+
+    const text = await res.text();
+
+    return {
+        ok: res.ok,
+        status: res.status,
+        text: text
+    };
+};

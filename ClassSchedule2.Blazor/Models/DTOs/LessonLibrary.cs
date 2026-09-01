@@ -15,7 +15,7 @@ namespace ClassSchedule2.Blazor.Models.DTOs
             string? RoomName,
             string Status,
             LessonNoteDTO? Note,
-            List<MinimalUserInformationDTO> Absences,
+            List<MinimalUserInformationDTO> AbsentStudents,
             List<MinimalUserInformationDTO> Teachers);
 
         public record GetLessonDTO(Guid TargetId, DateOnly From, DateOnly To);

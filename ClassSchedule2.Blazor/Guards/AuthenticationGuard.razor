@@ -20,7 +20,7 @@ else if(_isAuthenticated && _isAuthorized)
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
     [Parameter]
-    public UserRoles? RequiredRole { get; set; }
+    public UserRoles[]? RequiredRoles { get; set; }
 
     private bool _loading = true;
     private bool _isAuthenticated;
@@ -41,7 +41,7 @@ else if(_isAuthenticated && _isAuthorized)
 
         _isAuthenticated = user.Identity?.IsAuthenticated == true;
 
-        _isAuthorized = _isAuthenticated && (!RequiredRole.HasValue || user.IsInRole(RequiredRole.Value.ToString()));
+        _isAuthorized = _isAuthenticated && (RequiredRoles == null || RequiredRoles.Any(role => user.IsInRole(role.ToString())));
 
         _loading = false;
 

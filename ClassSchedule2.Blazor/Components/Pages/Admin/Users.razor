@@ -2,7 +2,7 @@
 @using ClassSchedule2.Blazor.Components.Pages.Schedule
 @layout MainLayout
 
-<AuthenticationGuard RequiredRole="@UserRoles.Admin">
+<AuthenticationGuard RequiredRoles="new[] {UserRoles.Admin, UserRoles.Teacher}">
     <PageTitle>Brugeradministration - Skoleportalen</PageTitle>
 
     <main class="w-full px-6 py-8 sm:px-8 lg:px-10">
@@ -80,26 +80,28 @@
 
 
             <!-- Ny bruger -->
-            <button @onclick="OpenCreateModal"
-                    type="button"
-                    class="inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-xl bg-amber-400 px-4 py-2.5 text-xs font-semibold text-slate-950 shadow-sm transition-all hover:bg-amber-300 focus:ring-2 focus:ring-amber-400/40 focus:outline-none dark:focus:ring-offset-slate-900">
+            <RoleGuard RequiredRoles="new[] {UserRoles.Admin}">
+                <button @onclick="OpenCreateModal"
+                        type="button"
+                        class="inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-xl bg-amber-400 px-4 py-2.5 text-xs font-semibold text-slate-950 shadow-sm transition-all hover:bg-amber-300 focus:ring-2 focus:ring-amber-400/40 focus:outline-none dark:focus:ring-offset-slate-900">
 
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     fill="none"
-                     viewBox="0 0 24 24"
-                     stroke-width="2"
-                     stroke="currentColor"
-                     class="h-4 w-4">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         stroke-width="2"
+                         stroke="currentColor"
+                         class="h-4 w-4">
 
-                    <path stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M12 4.5v15m7.5-7.5h-15" />
+                        <path stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M12 4.5v15m7.5-7.5h-15" />
 
-                </svg>
+                    </svg>
 
-                <span>Ny bruger</span>
+                    <span>Ny bruger</span>
 
-            </button>
+                </button>
+            </RoleGuard>
 
         </div>
 
@@ -386,22 +388,24 @@
                                                     </svg>
                                                 </button>
 
-                                                <button @onclick="() => OpenDeleteModal(user)"
-                                                        type="button"
-                                                        title="Slet"
-                                                        class="rounded-lg p-2 cursor-pointer text-slate-400 transition-colors hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/30 dark:hover:text-red-400">
+                                                <RoleGuard RequiredRoles="new[] {UserRoles.Admin}">
+                                                    <button @onclick="() => OpenDeleteModal(user)"
+                                                            type="button"
+                                                            title="Slet"
+                                                            class="rounded-lg p-2 cursor-pointer text-slate-400 transition-colors hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/30 dark:hover:text-red-400">
 
-                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                         fill="none"
-                                                         viewBox="0 0 24 24"
-                                                         stroke-width="1.8"
-                                                         stroke="currentColor"
-                                                         class="h-4 w-4">
-                                                        <path stroke-linecap="round"
-                                                              stroke-linejoin="round"
-                                                              d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-                                                    </svg>
-                                                </button>
+                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                             fill="none"
+                                                             viewBox="0 0 24 24"
+                                                             stroke-width="1.8"
+                                                             stroke="currentColor"
+                                                             class="h-4 w-4">
+                                                            <path stroke-linecap="round"
+                                                                  stroke-linejoin="round"
+                                                                  d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                                                        </svg>
+                                                    </button>
+                                                </RoleGuard>
                                             </div>
                                         }
                                     </td>
@@ -431,10 +435,10 @@
                         {
                             <AddUser OnSaved="HandleUserChanged" OnCancel="CloseModal" />
                         }
-                        else if (_modalMode == UserModalMode.Edit)
+                        @* else if (_modalMode == UserModalMode.Edit)
                         {
                             <EditUser User="@_selectedUser" OnSaved="HandleUserChanged" OnCancel="CloseModal" />
-                        }
+                        } *@
                         else if (_modalMode == UserModalMode.Delete)
                         {
                             <DeleteUser User="@_selectedUser" OnDeleted="HandleUserChanged" OnCancel="CloseModal" />

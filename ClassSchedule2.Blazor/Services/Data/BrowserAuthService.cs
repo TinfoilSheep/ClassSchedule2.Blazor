@@ -175,5 +175,17 @@ namespace ClassSchedule2.Blazor.Services.Data
                 ResponseText = result.GetProperty("text").GetString()
             };
         }
+
+        public async Task<BrowserApiResult> PutAsync<T>(string url, T payload)
+        {
+            var result = await _js.InvokeAsync<JsonElement>("authPut", url, payload);
+
+            return new BrowserApiResult
+            {
+                Success = result.GetProperty("ok").GetBoolean(),
+                Status = result.GetProperty("status").GetInt32(),
+                ResponseText = result.GetProperty("text").GetString()
+            };
+        }
     }
 }

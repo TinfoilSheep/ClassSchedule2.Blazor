@@ -1,4 +1,5 @@
-﻿@using static ClassSchedule2.Blazor.Models.DTOs.LessonLibrary
+﻿@using ClassSchedule2.Blazor.Models.Enums
+@using static ClassSchedule2.Blazor.Models.DTOs.LessonLibrary
 @using static ClassSchedule2.Blazor.Models.DTOs.UserLibrary
 
 <div class="w-full max-w-lg overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-slate-800 dark:bg-slate-900">
@@ -39,7 +40,7 @@
         </div>
 
         <button type="button"
-                @onclick="OnCancel"
+                @onclick="Cancel"
                 class="ml-4 shrink-0 cursor-pointer rounded-lg p-2 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200"
                 aria-label="Luk">
 
@@ -61,105 +62,105 @@
     </div>
 
     <!-- Content -->
-    @* <div class="px-6 py-5">
+    <div class="px-6 py-5">
 
-        <!-- Search -->
-        <div class="relative">
+        @if (_isLoading)
+        {
+            <LoadingSpinner Visible="_isLoading"
+                            Message="Henter elever..."
+                            FullScreen="false" />
+        }
+        else
+        {
+            <!-- Summary -->
+            <div class="mb-4 flex items-center justify-between">
 
-            <svg xmlns="http://www.w3.org/2000/svg"
-                 fill="none"
-                 viewBox="0 0 24 24"
-                 stroke-width="1.8"
-                 stroke="currentColor"
-                 class="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400">
+                <div>
+                    <div class="text-xs font-semibold tracking-wide text-slate-400 uppercase">
+                        Elever
+                    </div>
 
-                <path stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="m21 21-4.35-4.35m0 0A7.5 7.5 0 1010.5 3a7.5 7.5 0 006.15 13.65z" />
+                    <div class="mt-0.5 text-sm text-slate-500 dark:text-slate-400">
+                        Vælg fraværsstatus for de relevante elever
+                    </div>
+                </div>
 
-            </svg>
+                <span class="shrink-0 rounded-lg bg-red-400/10 px-2.5 py-1 text-xs font-semibold text-red-600 dark:bg-red-500/10 dark:text-red-400">
+                    @_absenceCount / @Students.Count
+                </span>
 
-            <input type="text"
-                   @bind="_searchText"
-                   @bind:event="oninput"
-                   placeholder="Søg efter elev..."
-                   class="w-full rounded-xl border border-slate-200 bg-white py-2.5 pr-4 pl-10 text-sm text-slate-900 transition outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-500" />
+            </div>
 
-        </div>
+            <!-- Students -->
+            <div class="max-h-96 overflow-y-auto rounded-xl border border-slate-200 dark:border-slate-800">
 
-        <!-- Summary -->
-        <div class="mt-4 flex items-center justify-between">
+                @foreach (var student in Students)
+                {
+                    var status = GetStatus(student.UserId);
 
-            <span class="text-xs font-semibold tracking-wide text-slate-400 uppercase">
-                Elever
-            </span>
+                    <div class="flex items-center justify-between gap-3 border-b border-slate-100 px-4 py-3 last:border-b-0 dark:border-slate-800">
 
-            <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">
-                @_selectedStudentIds.Count / @Students.Count fraværende
-            </span>
+                        <!-- Student -->
+                        <div class="flex min-w-0 items-center gap-3">
 
-        </div>
+                            <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-xs font-semibold text-slate-500 dark:bg-slate-800 dark:text-slate-400">
 
-        <!-- Students -->
-        <div class="mt-2 max-h-80 overflow-y-auto rounded-xl border border-slate-200 dark:border-slate-800">
+                                @GetInitials(student.Name)
 
-            @foreach (var student in FilteredStudents)
-            {
-                var selected = _selectedStudentIds.Contains(student.Id);
+                            </div>
 
-                <button type="button"
-                        @onclick="() => ToggleStudent(student.Id)"
-                        class="@GetStudentClass(selected)">
-
-                    <div class="flex min-w-0 items-center gap-3">
-
-                        <div class="@GetCheckboxClass(selected)">
-
-                            @if (selected)
-                            {
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                     fill="none"
-                                     viewBox="0 0 24 24"
-                                     stroke-width="2"
-                                     stroke="currentColor"
-                                     class="h-4 w-4">
-
-                                    <path stroke-linecap="round"
-                                          stroke-linejoin="round"
-                                          d="m5 12 4 4L19 6" />
-
-                                </svg>
-                            }
+                            <span class="truncate text-sm font-medium text-slate-700 dark:text-slate-200">
+                                @student.Name
+                            </span>
 
                         </div>
 
-                        <span class="truncate text-sm font-medium text-slate-700 dark:text-slate-200">
-                            @student.Name
-                        </span>
+                        <!-- Status -->
+                        <select value="@GetStatusValue(status)"
+                                @onchange="e => SetStatus(student.UserId, e.Value?.ToString())"
+                                class="@GetStatusClass(status)">
+
+                            <option value="0">
+                                Fremmødt
+                            </option>
+
+                            <option value="@((int)AbsenceStatus.Absent)">
+                                Fraværende
+                            </option>
+
+                            <option value="@((int)AbsenceStatus.Sick)">
+                                Syg
+                            </option>
+
+                            <option value="@((int)AbsenceStatus.Excused)">
+                                Godkendt
+                            </option>
+
+                        </select>
 
                     </div>
+                }
 
-                </button>
-            }
-
-        </div>
-
-    </div> *@
+            </div>
+        }
+    </div>
 
     <!-- Footer -->
     <div class="flex items-center justify-between border-t border-slate-200 px-6 py-4 dark:border-slate-800">
 
-        @* <span class="text-sm text-slate-500 dark:text-slate-400">
-            @_selectedStudentIds.Count @( _selectedStudentIds.Count == 1 ? "elev" : "elever")
-        </span> *@
+        <span class="text-sm text-slate-500 dark:text-slate-400">
+            @_absenceCount @( _absenceCount == 1 ? "elev" : "elever")
+        </span>
 
         <div class="flex gap-3">
 
             <button type="button"
-                    @onclick="OnCancel"
-                    class="cursor-pointer rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100">
+                    @onclick="Cancel"
+                    disabled="@_isSubmitting"
+                    class="cursor-pointer rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-50 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100">
 
                 Annuller
+
             </button>
 
             <button type="button"
@@ -175,7 +176,10 @@
                 {
                     <span>Gem fravær</span>
                 }
+
             </button>
+
         </div>
     </div>
+
 </div>
