@@ -1,31 +1,21 @@
 ﻿@page "/dashboard"
+@using ClassSchedule2.Blazor.Components.Pages.Admin.AdminDashboard
+@using ClassSchedule2.Blazor.Components.Pages.Student.StudentDashboard
+@using ClassSchedule2.Blazor.Components.Pages.Teacher.TeacherDashboard
 @layout MainLayout
 
 <AuthenticationGuard>
     <PageTitle>Dashboards - Skoleportalen</PageTitle>
 
-    <div class="space-y-6">
-    <!-- Overskrift -->
-    <div>
-        <h1 class="text-2xl font-bold tracking-tight text-white">Dashboard</h1>
-        <p class="text-sm text-slate-400">Velkommen tilbage! Her er dit overblik for i dag.</p>
-    </div>
+    <RoleGuard RequiredRoles="new[] {UserRoles.Admin}">
+        <AdminDashboard />
+    </RoleGuard>
 
-    <div class="grid grid-cols-1 gap-5 sm:grid-cols-3">
-        <div class="rounded-2xl border border-slate-800/80 bg-slate-950 p-5 shadow-xl">
-            <p class="text-xs font-semibold tracking-wider text-slate-400 uppercase">Elever</p>
-            <p class="mt-2 text-3xl font-extrabold text-amber-400">4</p>
-        </div>
-        <div class="rounded-2xl border border-slate-800/80 bg-slate-950 p-5 shadow-xl">
-            <p class="text-xs font-semibold tracking-wider text-slate-400 uppercase">Lærere</p>
-            <p class="mt-2 text-3xl font-extrabold text-amber-400">2</p>
-        </div>
-        <div class="rounded-2xl border border-slate-800/80 bg-slate-950 p-5 shadow-xl">
-            <p class="text-xs font-semibold tracking-wider text-slate-400 uppercase">Administratorer</p>
-            <p class="mt-2 text-xl font-bold text-white">Matematik 9.A</p>
-            <p class="text-xs text-slate-500">Kl. 10:15 - Lokale 12</p>
-        </div>
-    </div>
-</div>
+    <RoleGuard RequiredRoles="new[] { UserRoles.Teacher }">
+        <TeacherDashboard />
+    </RoleGuard>
 
+    <RoleGuard RequiredRoles="new[] { UserRoles.Student }">
+        <StudentDashboard />
+    </RoleGuard>
 </AuthenticationGuard>
