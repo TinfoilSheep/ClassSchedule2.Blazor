@@ -78,6 +78,11 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin
             Navigation.NavigateTo($"/schedule/{user.Id}");
         }
 
+        private void ShowTargetProfile(GetUserInformationResponseDTO user)
+        {
+            Navigation.NavigateTo($"/profile/{user.Id}");
+        }
+
         private void OpenCreateModal()
         {
             _modalMode = UserModalMode.Create;

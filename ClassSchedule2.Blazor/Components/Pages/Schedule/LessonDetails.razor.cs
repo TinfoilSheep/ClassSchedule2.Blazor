@@ -11,6 +11,8 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
     {
         [Inject] private AuthenticationStateProvider AuthStateProvider { get; set; } = default!;
         [Inject] private ILessonService LessonService { get; set; } = default!;
+        [Inject] private NavigationManager Navigation { get; set; } = default!;
+
 
         [Parameter, EditorRequired]
         public LessonDTO Lesson { get; set; } = default!;
@@ -35,6 +37,11 @@ namespace ClassSchedule2.Blazor.Components.Pages.Schedule
         {
             Students = await LessonService.GetAllStudents(Lesson.Id);
             StudentsCount = Students.Count;
+        }
+
+        private void ShowTeacherProfile(MinimalUserInformationDTO user)
+        {
+            Navigation.NavigateTo($"/profile/{user.UserId}");
         }
 
         private async Task OpenStudentListModal()
