@@ -131,13 +131,6 @@ namespace ClassSchedule2.Blazor.Services.Data
             }
         }
 
-        public async Task<GetUserInformationResponseDTO?> GetCurrentUserInformationAsync()
-        {
-            var currentUserId = await _browserAuthService.GetCurrentUserIdAsync();
-
-            return await GetUserInformationAsync(currentUserId ?? Guid.Empty);
-        }
-
         public async Task<GetUserInformationResponseDTO?> UpdateUserAsync(UpdateUserInformationDTO dto)
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";

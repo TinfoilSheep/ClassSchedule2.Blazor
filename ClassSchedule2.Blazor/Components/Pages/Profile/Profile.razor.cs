@@ -27,14 +27,9 @@ namespace ClassSchedule2.Blazor.Components.Pages.Profile
         private bool _isLoading = true;
         private bool CanEdit => _user is not null && _user.Id == _currentUserId;
 
-
-        protected override async Task OnAfterRenderAsync(bool firstRender)
+        protected override async void OnParametersSet()
         {
-            if (!firstRender)
-                return;
-
             await Load();
-
             StateHasChanged();
         }
 
@@ -59,7 +54,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Profile
                 }
                 else
                 {
-                    _user = await UserService.GetCurrentUserInformationAsync();
+                    _user = await UserService.GetUserInformationAsync(_currentUserId);
                 }
             }
             catch (Exception ex)
