@@ -30,7 +30,7 @@ namespace ClassSchedule2.Blazor.Services.Data
 
                 if (!result.Success)
                 {
-                    _logger.LogWarning("Fejl ved oprettelse. Status: {Status} fejlbesked: {ErrorMessage}", result.Status, result.ResponseText);
+                    _logger.LogWarning("Fejl ved generering. Status: {Status} fejlbesked: {ErrorMessage}", result.Status, result.ResponseText);
                     return -1;
                 }
 
@@ -40,7 +40,32 @@ namespace ClassSchedule2.Blazor.Services.Data
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Fejl ved oprettelse af Hold.");
+                _logger.LogError(ex, "Fejl ved generering af lektioner.");
+                return -1;
+            }
+        }
+
+        public async Task<int> DeleteLessonFromTemplate(DeleteLessonDTO dto)
+        {
+            string url = new Uri(new Uri(_ApiBase), $"api/Generator/delete-lessons").ToString();
+
+            try
+            {
+                var result = await _browserAuthService.DeleteAsync(url, dto);
+
+                if (!result.Success)
+                {
+                    _logger.LogWarning("Fejl ved fjerningen. Status: {Status} fejlbesked: {ErrorMessage}", result.Status, result.ResponseText);
+                    return -1;
+                }
+
+                var response = JsonConvert.DeserializeObject<DeletedLessonDTO>(result.ResponseText ?? string.Empty);
+
+                return response?.Deleted ?? -1;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Fejl ved fjerningen af Lektioner.");
                 return -1;
             }
         }

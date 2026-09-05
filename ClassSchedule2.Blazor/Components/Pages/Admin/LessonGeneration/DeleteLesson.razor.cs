@@ -1,6 +1,4 @@
-using ClassSchedule2.Blazor.Components.Pages.Admin.LessonTemplates;
 using ClassSchedule2.Blazor.Interfaces;
-using ClassSchedule2.Blazor.Models.DTOs;
 using ClassSchedule2.Blazor.Models.Forms.LessonGeneration;
 using Microsoft.AspNetCore.Components;
 using static ClassSchedule2.Blazor.Models.DTOs.LessonGeneratorLibrary;
@@ -9,7 +7,7 @@ using static ClassSchedule2.Blazor.Models.DTOs.TermLibrary;
 
 namespace ClassSchedule2.Blazor.Components.Pages.Admin.LessonGeneration
 {
-    public partial class GenerateLesson
+    public partial class DeleteLesson
     {
         [Inject]
         private ILessonGenerationService _lessonGenerationService { get; set; } = default!;
@@ -21,7 +19,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.LessonGeneration
         private ILessonTemplateService _lessonTemplateService { get; set; } = default!;
 
         [Parameter]
-        public EventCallback OnGenerated { get; set; }
+        public EventCallback OnDeletion { get; set; }
 
         [Parameter]
         public EventCallback OnCancel { get; set; }
@@ -35,7 +33,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.LessonGeneration
         private List<LessonTemplateDTO> _selectedLessonTemplates = [];
 
         private bool _isLoading;
-        private bool _isGenerating;
+        private bool _isDeleting;
 
         private string? _errorMessage;
         private string? _successMessage;
@@ -115,47 +113,47 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.LessonGeneration
             };
         }
 
-        private async Task GenerateLessonsAsync()
+        private async Task DeleteLessonsAsync()
         {
-            if (_isGenerating || _form.TermId == Guid.Empty)
+            if (_isDeleting || _form.TermId == Guid.Empty)
             {
                 return;
             }
 
-            _isGenerating = true;
+            _isDeleting = true;
             _errorMessage = null;
             _successMessage = null;
 
             try
             {
-                GenerateLessonDTO dto = new(_form.TermId, _selectedLessonTemplates.Select(lt => lt.Id).ToList());
+                DeleteLessonDTO dto = new(_selectedLessonTemplates.Select(lt => lt.Id).ToList());
 
-                var generatedCount = await _lessonGenerationService.GenerateForTermAsync(dto);
+                var generatedCount = await _lessonGenerationService.DeleteLessonFromTemplate(dto);
 
                 if (generatedCount == -1)
                 {
-                    _errorMessage = "Skemaet kunne ikke genereres. Kontrollér dine lektionsplaner og prøv igen.";
+                    _errorMessage = "Lektioner kunne slettes. Kontrollér dine lektionsplaner og prøv igen.";
 
                     return;
                 }
 
-                _successMessage = generatedCount == 1 ? "1 lektion blev genereret." : $"{generatedCount} lektioner blev genereret.";
+                _successMessage = generatedCount == 1 ? "1 lektion blev slettet." : $"{generatedCount} lektioner blev slettet.";
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Fejl ved generering af skema: {ex}");
+                Console.WriteLine($"Fejl ved sletning af lektioner: {ex}");
 
-                _errorMessage = "Der opstod en fejl under genereringen af skemaet.";
+                _errorMessage = "Der opstod en fejl under sletningen af lektioner.";
             }
             finally
             {
-                _isGenerating = false;
+                _isDeleting = false;
             }
         }
 
         private async Task ClosePage()
         {
-            if (_isGenerating)
+            if (_isDeleting)
             {
                 return;
             }

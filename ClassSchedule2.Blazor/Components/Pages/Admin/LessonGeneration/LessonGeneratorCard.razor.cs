@@ -7,6 +7,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.LessonGeneration
     public partial class LessonGeneratorCard
     {
         private bool showGenerateLessonModal = false;
+        private bool showDeleteLessonModal = false;
 
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -25,13 +26,20 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.LessonGeneration
             StateHasChanged();
         }
 
-        private void CloseModal()
+        private void ShowDeleteLessonModal()
         {
-            showGenerateLessonModal = false;
+            showDeleteLessonModal = true;
             StateHasChanged();
         }
 
-        private async Task HandleGenerate()
+        private void CloseModal()
+        {
+            showGenerateLessonModal = false;
+            showDeleteLessonModal = false;
+            StateHasChanged();
+        }
+
+        private async Task HandleSubmit()
         {
             CloseModal();
             StateHasChanged();
