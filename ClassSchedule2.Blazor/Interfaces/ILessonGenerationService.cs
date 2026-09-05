@@ -4,6 +4,6 @@ namespace ClassSchedule2.Blazor.Interfaces
 {
     public interface ILessonGenerationService
     {
-        public Task<int> GenerateForTermAsync(Guid termId);
+        public Task<int> GenerateForTermAsync(GenerateLessonDTO dto);
     }
 }

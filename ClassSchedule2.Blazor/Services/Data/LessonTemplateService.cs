@@ -68,7 +68,7 @@ namespace ClassSchedule2.Blazor.Services.Data
             }
         }
 
-        public async Task<List<LessonTemplateDTO>?> GetAllAsync()
+        public async Task<List<LessonTemplateDTO>> GetAllAsync()
         {
             var apiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
 
@@ -81,7 +81,7 @@ namespace ClassSchedule2.Blazor.Services.Data
                 if (!result.Success)
                 {
                     _logger.LogWarning("Fejl ved hentning af alle lektionsplaner. Status: {Status}", result.Status);
-                    return null;
+                    return [];
                 }
 
                 return JsonConvert.DeserializeObject<List<LessonTemplateDTO>>(result.ResponseText ?? string.Empty) ?? [];
@@ -89,7 +89,7 @@ namespace ClassSchedule2.Blazor.Services.Data
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Fejl ved hentning af alle lektionsplaner.");
-                return null;
+                return [];
             }
         }
 
