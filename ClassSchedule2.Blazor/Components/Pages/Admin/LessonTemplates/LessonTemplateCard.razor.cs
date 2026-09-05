@@ -35,9 +35,7 @@ namespace ClassSchedule2.Blazor.Components.Pages.Admin.LessonTemplates
 
             try
             {
-                var result = await _lessonTemplateService.GetAllAsync();
-
-                _lessonTemplates = result ?? [];
+                _lessonTemplates = await _lessonTemplateService.GetAllAsync();
             }
             catch (Exception ex)
             {

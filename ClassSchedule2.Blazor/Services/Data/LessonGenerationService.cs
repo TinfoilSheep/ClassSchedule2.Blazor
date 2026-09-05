@@ -20,13 +20,13 @@ namespace ClassSchedule2.Blazor.Services.Data
             _ApiBase = _configuration["ApiBaseUrl"] ?? "https://localhost:7053/";
         }
 
-        public async Task<int> GenerateForTermAsync(Guid termId)
+        public async Task<int> GenerateForTermAsync(GenerateLessonDTO dto)
         {
-            string url = new Uri(new Uri(_ApiBase), $"api/terms/{termId}/lessons/generate-lessons").ToString();
+            string url = new Uri(new Uri(_ApiBase), $"api/Generator/generate-lessons").ToString();
 
             try
             {
-                var result = await _browserAuthService.PostNoBodyAsync(url);
+                var result = await _browserAuthService.PostAsync(url, dto);
 
                 if (!result.Success)
                 {
